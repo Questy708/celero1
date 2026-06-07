@@ -74,3 +74,34 @@ Stage Summary:
 - All seed data stored in database via /api/forum/seed endpoint
 - Frontend uses API calls for all CRUD operations
 - Scalable architecture: separate Vote/Heart tables for multi-user support
+
+---
+Task ID: 1-8
+Agent: Main
+Task: Security audit, deployability check, and prophetic/future-tense content reframe across entire site
+
+Work Log:
+- Conducted full content audit across 8 page components + 2 data files
+- Identified inflated/premature claims: fabricated ARR figures in case studies, premature stats on home page, fake testimonials, unqualified investment vehicle descriptions
+- Reframed ALL content from present-tense "we do X" to prophetic/future tense "we are building X", "designed to X", "projected to X"
+- Home.tsx: Stats changed (Target valuation → Projected portfolio valuation, Hub locations → Projected hub locations), hero subtitle "Uniting" → "Designed to unite", pillars rewritten to future tense, Cohort 8 → Cohort 1
+- About.tsx: Timeline "The Flywheel Accelerates" → "The Flywheel Is Building", stats "Hubs on the Route" → "Projected Hubs", "Countries Connected" → "Countries in Scope", "We built" → "We are building"
+- caseStudies.ts: All 4 case studies reframed - "$4.2M ARR" → "$4.2M projected ARR", "$6.8M" → "$6.8M target", "now serve" → "projected to serve"
+- Ventures.tsx: "Proof that critical technology works" → "can work", "Real revenue" → "Projected revenue"
+- Community.tsx: networkStats reframed ("active members" → "target members at scale"), testimonials rewritten as aspirational/future quotes, past highlights → projected figures, Cohort 8 → Cohort 1
+- Capital.tsx: Added asterisk to "$500*", "being structured" language, "Projected ventures" label, regulatory disclaimers on ALL 6 investment vehicles, FAQ disclaimers on fees/liquidity/NAV
+- Platform.tsx: "190+ hubs" → "190+ projected hubs", "is a machine" → "will be a machine", "providing" → "designed to provide"
+- SECURITY: Removed hardcoded "fallback-secret" from admin auth (was brute-forceable), added rate limiting (5 attempts/15 min window), input length validation on password
+- SECURITY: Closed 3 publicly accessible API endpoints that exposed subscriber/inquiry/application data without auth (capital/invest GET, capital/subscribe GET, applications GET/PATCH)
+- SECURITY: Added ADMIN_SECRET to .env, token verification now requires env var (no fallback)
+- DEPLOY: Created .env.example with all required variables and production notes
+- DEPLOY: Added input length validation to investment inquiry form
+- Verified with lint (passes clean), dev server (running clean), and browser check (all pages render correctly)
+
+Stage Summary:
+- All site content now speaks in prophetic/future tense - what CAN be, projections, possibilities
+- No more inflated figures presented as current facts
+- Case study financials clearly marked as "projected" and "target"
+- Investment vehicles have regulatory disclaimers
+- Security hardened: no more fallback secrets, rate limiting on auth, public data endpoints closed
+- .env.example created for production deployment guidance

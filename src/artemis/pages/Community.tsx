@@ -31,10 +31,10 @@ import { Link } from "@/artemis/router";
 
 /* ── Network Stats ── */
 const networkStats = [
-  { value: "1,200+", label: "XCitizens", sub: "active members across the network" },
-  { value: "190", label: "Hubs", sub: "co-working, lab, and maker spaces" },
+  { value: "1,200+", label: "XCitizens", sub: "target members at scale" },
+  { value: "190", label: "Hubs", sub: "projected co-working, lab, and maker spaces" },
   { value: "39+", label: "Countries", sub: "spanning the entire Route" },
-  { value: "840+", label: "Connections / mo", sub: "deals, intros, collaborations" },
+  { value: "840+", label: "Connections / mo", sub: "projected deals, intros, collaborations" },
 ];
 
 /* ── Gallery Images ── */
@@ -128,12 +128,12 @@ const memberTypes = [
 /* ── Upcoming Events ── */
 const upcomingEvents = [
   {
-    title: "xCelero Accelerator Cohort 8 Demo Day",
+    title: "xCelero Accelerator Cohort 1 Demo Day",
     date: "March 28, 2026",
     time: "10:00 AM EAT",
     location: "M1 Core Nairobi + Virtual",
     type: "Demo Day",
-    description: "12 ventures from Cohort 8 present their validated MVPs to investors, partners, and the XCitizen network. Sector deep-dives in energy, life sciences, and digital finance.",
+    description: "Ventures from Cohort 1 present their validated MVPs to investors, partners, and the XCitizen network. Sector deep-dives in energy, life sciences, and digital finance.",
     spots: "Limited to 200 attendees",
     featured: true,
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
@@ -167,7 +167,7 @@ const upcomingEvents = [
     location: "All Route Hubs",
     type: "Fellowship",
     description: "The xHansa Fellowship seeds the talent pipeline. Semester-long program embedded in venture operations. Open to engineers, operators, and domain experts.",
-    spots: "50 fellowships available",
+    spots: "50 fellowships targeted",
     featured: false,
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
   },
@@ -198,21 +198,21 @@ const upcomingEvents = [
 /* ── Member Testimonials ── */
 const testimonials = [
   {
-    quote: "I joined as a Fellow in Cohort 3. Within six months I was running operations for Helios in Kano. The network doesn't just connect you; it places you where you're needed most.",
+    quote: "When the Route is fully operational, a Fellow could join in Cohort 3 and within six months be running operations for a venture in Kano. The network won't just connect you; it will place you where you're needed most.",
     name: "Chioma Adekunle",
     role: "Operations Lead, Helios",
     location: "Kano, Nigeria",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80",
   },
   {
-    quote: "The peer network is real. I needed a regulatory contact in Rwanda for our diagnostics pilot. An XCitizen in Kigali made the intro within 24 hours. That's the flywheel.",
+    quote: "The peer network, at scale, will be transformative. Imagine needing a regulatory contact in Rwanda for a diagnostics pilot \u2014 an XCitizen in Kigali could make the intro within 24 hours. That's the flywheel we're building.",
     name: "Dr. Kofi Mensah",
     role: "Co-Founder, Refract",
     location: "Cape Town, South Africa",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
   },
   {
-    quote: "As an investor, the deal flow is unlike anything else. Six vehicles, vetted ventures, and the infrastructure to actually de-risk early-stage Africa. I deployed through four SPVs last year.",
+    quote: "As an investor, the deal flow could be unlike anything else. Six vehicles, vetted ventures, and the infrastructure to actually de-risk early-stage Africa. I could see deploying through multiple SPVs in a single year.",
     name: "Amara Diallo",
     role: "LP, xCelero Capital",
     location: "Dakar, Senegal",
@@ -277,18 +277,18 @@ const pastHighlights = [
   {
     title: "Cohort 7 Demo Day",
     stat: "9 ventures",
-    detail: "raised $2.4M collectively",
+    detail: "projected $2.4M collectively",
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=400&q=80",
   },
   {
     title: "Route Summit East Africa",
-    stat: "180 attendees",
+    stat: "180 projected attendees",
     detail: "across 3 hub cities",
     image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=400&q=80",
   },
   {
     title: "Masterclass: Battery Chemistry",
-    stat: "340 viewers",
+    stat: "340 projected viewers",
     detail: "live + replay",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
   },
@@ -353,8 +353,8 @@ function HeroSection() {
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl lg:text-[22px] leading-[1.6] text-[#111111]/50 font-medium max-w-2xl">
-            1,200+ operators, founders, investors, and mentors across 190 hubs
-            and 39 countries. The fourth engine that turns individual efforts
+            1,200+ operators, founders, investors, and mentors projected across 190 hubs
+            and 39 countries. The fourth engine designed to turn individual efforts
             into collective momentum.
           </p>
 

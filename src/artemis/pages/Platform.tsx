@@ -158,7 +158,7 @@ function HeroSection() {
             <span className="text-[#FF4D00]">the ground.</span>
           </h1>
           <p className="text-[16px] md:text-[18px] leading-[1.7] text-white/50 font-medium max-w-2xl">
-            Infrastructure is the bedrock. Not offices, operating systems for civilization. M1 Cores, XEmbassies, and 190+ hubs on the Route, providing every layer a venture needs to move from prototype to production.
+            Infrastructure is the bedrock. Not offices — operating systems for civilization. M1 Cores, XEmbassies, and 190+ projected hubs on the Route, designed to provide every layer a venture needs to move from prototype to production.
           </p>
         </motion.div>
 
@@ -263,7 +263,7 @@ function CaseForInfrastructure() {
               This is why xCelero exists.
             </p>
             <p className="text-[15px] md:text-[17px] text-white/60 font-medium leading-[1.7]">
-              We don&apos;t just invest in ventures, we build the infrastructure those ventures need to exist. The M1 Cores, the XEmbassies, the 190+ hubs on the Route, these aren&apos;t real estate plays. They&apos;re operating systems for the next civilization.
+              We don&apos;t just invest in ventures — we are building the infrastructure those ventures need to exist. The M1 Cores, the XEmbassies, the 190+ projected hubs on the Route — these aren&apos;t real estate plays. They&apos;re operating systems for the next civilization.
             </p>
           </div>
         </motion.div>
@@ -299,7 +299,7 @@ function XEmbassySection() {
             Not an office. <span className="text-[#111111]/40">A distributed micro-campus.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            At the heart of XHansa 3.0 lies the XEmbassy: a 42,000 sq ft physical node in the global internet of innovation. Prototyping labs, wet labs, pilot zones, and radical proximity for ProtoCitizens.
+            At the heart of xHansa 3.0 lies the XEmbassy: a 42,000 sq ft physical node designed for the global internet of innovation. Prototyping labs, wet labs, pilot zones, and radical proximity for ProtoCitizens.
           </p>
         </motion.div>
 
@@ -380,7 +380,7 @@ function M1CoreSection() {
             The basecamp <span className="text-[#111111]/40">for civilization-building.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            Inspired by the laboratories that won 9 Nobel Prizes, where scientists ate in the same cafeteria as engineers, and ideas crossed disciplines over coffee. The M1 Core is not an office park. It is a machine for invention.
+            Inspired by the laboratories that won 9 Nobel Prizes, where scientists ate in the same cafeteria as engineers, and ideas crossed disciplines over coffee. The M1 Core will not be an office park. It will be a machine for invention.
           </p>
         </motion.div>
 
@@ -534,7 +534,7 @@ function CoreTechnologiesSection() {
             8 domains of <span className="text-[#111111]/40">independent innovation.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            The technologies that underpin every M1 Core and XEmbassy. These are the areas where we support innovation and problem-solving within our community.
+            The technologies that will underpin every M1 Core and XEmbassy. These are the areas where we plan to support innovation and problem-solving within our community.
           </p>
         </motion.div>
 
@@ -602,7 +602,7 @@ function RouteHubsSection() {
             A union of <span className="text-[#111111]/40">cities.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            190+ hub locations across 6 legs and 63 countries. Each hub is a node in the global internet of innovation, a physical place where ventures, capital, and talent converge.
+            190+ projected hub locations across 6 legs and 63 countries. Each hub is designed as a node in the global internet of innovation — a physical place where ventures, capital, and talent can converge.
           </p>
         </motion.div>
 

@@ -95,67 +95,17 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const type = searchParams.get("type");
-    const status = searchParams.get("status");
-
-    const where: Record<string, string> = {};
-    if (type) where.type = type;
-    if (status) where.status = status;
-
-    const applications = await db.application.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    });
-
-    return NextResponse.json({ applications });
-  } catch (error) {
-    console.error("Get applications error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+// GET and PATCH endpoints removed for security - application data is only accessible via admin dashboard
+export async function GET() {
+  return NextResponse.json(
+    { error: "This endpoint is not publicly accessible" },
+    { status: 403 }
+  );
 }
 
-export async function PATCH(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { id, status, notes } = body;
-
-    if (!id) {
-      return NextResponse.json(
-        { error: "Application ID is required" },
-        { status: 400 }
-      );
-    }
-
-    const validStatuses = ["pending", "reviewing", "contacted", "accepted", "declined"];
-    if (status && !validStatuses.includes(status)) {
-      return NextResponse.json(
-        { error: "Invalid status" },
-        { status: 400 }
-      );
-    }
-
-    const updateData: Record<string, unknown> = {};
-    if (status) updateData.status = status;
-    if (notes !== undefined) updateData.notes = notes;
-
-    const application = await db.application.update({
-      where: { id },
-      data: updateData,
-    });
-
-    return NextResponse.json({ application });
-  } catch (error) {
-    console.error("Update application error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+export async function PATCH() {
+  return NextResponse.json(
+    { error: "This endpoint is not publicly accessible" },
+    { status: 403 }
+  );
 }

@@ -93,10 +93,10 @@ function CaseStudiesSection() {
             Case Studies
           </div>
           <h2 className="text-[32px] md:text-[44px] lg:text-[56px] font-display font-medium tracking-tight leading-[1.05] mb-4">
-            Proof that critical technology <em className="font-serif italic text-[#FF4D00]">works</em>
+            Proof that critical technology <em className="font-serif italic text-[#FF4D00]">can work</em>
           </h2>
           <p className="text-[15px] md:text-[17px] text-[#111111]/50 font-medium leading-[1.7] max-w-2xl">
-            Four ventures. Four verticals. Real revenue, real jobs, real impact. Click any card to explore.
+            Four ventures. Four verticals. Projected revenue, projected jobs, projected impact. Click any card to explore.
           </p>
         </motion.div>
 

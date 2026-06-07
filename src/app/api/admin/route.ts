@@ -20,8 +20,10 @@ async function verifyAuth(req: NextRequest): Promise<boolean> {
     const maxAge = 24 * 60 * 60 * 1000;
     if (now - timestamp > maxAge) return false;
 
-    // Recompute hash
-    const secret = process.env.ADMIN_SECRET || "fallback-secret";
+    // Recompute hash - MUST use env var, no fallback
+    const secret = process.env.ADMIN_SECRET;
+    if (!secret) return false; // If no secret configured, all tokens invalid
+
     const data = `${secret}:${timestampStr}:${randomPart}`;
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(data);

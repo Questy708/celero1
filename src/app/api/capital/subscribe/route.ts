@@ -64,19 +64,10 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// GET endpoint removed for security - subscriber data is only accessible via admin dashboard
 export async function GET() {
-  try {
-    const subscribers = await db.subscriber.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    });
-
-    return NextResponse.json({ subscribers });
-  } catch (error) {
-    console.error("Get subscribers error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    { error: "This endpoint is not publicly accessible" },
+    { status: 403 }
+  );
 }

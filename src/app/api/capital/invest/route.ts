@@ -14,6 +14,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Input length validation
+    if (typeof name !== "string" || name.length > 200 || name.length < 1) {
+      return NextResponse.json(
+        { error: "Invalid name" },
+        { status: 400 }
+      );
+    }
+    if (typeof email !== "string" || email.length > 256) {
+      return NextResponse.json(
+        { error: "Invalid email" },
+        { status: 400 }
+      );
+    }
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -95,28 +109,10 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const tier = searchParams.get("tier");
-    const status = searchParams.get("status");
-
-    const where: Record<string, string> = {};
-    if (tier) where.tier = tier;
-    if (status) where.status = status;
-
-    const inquiries = await db.investmentInquiry.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      take: 100,
-    });
-
-    return NextResponse.json({ inquiries });
-  } catch (error) {
-    console.error("Get inquiries error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
+// GET endpoint removed for security - investment inquiries are only accessible via admin dashboard
+export async function GET() {
+  return NextResponse.json(
+    { error: "This endpoint is not publicly accessible" },
+    { status: 403 }
+  );
 }

@@ -45,10 +45,10 @@ const heroImages = [
 ];
 
 const stats = [
-  { value: 14.5, prefix: "$", suffix: "B+", label: "Target valuation growth of portfolio ventures", icon: TrendingUp },
-  { value: 264, prefix: "", suffix: "", label: "Days quicker to revenue milestone", icon: Zap },
+  { value: 14.5, prefix: "$", suffix: "B+", label: "Projected portfolio valuation at scale", icon: TrendingUp },
+  { value: 264, prefix: "", suffix: "", label: "Days faster to revenue with the Route", icon: Zap },
   { value: 4, prefix: "$", suffix: "B", label: "Capital mobilization target", icon: Coins },
-  { value: 190, prefix: "", suffix: "", label: "Hub locations across the Route", icon: Globe2 },
+  { value: 190, prefix: "", suffix: "", label: "Projected hub locations on the Route", icon: Globe2 },
 ];
 
 const pillars = [
@@ -59,7 +59,7 @@ const pillars = [
     subtext:
       "M1 Core campuses, XEmbassy nodes, & distributed living labs",
     description:
-      "We build and operate the physical and digital infrastructure that ventures need to move from prototype to production. M1 Core campuses provide 50,000+ sq ft of lab, maker, and co-working space in prime hub cities. XEmbassy nodes: compact 5,000 sq ft drop-in studios: extend reach into secondary markets. Distributed living labs connect field testing sites across the Route, giving ventures access to real-world validation environments from day one.",
+      "We are building the physical and digital infrastructure that ventures need to move from prototype to production. M1 Core campuses are designed to provide 50,000+ sq ft of lab, maker, and co-working space in prime hub cities. XEmbassy nodes — compact 5,000 sq ft drop-in studios — will extend reach into secondary markets. Distributed living labs will connect field testing sites across the Route, giving ventures access to real-world validation environments from day one.",
     images: [
       {
         src: "https://images.unsplash.com/photo-1613457231357-a5db3bc5bd81?auto=format&fit=crop&w=1200&q=80",
@@ -79,7 +79,7 @@ const pillars = [
     subtext:
       "Venture commercialization programs with industry & government partners",
     description:
-      "We run structured commercialization programs that take ventures from idea to revenue. Each program is co-designed with industry and government partners who provide market access, pilot opportunities, and first-customer contracts. The Quest Fellowship: our flagship semester-long program run in collaboration with DDQIC at Queen's University: uses MIT's Disciplined Entrepreneurship framework to guide founders through 24 steps of validated learning. Programs run on the Route, connecting cohorts across hub cities for shared deal flow and peer support.",
+      "We are designing structured commercialization programs that take ventures from idea to revenue. Each program will be co-designed with industry and government partners who provide market access, pilot opportunities, and first-customer contracts. The Quest Fellowship — our flagship semester-long program run in collaboration with DDQIC at Queen's University — uses MIT's Disciplined Entrepreneurship framework to guide founders through 24 steps of validated learning. Programs will run on the Route, connecting cohorts across hub cities for shared deal flow and peer support.",
     images: [
       {
         src: "https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?auto=format&fit=crop&w=1200&q=80",
@@ -98,7 +98,7 @@ const pillars = [
     heading: "Capital",
     subtext: "Aligned network of venture & non-dilutive capital",
     description:
-      "We mobilize capital that matches the realities of building in the Global South. Our network includes venture funds, national development allocators, development finance institutions, and non-dilutive grant programs. Solidarity pricing ensures that founders in early-stage markets access the same quality of support at a fraction of Silicon Valley costs. We also operate a non-dilutive capital desk that matches ventures with grants, prizes, and government incentives across 39+ countries on the Route.",
+      "We are mobilizing capital that matches the realities of building in the Global South. Our network is being built to include venture funds, national development allocators, development finance institutions, and non-dilutive grant programs. Solidarity pricing will ensure that founders in early-stage markets access the same quality of support at a fraction of Silicon Valley costs. We are also building a non-dilutive capital desk to match ventures with grants, prizes, and government incentives across 39+ countries on the Route.",
     images: [
       {
         src: "https://images.unsplash.com/photo-1767893609884-622503897e53?auto=format&fit=crop&w=1200&q=80",
@@ -118,7 +118,7 @@ const pillars = [
     subtext:
       "The XCitizens network, operators, founders, investors & mentors across the Route",
     description:
-      "The fourth engine. Community is the connective tissue that turns individual efforts into collective momentum. The XCitizens network spans every hub on the Route: operators who run infrastructure, founders building ventures, investors deploying capital, and mentors transferring knowledge. Compound network effects mean every new member strengthens the whole, creating a flywheel that accelerates commercialization for everyone.",
+      "The fourth engine. Community is the connective tissue that will turn individual efforts into collective momentum. The XCitizens network is designed to span every hub on the Route: operators who run infrastructure, founders building ventures, investors deploying capital, and mentors transferring knowledge. Compound network effects mean every new member strengthens the whole, creating a flywheel that can accelerate commercialization for everyone.",
     images: [
       {
         src: "https://images.unsplash.com/photo-1573496267526-08a69e46a409?auto=format&fit=crop&w=1200&q=80",
@@ -260,7 +260,7 @@ function Hero() {
           className="mt-6 md:mt-8 text-center max-w-2xl mx-auto"
         >
           <p className="text-[15px] md:text-[17px] leading-[1.6] text-[#111111]/60 font-medium mb-8">
-            Uniting 190 hubs across 39 countries to commercialize the technology the next century needs: infrastructure, ventures, capital, and community, all on one platform.
+            Designed to unite 190 hubs across 39 countries — commercializing the technology the next century needs: infrastructure, ventures, capital, and community, all on one platform.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -408,10 +408,10 @@ function MissionBridge() {
             className="lg:col-span-6"
           >
             <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
-              The markets with the youngest populations and fastest growth are building what the next century runs on, yet <span className="text-[#FF4D00]">most ventures there never cross the valley of death</span>.
+              The markets with the youngest populations and fastest growth will build what the next century runs on, yet <span className="text-[#FF4D00]">most ventures there never cross the valley of death</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              xCelero bridges that gap. We connect 190 hubs across 39 countries into a single commercialization engine: infrastructure to build, programs to validate, capital to scale, and community to compound. A breakthrough in isolation is a tragedy. <span className="text-[#111111] font-semibold">On the Route, it becomes a flywheel.</span>
+              xCelero is designed to bridge that gap. A network of 190 hubs across 39 countries, built into a single commercialization engine: infrastructure to build, programs to validate, capital to scale, and community to compound. A breakthrough in isolation is a tragedy. <span className="text-[#111111] font-semibold">On the Route, it can become a flywheel.</span>
             </p>
           </motion.div>
 
@@ -456,7 +456,7 @@ function MissionBridge() {
               </svg>
               {/* Label */}
               <div className="absolute bottom-2 right-4 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
-                39 Countries · 190 Hubs
+                39 Countries · 190 Projected Hubs
               </div>
             </div>
           </motion.div>
@@ -485,7 +485,7 @@ function BentoGrid() {
     },
     {
       title: "190 Hubs",
-      description: "Physical infrastructure across 39+ countries on the Route",
+      description: "Projected physical infrastructure across 39+ countries on the Route",
       icon: Globe2,
       link: "/routes",
       className: "md:col-span-5",
@@ -494,7 +494,7 @@ function BentoGrid() {
     },
     {
       title: "6 Investment Vehicles",
-      description: "From $500 to $250K+, aligned capital for every stage",
+      description: "From $500 to $250K+, aligned capital designed for every stage",
       icon: Coins,
       link: "/capital",
       className: "md:col-span-5",
@@ -586,9 +586,9 @@ function BentoGrid() {
           >
             <div className="bento-card p-8 md:p-12 rounded-lg grain">
               <p className="text-[18px] sm:text-[22px] md:text-[26px] leading-[1.5] font-medium text-[#111111]/80 text-balance max-w-4xl">
-                Critical technology creates industries, builds cities, and unlocks wealth for generations. The next century belongs to the Global South, with the youngest populations, fastest-growing markets, and boldest ambitions. But isolated breakthroughs don&apos;t compound.{" "}
+                Critical technology creates industries, builds cities, and unlocks wealth for generations. The next century belongs to the Global South, with the youngest populations, fastest-growing markets, and boldest ambitions. But isolated breakthroughs won&apos;t compound on their own.{" "}
                 <span className="text-[#111111]">
-                  Connected ones do. xCelero unites 190 hubs across 39 countries into one commercialization engine: infrastructure, ventures, capital, and community, so prosperity doesn&apos;t remain a promise but becomes a product.
+                  Connected ones can. xCelero is designed to unite 190 hubs across 39 countries into one commercialization engine: infrastructure, ventures, capital, and community — so prosperity doesn&apos;t remain a promise but can become a product.
                 </span>
               </p>
             </div>
@@ -814,12 +814,12 @@ function PillarBlock({
 /* ── Upcoming Events Data ── */
 const homeEvents = [
   {
-    title: "Accelerator Cohort 8 Demo Day",
+    title: "Accelerator Cohort 1 Demo Day",
     date: "March 28, 2026",
     time: "10:00 AM EAT",
     location: "M1 Core Nairobi + Virtual",
     type: "Demo Day",
-    description: "12 ventures present validated MVPs to investors and partners. Sector deep-dives in energy, life sciences, and digital finance.",
+    description: "Ventures present validated MVPs to investors and partners. Sector deep-dives in energy, life sciences, and digital finance.",
     featured: true,
     image: "https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?auto=format&fit=crop&w=800&q=80",
   },

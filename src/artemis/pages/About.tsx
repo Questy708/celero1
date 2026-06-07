@@ -90,16 +90,16 @@ const timelineEras = [
     title: "The Platform Takes Shape",
     subtitle: "M1 Core Nairobi, XEmbassy Lagos, Route Leg 1",
     description:
-      "The first M1 Core campus opens in Nairobi: 50,000 sq ft of lab, maker, and co-working space. XEmbassy nodes launch in Lagos and Accra. The first accelerator cohort begins. Six investment vehicles are structured. The Route goes from thesis to operating infrastructure.",
+      "The first M1 Core campus is planned for Nairobi: 50,000 sq ft of lab, maker, and co-working space. XEmbassy nodes are designed for Lagos and Accra. The first accelerator cohort is targeted. Six investment vehicles are being structured. The Route moves from thesis to operating infrastructure.",
     icon: Rocket,
     isCurrentDay: true,
   },
   {
     era: "2023 - Present",
-    title: "The Flywheel Accelerates",
-    subtitle: "190 hubs, 39 countries, 40+ ventures on the Route",
+    title: "The Flywheel Is Building",
+    subtitle: "Assembling 190 hubs, 39 countries, 40+ ventures on the Route",
     description:
-      "xCelero now operates across 190 hubs in 39 countries. 40+ ventures are building on the Route. Seven accelerator cohorts have graduated. The XCitizen network exceeds 1,200 members. The four engines compound with every cycle.",
+      "xCelero is assembling the infrastructure to operate across 190 hubs in 39 countries. 40+ ventures are projected to build on the Route. Seven accelerator cohorts are planned. The XCitizen network is designed to exceed 1,200 members at scale. The four engines will compound with every cycle.",
     icon: Users,
     isCurrentDay: true,
   },
@@ -264,8 +264,8 @@ function OpeningSection() {
    ══════════════════════════════════════════════════════════════════════════ */
 const whatIsStats = [
   { value: "4", label: "Integrated Engines" },
-  { value: "190", label: "Hubs on the Route" },
-  { value: "39+", label: "Countries Connected" },
+  { value: "190", label: "Projected Hubs" },
+  { value: "39+", label: "Countries in Scope" },
 ];
 
 function WhatIsXceleroSection() {
@@ -297,12 +297,12 @@ function WhatIsXceleroSection() {
             </p>
 
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/55 font-medium">
-              We built xCelero to fill that gap. Four integrated engines, Infrastructure, Ventures, Capital, and Community, operate as a single machine. M1 Core campuses provide 50,000+ sq ft of lab and maker space. Structured commercialization programs take ventures from prototype to revenue. Six investment vehicles deploy capital from $500 to $250K+. And the XCitizen network connects every operator, founder, investor, and mentor across 190 hubs and 39 countries.
+              We are building xCelero to fill that gap. Four integrated engines — Infrastructure, Ventures, Capital, and Community — are designed to operate as a single machine. M1 Core campuses will provide 50,000+ sq ft of lab and maker space. Structured commercialization programs will take ventures from prototype to revenue. Six investment vehicles are designed to deploy capital from $500 to $250K+. And the XCitizen network will connect every operator, founder, investor, and mentor across 190 hubs and 39 countries.
             </p>
 
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/55 font-medium">
               <strong className="text-[#111111] font-semibold">
-                The ambition is not incremental. We are not building another accelerator or another fund. We are building the operating system for a new civilization, one where the geographies that were once extracted from become the geographies that produce, invent, and export. Where self-reliance is not a slogan but a technological reality. Where a founder in Nairobi has the same architecture to scale as a founder in New York.
+                The ambition is not incremental. We are not building another accelerator or another fund. We are building the operating system for a new civilization — one where the geographies that were once extracted from can become the geographies that produce, invent, and export. Where self-reliance is not a slogan but a technological reality. Where a founder in Nairobi will have the same architecture to scale as a founder in New York.
               </strong>
             </p>
           </div>

@@ -64,7 +64,7 @@ const investmentVehicles = [
       "Transparent NAV reporting with independent annual audit",
       "Mobile money and local agent deposit options in select African jurisdictions",
     ],
-    riskNote: "Venture investments are illiquid and involve substantial risk of loss. The Fund's quarterly liquidity windows are subject to gate provisions and may be suspended in market stress events.",
+    riskNote: "Venture investments are illiquid and involve substantial risk of loss. The Fund's quarterly liquidity windows are subject to gate provisions and may be suspended in market stress events. All vehicle structures are subject to regulatory approval and may differ from what is described here. This is not an offer to sell securities.",
   },
   {
     id: "spv-syndicates",
@@ -98,7 +98,7 @@ const investmentVehicles = [
       "Defined carry structure with hurdle rate protection",
       "Access to xCelero deal flow typically reserved for institutional allocators",
     ],
-    riskNote: "SPV investments are illiquid until exit event. Single-asset concentration increases idiosyncratic risk. Carry applies to returns above the preferred return hurdle.",
+    riskNote: "SPV investments are illiquid until exit event. Single-asset concentration increases idiosyncratic risk. Carry applies to returns above the preferred return hurdle. All vehicle structures are subject to regulatory approval and may differ from what is described here. This is not an offer to sell securities.",
   },
   {
     id: "thematic-funds",
@@ -132,7 +132,7 @@ const investmentVehicles = [
       "Impact reporting meets institutional mandates for measurable outcomes",
       "Board observer seats available for Anchor-tier allocations",
     ],
-    riskNote: "Closed-end funds are subject to J-curve dynamics with early negative returns typical. Sector concentration amplifies market-specific risks. Semi-annual tender offers are at Board discretion and not guaranteed.",
+    riskNote: "Closed-end funds are subject to J-curve dynamics with early negative returns typical. Sector concentration amplifies market-specific risks. Semi-annual tender offers are at Board discretion and not guaranteed. All vehicle structures are subject to regulatory approval and may differ from what is described here. This is not an offer to sell securities.",
   },
   {
     id: "catalyst-notes",
@@ -166,7 +166,7 @@ const investmentVehicles = [
       "Monthly reporting with real-time repayment tracking",
       "Shorter duration (24 to 48 months) vs. traditional venture timelines",
     ],
-    riskNote: "Revenue-linked notes depend on venture revenue performance. If the venture's revenue declines, repayment slows and the full return target may not be achieved. No equity upside beyond the defined return multiple.",
+    riskNote: "Revenue-linked notes depend on venture revenue performance. If the venture's revenue declines, repayment slows and the full return target may not be achieved. No equity upside beyond the defined return multiple. All vehicle structures are subject to regulatory approval and may differ from what is described here. This is not an offer to sell securities.",
   },
   {
     id: "non-dilutive-desk",
@@ -200,7 +200,7 @@ const investmentVehicles = [
       "Success-fee only model: aligned incentives with founders",
       "Deep relationships with DFIs, government agencies, and development finance institutions",
     ],
-    riskNote: "Grant timelines are subject to government and institutional review cycles. Success fees apply only to awarded capital. This is an advisory service, not an investment vehicle.",
+    riskNote: "Grant timelines are subject to government and institutional review cycles. Success fees apply only to awarded capital. This is an advisory service, not an investment vehicle. All services are subject to availability and may differ from what is described here.",
   },
   {
     id: "anchor-mandate",
@@ -234,7 +234,7 @@ const investmentVehicles = [
       "GP carry participation: share in the economics of the fund management",
       "Real-time dashboard with live NAV, cash flow projections, and impact metrics",
     ],
-    riskNote: "Anchor Mandates are fully customizable and subject to negotiated terms. Minimum commitment of $250K. Investment terms, fees, and carry are determined through direct negotiation.",
+    riskNote: "Anchor Mandates are fully customizable and subject to negotiated terms. Minimum commitment of $250K. Investment terms, fees, and carry are determined through direct negotiation. All vehicle structures are subject to regulatory approval and may differ from what is described here. This is not an offer to sell securities.",
   },
 ];
 
@@ -331,11 +331,11 @@ const faqItems = [
   },
   {
     q: "What are the fees?",
-    a: "xCelero Fund: 1% management fee, no carry. SPV Syndicates: 1% management + 10% carry above hurdle. Thematic Funds: 1.5% management + 20% carry above 8% hurdle. Catalyst Notes: no management fee, return target 1.5–2.5x. No sales load on any vehicle. See offering documents for full expense ratios.",
+    a: "xCelero Fund: 1% management fee, no carry. SPV Syndicates: 1% management + 10% carry above hurdle. Thematic Funds: 1.5% management + 20% carry above 8% hurdle. Catalyst Notes: no management fee, return target 1.5–2.5x. No sales load on any vehicle. See offering documents for full expense ratios. All fees are projected and subject to change upon fund formation.",
   },
   {
     q: "How does liquidity work?",
-    a: "The xCelero Fund offers quarterly redemption windows (up to 5% of NAV per quarter). SPV positions are illiquid until exit event. Thematic Funds may offer semi-annual tender offers at Board discretion. Catalyst Notes have a defined 24–48 month duration. Consider all positions illiquid and invest only capital you can commit.",
+    a: "The xCelero Fund offers quarterly redemption windows (up to 5% of NAV per quarter). SPV positions are illiquid until exit event. Thematic Funds may offer semi-annual tender offers at Board discretion. Catalyst Notes have a defined 24–48 month duration. Consider all positions illiquid and invest only capital you can commit. All liquidity terms are subject to final fund documentation.",
   },
   {
     q: "Is this a fund-of-funds?",
@@ -351,7 +351,7 @@ const faqItems = [
   },
   {
     q: "How is NAV calculated?",
-    a: "Portfolio valuations follow ASC 820 fair value measurement. Early-stage ventures are valued at cost until a material financing event. Revenue-generating ventures use a mix of revenue multiples, comparable transactions, and discounted cash flows. The fund is audited annually by an independent registered public accounting firm.",
+    a: "Portfolio valuations follow ASC 820 fair value measurement. Early-stage ventures are valued at cost until a material financing event. Revenue-generating ventures use a mix of revenue multiples, comparable transactions, and discounted cash flows. The fund is audited annually by an independent registered public accounting firm. Valuation methodology is projected and subject to final fund documentation.",
   },
 ];
 
@@ -386,7 +386,7 @@ function Hero({ onSubscribe }: { onSubscribe: () => void }) {
 
   const heroStats = [
     { value: capitalTarget, label: "Capital target" },
-    { value: String(totalVentures), label: "Active ventures" },
+    { value: String(totalVentures), label: "Projected ventures" },
     { value: `${totalCountries}+`, label: "Countries" },
     { value: "6", label: "Investment vehicles" },
     { value: String(totalHubs), label: "Route hubs" },
@@ -409,13 +409,13 @@ function Hero({ onSubscribe }: { onSubscribe: () => void }) {
           <h1 className="text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] leading-[1.05] font-display font-medium tracking-[-0.02em] mb-8 md:mb-10">
             Invest in{" "}
             <em className="italic font-serif text-[#FF4D00]">critical</em>{" "}
-            technology from $500
+            technology from $500*
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl lg:text-[22px] leading-[1.6] text-[#111111]/50 font-medium max-w-2xl mb-10 sm:mb-14 md:mb-20">
-            Six investment vehicles. One thesis: the technology that defines
+            Six investment vehicles being structured. One thesis: the technology that defines
             the next century will be built in the markets that need it most.
-            xCelero gives you access to that pipeline.
+            xCelero is designed to give you access to that pipeline.
           </p>
 
           {/* Stats metrics row, matching Route page style */}
@@ -575,10 +575,10 @@ function CapitalBridge() {
             className="lg:col-span-6"
           >
             <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
-              Capital that understands the terrain, not just the <span className="text-[#FF4D00]">return profile</span>.
+              Capital designed to understand the terrain, not just the <span className="text-[#FF4D00]">return profile</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              Traditional venture capital flows where returns are proven. xCelero deploys capital where the technology is most needed, in the geographies building the next century&apos;s infrastructure. Six vehicles, one thesis: <span className="text-[#111111] font-semibold">critical technology in the markets that need it most</span>.
+              Traditional venture capital flows where returns are proven. xCelero is designed to deploy capital where the technology is most needed, in the geographies building the next century&apos;s infrastructure. Six vehicles, one thesis: <span className="text-[#111111] font-semibold">critical technology in the markets that need it most</span>.
             </p>
           </motion.div>
 
@@ -623,7 +623,7 @@ function CapitalBridge() {
               </svg>
               {/* Label */}
               <div className="absolute bottom-2 right-4 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#FF4D00]">
-                $4B Target · 6 Vehicles
+                $4B Target · 6 Vehicles Planned
               </div>
             </div>
           </motion.div>
@@ -709,7 +709,7 @@ function InvestmentVehicles() {
           </h2>
           <p className="text-[15px] md:text-[17px] text-[#111111]/50 font-medium leading-[1.7] max-w-xl mt-4">
             From $500 in the xCelero Fund to custom Anchor Mandates at $250K+,
-            every vehicle is built for the same thesis: critical technology in
+            every vehicle is being designed for the same thesis: critical technology in
             the markets that need it most.
           </p>
         </motion.div>
