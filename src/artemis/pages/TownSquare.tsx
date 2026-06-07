@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion, AnimatePresence } from "framer-motion";
@@ -32,54 +32,54 @@ import {
   Users,
   Briefcase,
   ExternalLink,
+  Loader2,
 } from "lucide-react";
 
-/* ── Types ── */
-interface ForumComment {
+/* ── Types (matching API responses) ── */
+interface ForumUser {
   id: string;
-  author: string;
-  content: string;
-  timestamp: string;
-  likes: number;
-  replies?: ForumComment[];
+  name: string;
+  email: string;
+  bio: string | null;
+  role: string;
+  location: string | null;
+  communities: string; // comma-separated from DB
+  avatarColor: string;
+  company: string | null;
+  title: string | null;
+  lastActiveAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface ForumPost {
   id: string;
-  authorName: string;
+  authorId: string;
   community: string;
   title: string;
-  content: string;
+  content: string | null;
   upvotes: number;
-  userVote: "up" | "down" | null;
   hearts: number;
+  imageUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+  author: ForumUser;
+  commentCount: number;
+  userVote: "up" | "down" | null;
   userHearted: boolean;
-  timestamp: string;
-  imageUrl?: string;
-  comments: ForumComment[];
 }
 
-interface TownSquareUser {
-  name: string;
-  email: string;
-  bio: string;
-  role: string;
-  location: string;
-  communities: string[];
-  avatarColor: string;
-}
-
-interface NetworkMember {
+interface ForumComment {
   id: string;
-  name: string;
-  role: string;
-  location: string;
-  bio: string;
-  communities: string[];
-  avatarColor: string;
-  lastActive: string;
-  company?: string;
-  title?: string;
+  postId: string;
+  authorId: string;
+  parentId: string | null;
+  content: string;
+  likes: number;
+  createdAt: string;
+  updatedAt: string;
+  author: { id: string; name: string; avatarColor: string; role: string };
+  replies: ForumComment[];
 }
 
 /* ── Role Colors ── */
@@ -103,288 +103,89 @@ const COMMUNITIES = [
   { name: "Founders Corner", color: "bg-violet-600" },
 ];
 
-/* ── Recently Active Helper ── */
-function isRecentlyActive(timestamp: string): boolean {
-  if (timestamp === "Just now") return true;
-  const hrMatch = timestamp.match(/(\d+)\s*hr\.?\s*ago/i);
-  if (hrMatch) {
-    const hrs = parseInt(hrMatch[1], 10);
-    return hrs <= 12;
+/* ── Relative Time Formatter ── */
+function formatRelativeTime(dateStr: string): string {
+  try {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHr = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHr / 24);
+
+    if (diffSec < 60) return "Just now";
+    if (diffMin < 60) return `${diffMin} min. ago`;
+    if (diffHr < 24) return `${diffHr} hr. ago`;
+    if (diffDay === 1) return "1 day ago";
+    if (diffDay < 30) return `${diffDay} days ago`;
+    return date.toLocaleDateString();
+  } catch {
+    return dateStr;
   }
-  if (timestamp.includes("min")) return true;
-  return false;
 }
 
-/* ── Seed Network Members ── */
-const SEED_MEMBERS: NetworkMember[] = [
-  {
-    id: "m1",
-    name: "Dr. Amina Osei",
-    role: "Founder",
-    location: "Kigali, Rwanda",
-    bio: "Building point-of-care diagnostics for East Africa. Rwanda FDA pathway pioneer.",
-    communities: ["Life Sciences"],
-    avatarColor: "#FF4D00",
-    lastActive: "3 hr. ago",
-    company: "DxRwanda",
-    title: "CEO & Co-Founder",
-  },
-  {
-    id: "m2",
-    name: "Yusuf Hassan",
-    role: "Operator",
-    location: "Kano, Nigeria",
-    bio: "Running mini-grid operations across Northern Nigeria. Cohort 7 alumni.",
-    communities: ["Energy & Infrastructure"],
-    avatarColor: "#111111",
-    lastActive: "5 hr. ago",
-    company: "PowerGrid North",
-    title: "Head of Operations",
-  },
-  {
-    id: "m3",
-    name: "Fatima Al-Rashid",
-    role: "Founder",
-    location: "Lagos, Nigeria",
-    bio: "Cross-border payments infrastructure across West and East Africa.",
-    communities: ["Digital Finance"],
-    avatarColor: "#FF4D00",
-    lastActive: "8 hr. ago",
-    company: "RailPay",
-    title: "CTO",
-  },
-  {
-    id: "m4",
-    name: "Chioma Adekunle",
-    role: "Operator",
-    location: "Lagos, Nigeria",
-    bio: "Managing XEmbassy Lagos hub. Data-driven community building.",
-    communities: ["Route Operations"],
-    avatarColor: "#111111",
-    lastActive: "12 hr. ago",
-    company: "xCelero Labs",
-    title: "Hub Manager, Lagos",
-  },
-  {
-    id: "m5",
-    name: "Amara Diallo",
-    role: "Investor",
-    location: "Dakar, Senegal",
-    bio: "Deploying SPVs across life sciences and energy. 34% aggregate IRR.",
-    communities: ["Capital & Deals"],
-    avatarColor: "#059669",
-    lastActive: "1 day ago",
-    company: "Hansa Capital",
-    title: "Managing Partner",
-  },
-  {
-    id: "m6",
-    name: "Liya Tadesse",
-    role: "Founder",
-    location: "Addis Ababa, Ethiopia",
-    bio: "Hiring locally and investing in onboarding. 100% retention after 12 months.",
-    communities: ["Founders Corner"],
-    avatarColor: "#FF4D00",
-    lastActive: "1 day ago",
-    company: "AddisTech",
-    title: "CEO",
-  },
-  {
-    id: "m7",
-    name: "Kofi Mensah",
-    role: "Mentor",
-    location: "Accra, Ghana",
-    bio: "Regulatory strategy for health tech across West Africa. Former Kenya Medical Board advisor.",
-    communities: ["Life Sciences", "Founders Corner"],
-    avatarColor: "#7c3aed",
-    lastActive: "1 hr. ago",
-    company: "HealthPath Advisory",
-    title: "Principal Consultant",
-  },
-  {
-    id: "m8",
-    name: "Samuel Mengistu",
-    role: "Operator",
-    location: "Nairobi, Kenya",
-    bio: "M-Pesa integration specialist. Settlement infrastructure engineer.",
-    communities: ["Digital Finance"],
-    avatarColor: "#111111",
-    lastActive: "6 hr. ago",
-    company: "RailPay",
-    title: "Payments Engineer",
-  },
-  {
-    id: "m9",
-    name: "Ngozi Eze",
-    role: "Investor",
-    location: "Lagos, Nigeria",
-    bio: "Early-stage venture capital. Focus on life sciences and diagnostics.",
-    communities: ["Capital & Deals", "Life Sciences"],
-    avatarColor: "#059669",
-    lastActive: "20 hr. ago",
-    company: "Verdant Ventures",
-    title: "Partner",
-  },
-  {
-    id: "m10",
-    name: "Thabo Moyo",
-    role: "Founder",
-    location: "Johannesburg, South Africa",
-    bio: "Building solar-as-a-service for commercial tenants. Series A raised.",
-    communities: ["Energy & Infrastructure"],
-    avatarColor: "#FF4D00",
-    lastActive: "4 hr. ago",
-    company: "SolarVault",
-    title: "Co-Founder",
-  },
-  {
-    id: "m11",
-    name: "Aisha Bello",
-    role: "Mentor",
-    location: "Abuja, Nigeria",
-    bio: "Former VP at GTBank. Now advising fintech founders on regulatory navigation.",
-    communities: ["Digital Finance", "Founders Corner"],
-    avatarColor: "#7c3aed",
-    lastActive: "2 hr. ago",
-    company: "Independent",
-    title: "Fintech Advisor",
-  },
-  {
-    id: "m12",
-    name: "Emmanuel Owusu",
-    role: "Operator",
-    location: "Kumasi, Ghana",
-    bio: "Route hub operations. Community events and programming.",
-    communities: ["Route Operations", "Founders Corner"],
-    avatarColor: "#111111",
-    lastActive: "30 min. ago",
-    company: "xCelero Labs",
-    title: "Hub Lead, Kumasi",
-  },
-];
+/* ── Recently Active Helper ── */
+function isRecentlyActive(dateStr: string): boolean {
+  try {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHr = diffMs / (1000 * 60 * 60);
+    return diffHr <= 12;
+  } catch {
+    return false;
+  }
+}
 
-/* ── Seed Posts ── */
-const PRESET_POSTS: ForumPost[] = [
-  {
-    id: "post-1",
-    authorName: "Dr. Amina Osei",
-    community: "Life Sciences",
-    title: "Regulatory pathways for diagnostics in East Africa: lessons from our Rwanda pilot",
-    content:
-      "We just completed a 6-month pilot for our point-of-care diagnostic in Kigali. The regulatory landscape is fragmented but navigable. Key takeaway: start with the Rwanda FDA pathway, then use mutual recognition to expand to Kenya and Uganda. Happy to share our full compliance timeline if anyone is interested.",
-    upvotes: 87,
-    userVote: null,
-    hearts: 14,
-    userHearted: false,
-    timestamp: "3 hr. ago",
-    comments: [
-      {
-        id: "c1",
-        author: "Kofi Mensah",
-        content: "This is incredibly useful. We've been spinning our wheels on the Kenya Medical Board side. Would love to see that timeline.",
-        timestamp: "1 hr. ago",
-        likes: 12,
-      },
-    ],
-  },
-  {
-    id: "post-2",
-    authorName: "Yusuf Hassan",
-    community: "Energy & Infrastructure",
-    title: "Mini-grid economics in Northern Nigeria: unit economics from Cohort 7",
-    content:
-      "Sharing our updated unit economics after 18 months of operations. Revenue per connection up 40% from initial projections. The key variable turns out to be productive-use appliances: once you bundle in refrigeration and welding, the revenue per user completely changes. Full breakdown in the thread.",
-    upvotes: 142,
-    userVote: null,
-    hearts: 23,
-    userHearted: false,
-    imageUrl:
-      "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
-    timestamp: "5 hr. ago",
-    comments: [],
-  },
-  {
-    id: "post-3",
-    authorName: "Fatima Al-Rashid",
-    community: "Digital Finance",
-    title: "Cross-border payments infrastructure: what we learned building across 3 corridors",
-    content:
-      "After 14 months of live operations across the Lagos-Accra-Nairobi corridor, here's what we wish we knew before starting. The biggest surprise wasn't regulatory, it was settlement timing. Mobile money settlement in East Africa is fundamentally different from West African bank-based rails. Thread below.",
-    upvotes: 204,
-    userVote: null,
-    hearts: 31,
-    userHearted: false,
-    timestamp: "8 hr. ago",
-    comments: [
-      {
-        id: "c2",
-        author: "Samuel Mengistu",
-        content: "The settlement timing issue is real. We lost 3 weeks on our first M-Pesa integration because we didn't account for the batch processing window.",
-        timestamp: "6 hr. ago",
-        likes: 8,
-      },
-    ],
-  },
-  {
-    id: "post-4",
-    authorName: "Chioma Adekunle",
-    community: "Route Operations",
-    title: "Hub utilization data: what 12 months of XEmbassy Lagos tells us",
-    content:
-      "We've been tracking desk utilization, meeting room bookings, and event attendance across XEmbassy Lagos for the past year. The data is clear: weekday co-working is nice, but the real flywheel is Friday masterclasses + weekend hack sessions. Sharing the full dashboard with anyone who DMs me.",
-    upvotes: 56,
-    userVote: null,
-    hearts: 9,
-    userHearted: false,
-    timestamp: "12 hr. ago",
-    comments: [],
-  },
-  {
-    id: "post-5",
-    authorName: "Amara Diallo",
-    community: "Capital & Deals",
-    title: "SPV deployment update: Q1 2026 portfolio construction",
-    content:
-      "Quick update on the four SPVs we deployed through last year. Aggregate IRR is tracking at 34% on a time-weighted basis. The life sciences allocation is the outperformer. Full LP memo going out next week. Happy to answer high-level questions here.",
-    upvotes: 312,
-    userVote: null,
-    hearts: 44,
-    userHearted: false,
-    timestamp: "1 day ago",
-    comments: [
-      {
-        id: "c3",
-        author: "Ngozi Eze",
-        content: "Is the life sciences outperformance driven by the Allele acquisition, or is it broader?",
-        timestamp: "20 hr. ago",
-        likes: 6,
-        replies: [
-          {
-            id: "c3r1",
-            author: "Amara Diallo",
-            content: "Broader. Allele is the headline, but the diagnostics sub-basket is also performing well above baseline.",
-            timestamp: "18 hr. ago",
-            likes: 4,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: "post-6",
-    authorName: "Liya Tadesse",
-    community: "Founders Corner",
-    title: "Hiring your first 5 engineers in Addis: what worked and what didn't",
-    content:
-      "We went from 0 to 5 engineers in 4 months. The conventional wisdom is to hire from the diaspora. We did the opposite, hired locally, invested heavily in onboarding, and it paid off. Retention is 100% after 12 months. Here's the playbook.",
-    upvotes: 98,
-    userVote: null,
-    hearts: 19,
-    userHearted: false,
-    timestamp: "1 day ago",
-    comments: [],
-  },
-];
+/* ── Helper: parse communities string ── */
+function parseCommunities(communities: string): string[] {
+  if (!communities) return [];
+  return communities.split(",").map((c) => c.trim()).filter(Boolean);
+}
+
+/* ── Helper: get initials from name ── */
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2);
+}
+
+/* ── Skeleton Components ── */
+function PostSkeleton() {
+  return (
+    <div className="bg-white border border-[#111111]/10 p-4 animate-pulse">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-5 h-5 rounded-full bg-[#111111]/10" />
+        <div className="h-3 w-32 bg-[#111111]/10 rounded" />
+        <div className="h-3 w-20 bg-[#111111]/10 rounded" />
+      </div>
+      <div className="h-4 w-3/4 bg-[#111111]/10 rounded mb-2" />
+      <div className="h-3 w-full bg-[#111111]/10 rounded mb-1" />
+      <div className="h-3 w-2/3 bg-[#111111]/10 rounded" />
+      <div className="flex items-center gap-2 mt-4">
+        <div className="h-8 w-20 bg-[#111111]/10 rounded" />
+        <div className="h-8 w-16 bg-[#111111]/10 rounded" />
+        <div className="h-8 w-16 bg-[#111111]/10 rounded" />
+      </div>
+    </div>
+  );
+}
+
+function MemberCardSkeleton() {
+  return (
+    <div className="bg-white border border-[#111111]/10 overflow-hidden animate-pulse">
+      <div className="h-10 bg-[#111111]/5" />
+      <div className="pt-7 px-4 pb-4">
+        <div className="h-3 w-24 bg-[#111111]/10 rounded mb-2" />
+        <div className="h-2.5 w-32 bg-[#111111]/10 rounded mb-2" />
+        <div className="h-2.5 w-full bg-[#111111]/10 rounded" />
+      </div>
+    </div>
+  );
+}
 
 /* ── Comment Node ── */
 function CommentNode({
@@ -404,21 +205,25 @@ function CommentNode({
   setReplyContent: (content: string) => void;
   handleAddReply: (postId: string, commentId: string) => void;
 }) {
-  const community = COMMUNITIES.find((c) => comment.author.includes("Dr.")) || COMMUNITIES[0];
   return (
     <div className="group mt-1 pt-2">
       <div className="flex">
         <div className="flex flex-col items-center mr-2 relative group/line cursor-pointer shrink-0">
-          <div className="w-[28px] h-[28px] rounded-full bg-[#FF4D00] overflow-hidden flex items-center justify-center font-bold text-white text-[10px] z-10">
-            {comment.author[0]}
+          <div
+            className="w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center font-bold text-white text-[10px] z-10"
+            style={{ backgroundColor: comment.author.avatarColor }}
+          >
+            {comment.author.name[0]}
           </div>
-          <div className="w-[2px] bg-[#111111]/10 group-hover/line:bg-[#111111]/20 transition-colors absolute top-8 bottom-[-8px] sm:bottom-[-16px]" />
+          {comment.replies && comment.replies.length > 0 && (
+            <div className="w-[2px] bg-[#111111]/10 group-hover/line:bg-[#111111]/20 transition-colors absolute top-8 bottom-[-8px] sm:bottom-[-16px]" />
+          )}
         </div>
 
         <div className="flex-1 min-w-0 pb-1 sm:pb-3">
           <div className="flex items-center gap-2 text-[12px] mb-1">
-            <span className="font-bold text-[#111111]">{comment.author}</span>
-            <span className="text-[#111111]/40">• {comment.timestamp}</span>
+            <span className="font-bold text-[#111111]">{comment.author.name}</span>
+            <span className="text-[#111111]/40">• {formatRelativeTime(comment.createdAt)}</span>
           </div>
           <div className="text-[14px] text-[#111111]/70 leading-relaxed prose prose-slate max-w-none mb-0.5">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{comment.content}</ReactMarkdown>
@@ -504,7 +309,7 @@ function CommentNode({
 /* ══════════════════════════════════════════════════════════════════════════
    ONBOARDING FLOW
    ══════════════════════════════════════════════════════════════════════════ */
-function OnboardingFlow({ onComplete }: { onComplete: (user: TownSquareUser) => void }) {
+function OnboardingFlow({ onComplete }: { onComplete: (user: ForumUser) => void }) {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
   const [displayName, setDisplayName] = useState("");
@@ -513,6 +318,7 @@ function OnboardingFlow({ onComplete }: { onComplete: (user: TownSquareUser) => 
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
   const [selectedCommunities, setSelectedCommunities] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const goNext = () => { setDirection(1); setStep((s) => s + 1); };
   const goBack = () => { setDirection(-1); setStep((s) => s - 1); };
@@ -523,19 +329,46 @@ function OnboardingFlow({ onComplete }: { onComplete: (user: TownSquareUser) => 
     );
   };
 
-  const handleComplete = () => {
-    const avatarColor = ROLE_COLORS[role] || "#6b7280";
-    const user: TownSquareUser = {
-      name: displayName,
-      email,
-      bio,
-      role,
-      location,
-      communities: selectedCommunities,
-      avatarColor,
-    };
-    localStorage.setItem("xcelero_townsquare_user", JSON.stringify(user));
-    onComplete(user);
+  const handleComplete = async () => {
+    setIsSubmitting(true);
+    try {
+      const avatarColor = ROLE_COLORS[role] || "#6b7280";
+
+      // Create user via API
+      const res = await fetch("/api/forum/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: displayName,
+          email,
+          bio: bio || undefined,
+          role,
+          location: location || undefined,
+          communities: selectedCommunities,
+          avatarColor,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        console.error("Failed to create user:", err);
+        setIsSubmitting(false);
+        return;
+      }
+
+      const user: ForumUser = await res.json();
+
+      // Store user ID in localStorage
+      localStorage.setItem("xcelero_townsquare_user_id", user.id);
+
+      // Seed the database with sample data
+      await fetch("/api/forum/seed", { method: "POST" }).catch(() => {});
+
+      onComplete(user);
+    } catch (err) {
+      console.error("Onboarding error:", err);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -758,11 +591,15 @@ function OnboardingFlow({ onComplete }: { onComplete: (user: TownSquareUser) => 
                   </button>
                   <button
                     onClick={handleComplete}
-                    disabled={selectedCommunities.length === 0}
+                    disabled={selectedCommunities.length === 0 || isSubmitting}
                     className="flex items-center gap-2 px-6 py-2.5 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-[0.1em] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 transition-colors"
                   >
-                    Enter Town Square
-                    <ArrowRight className="w-4 h-4" />
+                    {isSubmitting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" />
+                    )}
+                    {isSubmitting ? "Creating..." : "Enter Town Square"}
                   </button>
                 </div>
               </div>
@@ -776,35 +613,145 @@ function OnboardingFlow({ onComplete }: { onComplete: (user: TownSquareUser) => 
 /* ══════════════════════════════════════════════════════════════════════════
    FORUM CONTENT (separated to avoid hooks-after-return issues)
    ══════════════════════════════════════════════════════════════════════════ */
-function ForumContent({ user }: { user: TownSquareUser }) {
+function ForumContent({ user }: { user: ForumUser }) {
   const { navigate } = useRouter();
+  const userId = user.id;
   const userName = user.name;
   const userAvatarColor = user.avatarColor;
 
-  const [posts, setPosts] = useState<ForumPost[]>(() => {
-    if (typeof window === "undefined") return PRESET_POSTS;
-    const saved = localStorage.getItem("xcelero_townsquare_posts");
-    return saved ? JSON.parse(saved) : PRESET_POSTS;
-  });
-
+  const [posts, setPosts] = useState<ForumPost[]>([]);
+  const [postsLoading, setPostsLoading] = useState(true);
   const [activeCommunity, setActiveCommunity] = useState<string>("all");
   const [activeCategory, setActiveCategory] = useState<string>("home");
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
-  const [expandedPostId, setExpandedPostId] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<(ForumPost & { comments: ForumComment[] }) | null>(null);
+  const [postDetailLoading, setPostDetailLoading] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const [isComposing, setIsComposing] = useState(false);
+  const [submittingPost, setSubmittingPost] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedMember, setSelectedMember] = useState<(ForumUser & { posts: ForumPost[]; commentCount: number }) | null>(null);
+  const [memberDetailLoading, setMemberDetailLoading] = useState(false);
+  const [networkMembers, setNetworkMembers] = useState<ForumUser[]>([]);
+  const [networkLoading, setNetworkLoading] = useState(false);
   const [networkSearch, setNetworkSearch] = useState("");
   const [newCommunity, setNewCommunity] = useState<string>(
-    activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity
+    COMMUNITIES[0].name
   );
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+
+  // Fetch posts from API
+  const fetchPosts = useCallback(async () => {
+    try {
+      const params = new URLSearchParams();
+      if (activeCommunity !== "all") params.set("community", activeCommunity);
+      if (activeCategory !== "network") params.set("category", activeCategory);
+      params.set("userId", userId);
+      params.set("limit", "50");
+
+      const res = await fetch(`/api/forum/posts?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setPosts(data.posts || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch posts:", err);
+    } finally {
+      setPostsLoading(false);
+    }
+  }, [activeCommunity, activeCategory, userId]);
+
+  // Initial seed + fetch
+  useEffect(() => {
+    const init = async () => {
+      // Seed on first load
+      await fetch("/api/forum/seed", { method: "POST" }).catch(() => {});
+      await fetchPosts();
+    };
+    init();
+  }, []);
+
+  // Re-fetch when filters change
+  useEffect(() => {
+    if (activeCategory !== "network") {
+      setPostsLoading(true);
+      fetchPosts();
+    }
+  }, [activeCommunity, activeCategory, fetchPosts]);
+
+  // Fetch network members when category is network
+  useEffect(() => {
+    if (activeCategory === "network") {
+      const fetchMembers = async () => {
+        setNetworkLoading(true);
+        try {
+          const res = await fetch("/api/forum/users");
+          if (res.ok) {
+            const data = await res.json();
+            setNetworkMembers(data.users || []);
+          }
+        } catch (err) {
+          console.error("Failed to fetch members:", err);
+        } finally {
+          setNetworkLoading(false);
+        }
+      };
+      fetchMembers();
+    }
+  }, [activeCategory]);
+
+  // Fetch selected post detail when selectedPostId changes
+  useEffect(() => {
+    if (!selectedPostId) {
+      setSelectedPost(null);
+      return;
+    }
+    const fetchPostDetail = async () => {
+      setPostDetailLoading(true);
+      try {
+        const res = await fetch(`/api/forum/posts/${selectedPostId}?userId=${userId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSelectedPost(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch post detail:", err);
+      } finally {
+        setPostDetailLoading(false);
+      }
+    };
+    fetchPostDetail();
+  }, [selectedPostId, userId]);
+
+  // Fetch selected member detail
+  useEffect(() => {
+    if (!selectedMemberId) {
+      setSelectedMember(null);
+      return;
+    }
+    const fetchMemberDetail = async () => {
+      setMemberDetailLoading(true);
+      try {
+        const res = await fetch(`/api/forum/users/${selectedMemberId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSelectedMember(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch member detail:", err);
+      } finally {
+        setMemberDetailLoading(false);
+      }
+    };
+    fetchMemberDetail();
+  }, [selectedMemberId]);
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -814,114 +761,163 @@ function ForumContent({ user }: { user: TownSquareUser }) {
     return () => document.removeEventListener("click", handleClickOutside);
   }, [showProfile]);
 
-
-
-  const handleSave = (newPosts: ForumPost[]) => {
-    localStorage.setItem("xcelero_townsquare_posts", JSON.stringify(newPosts));
-    setPosts(newPosts);
-  };
-
-  const handleCreatePost = (e: React.FormEvent) => {
+  // Create post
+  const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTitle.trim()) return;
-    const created: ForumPost = {
-      id: `post-${Date.now()}`,
-      authorName: userName,
-      community: newCommunity,
-      title: newTitle,
-      content: newContent,
-      upvotes: 1,
-      userVote: "up",
-      hearts: 0,
-      userHearted: false,
-      timestamp: "Just now",
-      comments: [],
-    };
-    handleSave([created, ...posts]);
-    setNewTitle("");
-    setNewContent("");
-    setIsComposing(false);
-  };
-
-  const handleVote = (id: string, dir: "up" | "down", e: React.MouseEvent) => {
-    e.stopPropagation();
-    const updated = posts.map((p) => {
-      if (p.id !== id) return p;
-      let diff = 0;
-      let nextVote: "up" | "down" | null = dir;
-      if (p.userVote === dir) {
-        diff = dir === "up" ? -1 : 1;
-        nextVote = null;
-      } else if (p.userVote === null) {
-        diff = dir === "up" ? 1 : -1;
-      } else {
-        diff = dir === "up" ? 2 : -2;
+    if (!newTitle.trim() || submittingPost) return;
+    setSubmittingPost(true);
+    try {
+      const res = await fetch("/api/forum/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          authorId: userId,
+          community: newCommunity,
+          title: newTitle,
+          content: newContent || undefined,
+        }),
+      });
+      if (res.ok) {
+        setNewTitle("");
+        setNewContent("");
+        setIsComposing(false);
+        await fetchPosts();
       }
-      return { ...p, userVote: nextVote, upvotes: p.upvotes + diff };
-    });
-    handleSave(updated);
+    } catch (err) {
+      console.error("Failed to create post:", err);
+    } finally {
+      setSubmittingPost(false);
+    }
   };
 
-  const handleHeart = (id: string, e: React.MouseEvent) => {
+  // Vote
+  const handleVote = async (id: string, dir: "up" | "down", e: React.MouseEvent) => {
     e.stopPropagation();
-    const updated = posts.map((p) => {
-      if (p.id !== id) return p;
-      return { ...p, userHearted: !p.userHearted, hearts: p.hearts + (p.userHearted ? -1 : 1) };
-    });
-    handleSave(updated);
+    if (actionLoading[`vote-${id}`]) return;
+    setActionLoading((prev) => ({ ...prev, [`vote-${id}`]: true }));
+
+    // Optimistic update
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.id !== id) return p;
+        let diff = 0;
+        let nextVote: "up" | "down" | null = dir;
+        if (p.userVote === dir) {
+          diff = dir === "up" ? -1 : 1;
+          nextVote = null;
+        } else if (p.userVote === null) {
+          diff = dir === "up" ? 1 : -1;
+        } else {
+          diff = dir === "up" ? 2 : -2;
+        }
+        return { ...p, userVote: nextVote, upvotes: p.upvotes + diff };
+      })
+    );
+
+    try {
+      await fetch(`/api/forum/posts/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "vote", userId, direction: dir }),
+      });
+      // Refetch to get accurate counts
+      await fetchPosts();
+      // Also refresh detail view if this is the selected post
+      if (selectedPostId === id) {
+        const res = await fetch(`/api/forum/posts/${id}?userId=${userId}`);
+        if (res.ok) setSelectedPost(await res.json());
+      }
+    } catch (err) {
+      console.error("Failed to vote:", err);
+      await fetchPosts();
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [`vote-${id}`]: false }));
+    }
   };
 
-  const handleAddComment = (postId: string) => {
+  // Heart
+  const handleHeart = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (actionLoading[`heart-${id}`]) return;
+    setActionLoading((prev) => ({ ...prev, [`heart-${id}`]: true }));
+
+    // Optimistic update
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.id !== id) return p;
+        return { ...p, userHearted: !p.userHearted, hearts: p.hearts + (p.userHearted ? -1 : 1) };
+      })
+    );
+
+    try {
+      await fetch(`/api/forum/posts/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "heart", userId }),
+      });
+      await fetchPosts();
+      if (selectedPostId === id) {
+        const res = await fetch(`/api/forum/posts/${id}?userId=${userId}`);
+        if (res.ok) setSelectedPost(await res.json());
+      }
+    } catch (err) {
+      console.error("Failed to heart:", err);
+      await fetchPosts();
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [`heart-${id}`]: false }));
+    }
+  };
+
+  // Add comment
+  const handleAddComment = async (postId: string) => {
     if (!commentText.trim()) return;
-    const newComment: ForumComment = {
-      id: `comment-${Date.now()}`,
-      author: userName,
-      content: commentText,
-      timestamp: "Just now",
-      likes: 0,
-    };
-    const updated = posts.map((p) => {
-      if (p.id !== postId) return p;
-      return { ...p, comments: [...p.comments, newComment] };
-    });
-    handleSave(updated);
-    setCommentText("");
+    try {
+      const res = await fetch(`/api/forum/posts/${postId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ authorId: userId, content: commentText }),
+      });
+      if (res.ok) {
+        setCommentText("");
+        // Refresh post detail
+        const detailRes = await fetch(`/api/forum/posts/${postId}?userId=${userId}`);
+        if (detailRes.ok) setSelectedPost(await detailRes.json());
+        await fetchPosts();
+      }
+    } catch (err) {
+      console.error("Failed to add comment:", err);
+    }
   };
 
-  const handleAddReply = (postId: string, commentId: string) => {
+  // Add reply
+  const handleAddReply = async (postId: string, commentId: string) => {
     if (!replyContent.trim()) return;
-    const newReply: ForumComment = {
-      id: `reply-${Date.now()}`,
-      author: userName,
-      content: replyContent,
-      timestamp: "Just now",
-      likes: 0,
-    };
-    const updated = posts.map((p) => {
-      if (p.id !== postId) return p;
-      const addReplyToComment = (comments: ForumComment[]): ForumComment[] => {
-        return comments.map((c) => {
-          if (c.id === commentId) return { ...c, replies: [...(c.replies || []), newReply] };
-          if (c.replies && c.replies.length > 0) return { ...c, replies: addReplyToComment(c.replies) };
-          return c;
-        });
-      };
-      return { ...p, comments: addReplyToComment(p.comments) };
-    });
-    handleSave(updated);
-    setReplyContent("");
-    setReplyingToCommentId(null);
+    try {
+      const res = await fetch(`/api/forum/posts/${postId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ authorId: userId, content: replyContent, parentId: commentId }),
+      });
+      if (res.ok) {
+        setReplyContent("");
+        setReplyingToCommentId(null);
+        // Refresh post detail
+        const detailRes = await fetch(`/api/forum/posts/${postId}?userId=${userId}`);
+        if (detailRes.ok) setSelectedPost(await detailRes.json());
+        await fetchPosts();
+      }
+    } catch (err) {
+      console.error("Failed to add reply:", err);
+    }
   };
 
   const filteredPosts = useMemo(() => {
-    let result = activeCommunity === "all" ? posts : posts.filter((p) => p.community === activeCommunity);
-    if (activeCategory === "popular") result = [...result].sort((a, b) => b.upvotes - a.upvotes);
-    else if (activeCategory === "news") result = [...result].sort((a, b) => b.id.localeCompare(a.id));
-    else if (activeCategory === "explore") result = [...result].sort((a, b) => b.comments.length - a.comments.length);
+    let result = posts;
+    // The API already filters by community and category, but for client-side "all" we need the full set
     return result;
-  }, [posts, activeCommunity, activeCategory]);
+  }, [posts]);
 
-  const selectedPost = selectedPostId ? posts.find((p) => p.id === selectedPostId) : null;
+  const userCommunities = parseCommunities(user.communities);
 
   return (
     <div className="flex flex-col h-screen bg-white text-[#111111] font-sans text-sm">
@@ -1026,10 +1022,9 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                     {user.role && (
                       <div className="flex items-center gap-2">
                         <span
-                          className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5"
+                          className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 text-white"
                           style={{
                             backgroundColor: ROLE_COLORS[user.role] || "#6b7280",
-                            color: user.role === 'Investor' ? '#fff' : '#fff',
                           }}
                         >
                           {user.role}
@@ -1050,14 +1045,13 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                       </p>
                     )}
 
-                    {user.communities.length > 0 && (
+                    {userCommunities.length > 0 && (
                       <div>
                         <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-1.5">
                           Communities
                         </div>
                         <div className="flex flex-wrap gap-1">
-                          {user.communities.map((c) => {
-                            const comm = COMMUNITIES.find((x) => x.name === c);
+                          {userCommunities.map((c) => {
                             return (
                               <span
                                 key={c}
@@ -1076,7 +1070,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                   <div className="border-t border-[#111111]/10">
                     <button
                       onClick={() => {
-                        localStorage.removeItem("xcelero_townsquare_user");
+                        localStorage.removeItem("xcelero_townsquare_user_id");
                         window.location.reload();
                       }}
                       className="w-full flex items-center gap-2.5 px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#111111]/40 hover:bg-[#111111]/5 hover:text-[#FF4D00] transition-colors"
@@ -1106,7 +1100,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
               <span className="text-[10px] font-mono tracking-[0.08em] text-[#FF4D00]/70">
                 <span className="tracking-[0.15em] uppercase font-bold">Community Preview</span>
                 <span className="text-[#FF4D00]/40 mx-2">·</span>
-                Posts are stored locally
+                Forum data persists in database
                 <span className="text-[#FF4D00]/40 mx-2">·</span>
                 <span className="tracking-[0.15em] uppercase font-bold">Full platform</span> coming soon
               </span>
@@ -1202,29 +1196,41 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                 </span>
               </button>
               <div className="space-y-1 px-1">
-                {SEED_MEMBERS.slice(0, 5).map((member) => (
-                  <button
-                    key={member.id}
-                    onClick={() => { setActiveCategory("network"); setSelectedMemberId(member.id); }}
-                    className="w-full flex items-center gap-2.5 px-2 py-2 rounded hover:bg-[#111111]/5 transition-colors text-left"
-                  >
-                    <div className="relative shrink-0">
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-[10px]"
-                        style={{ backgroundColor: member.avatarColor }}
+                {networkMembers.length > 0
+                  ? networkMembers.slice(0, 5).map((member) => (
+                      <button
+                        key={member.id}
+                        onClick={() => { setActiveCategory("network"); setSelectedMemberId(member.id); }}
+                        className="w-full flex items-center gap-2.5 px-2 py-2 rounded hover:bg-[#111111]/5 transition-colors text-left"
                       >
-                        {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        <div className="relative shrink-0">
+                          <div
+                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-[10px]"
+                            style={{ backgroundColor: member.avatarColor }}
+                          >
+                            {getInitials(member.name)}
+                          </div>
+                          {isRecentlyActive(member.lastActiveAt) && (
+                            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[12px] font-medium text-[#111111] truncate">{member.name}</div>
+                          <div className="text-[10px] text-[#111111]/40 truncate">{member.title || ""}{member.company ? ` at ${member.company}` : ""}</div>
+                        </div>
+                      </button>
+                    ))
+                  : // Placeholder skeletons for sidebar network
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="flex items-center gap-2.5 px-2 py-2">
+                        <div className="w-8 h-8 rounded-full bg-[#111111]/10 animate-pulse" />
+                        <div className="flex-1">
+                          <div className="h-2.5 w-20 bg-[#111111]/10 rounded animate-pulse mb-1" />
+                          <div className="h-2 w-28 bg-[#111111]/10 rounded animate-pulse" />
+                        </div>
                       </div>
-                      {isRecentlyActive(member.lastActive) && (
-                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[12px] font-medium text-[#111111] truncate">{member.name}</div>
-                      <div className="text-[10px] text-[#111111]/40 truncate">{member.title}{member.company ? ` at ${member.company}` : ""}</div>
-                    </div>
-                  </button>
-                ))}
+                    ))
+                }
               </div>
             </div>
           </aside>
@@ -1246,7 +1252,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                           My Network
                         </h2>
                         <p className="text-[13px] text-[#111111]/40 mt-1">
-                          {SEED_MEMBERS.length} XCitizens in your network
+                          {networkMembers.length} XCitizens in your network
                         </p>
                       </div>
                       <button
@@ -1272,378 +1278,404 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                   </div>
 
                   {/* Selected Member Profile Card */}
-                  {selectedMemberId && (() => {
-                    const member = SEED_MEMBERS.find((m) => m.id === selectedMemberId);
-                    if (!member) return null;
-                    const memberPosts = posts.filter((p) => p.authorName === member.name);
-                    return (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="bg-white border border-[#111111]/10 overflow-hidden"
-                      >
-                        <div className="h-16 bg-[#111111] relative">
-                          <div className="absolute -bottom-6 left-6">
-                            <div
-                              className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-lg border-4 border-white"
-                              style={{ backgroundColor: member.avatarColor }}
-                            >
-                              {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                            </div>
+                  {selectedMemberId && selectedMember && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="bg-white border border-[#111111]/10 overflow-hidden"
+                    >
+                      <div className="h-16 bg-[#111111] relative">
+                        <div className="absolute -bottom-6 left-6">
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-lg border-4 border-white"
+                            style={{ backgroundColor: selectedMember.avatarColor }}
+                          >
+                            {getInitials(selectedMember.name)}
                           </div>
                         </div>
-                        <div className="pt-10 px-6 pb-6">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="text-lg font-display font-medium text-[#111111]">{member.name}</h3>
-                              <p className="text-[13px] text-[#111111]/50 mt-0.5">
-                                {member.title}{member.company ? ` at ${member.company}` : ""}
-                              </p>
-                              <div className="flex items-center gap-3 mt-2">
-                                <span
-                                  className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 text-white"
-                                  style={{ backgroundColor: ROLE_COLORS[member.role] || "#6b7280" }}
-                                >
-                                  {member.role}
-                                </span>
+                      </div>
+                      <div className="pt-10 px-6 pb-6">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-display font-medium text-[#111111]">{selectedMember.name}</h3>
+                            <p className="text-[13px] text-[#111111]/50 mt-0.5">
+                              {selectedMember.title || ""}{selectedMember.company ? ` at ${selectedMember.company}` : ""}
+                            </p>
+                            <div className="flex items-center gap-3 mt-2">
+                              <span
+                                className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 text-white"
+                                style={{ backgroundColor: ROLE_COLORS[selectedMember.role] || "#6b7280" }}
+                              >
+                                {selectedMember.role}
+                              </span>
+                              {selectedMember.location && (
                                 <span className="flex items-center gap-1 text-[11px] text-[#111111]/40">
                                   <MapPin className="w-3 h-3" />
-                                  {member.location}
+                                  {selectedMember.location}
                                 </span>
-                                {isRecentlyActive(member.lastActive) && (
-                                  <span className="flex items-center gap-1 text-[11px] text-green-600">
-                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                    Online
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <button
-                              onClick={() => setSelectedMemberId(null)}
-                              className="text-[#111111]/30 hover:text-[#111111] transition-colors p-1"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          </div>
-
-                          <p className="text-[13px] text-[#111111]/60 leading-relaxed mt-4">
-                            {member.bio}
-                          </p>
-
-                          {member.communities.length > 0 && (
-                            <div className="mt-4">
-                              <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
-                                Communities
-                              </div>
-                              <div className="flex flex-wrap gap-1.5">
-                                {member.communities.map((c) => {
-                                  const comm = COMMUNITIES.find((x) => x.name === c);
-                                  return (
-                                    <span
-                                      key={c}
-                                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-bold tracking-[0.05em] uppercase text-white ${comm?.color || "bg-[#FF4D00]"}`}
-                                    >
-                                      {c}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-
-                          {memberPosts.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-[#111111]/5">
-                              <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
-                                Recent Posts ({memberPosts.length})
-                              </div>
-                              <div className="space-y-2">
-                                {memberPosts.slice(0, 3).map((post) => (
-                                  <button
-                                    key={post.id}
-                                    onClick={() => { setSelectedPostId(post.id); setActiveCategory("home"); }}
-                                    className="w-full text-left p-3 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
-                                  >
-                                    <div className="text-[12px] font-medium text-[#111111]">{post.title}</div>
-                                    <div className="text-[10px] text-[#111111]/40 mt-0.5">{post.upvotes} upvotes · {post.comments.length} comments · {post.timestamp}</div>
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="flex gap-2 mt-5">
-                            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-[#FF4D00]/90 transition-colors">
-                              <Mail className="w-3.5 h-3.5" />
-                              Message
-                            </button>
-                            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 border border-[#111111]/10 text-[#111111]/50 text-[11px] font-bold uppercase tracking-[0.1em] hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors">
-                              <User className="w-3.5 h-3.5" />
-                              Connect
-                            </button>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })()}
-
-                  {/* Members Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {SEED_MEMBERS
-                      .filter((m) => {
-                        if (!networkSearch.trim()) return true;
-                        const q = networkSearch.toLowerCase();
-                        return (
-                          m.name.toLowerCase().includes(q) ||
-                          m.role.toLowerCase().includes(q) ||
-                          (m.company || "").toLowerCase().includes(q) ||
-                          (m.title || "").toLowerCase().includes(q) ||
-                          m.location.toLowerCase().includes(q)
-                        );
-                      })
-                      .map((member) => (
-                      <button
-                        key={member.id}
-                        onClick={() => setSelectedMemberId(member.id === selectedMemberId ? null : member.id)}
-                        className={`bg-white border text-left overflow-hidden transition-all ${
-                          selectedMemberId === member.id
-                            ? "border-[#FF4D00] ring-1 ring-[#FF4D00]/20"
-                            : "border-[#111111]/10 hover:border-[#FF4D00]/30"
-                        }`}
-                      >
-                        <div className="h-10 bg-[#111111]/5 relative">
-                          <div className="absolute -bottom-4 left-4">
-                            <div className="relative">
-                              <div
-                                className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-[12px] border-2 border-white"
-                                style={{ backgroundColor: member.avatarColor }}
-                              >
-                                {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                              </div>
-                              {isRecentlyActive(member.lastActive) && (
-                                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+                              )}
+                              {isRecentlyActive(selectedMember.lastActiveAt) && (
+                                <span className="flex items-center gap-1 text-[11px] text-green-600">
+                                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                  Online
+                                </span>
                               )}
                             </div>
                           </div>
-                        </div>
-                        <div className="pt-7 px-4 pb-4">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1 min-w-0">
-                              <h4 className="text-[13px] font-display font-medium text-[#111111] truncate">{member.name}</h4>
-                              <p className="text-[11px] text-[#111111]/40 truncate mt-0.5">
-                                {member.title}{member.company ? ` at ${member.company}` : ""}
-                              </p>
-                            </div>
-                            <span
-                              className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase px-1.5 py-0.5 text-white shrink-0 ml-2"
-                              style={{ backgroundColor: ROLE_COLORS[member.role] || "#6b7280" }}
-                            >
-                              {member.role}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="flex items-center gap-1 text-[10px] text-[#111111]/40">
-                              <MapPin className="w-3 h-3" />
-                              {member.location}
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-[#111111]/40 mt-2 line-clamp-2 leading-relaxed">
-                            {member.bio}
-                          </p>
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {member.communities.slice(0, 2).map((c) => (
-                              <span
-                                key={c}
-                                className="text-[8px] font-mono font-bold tracking-[0.05em] uppercase px-1.5 py-0.5 bg-[#111111]/5 text-[#111111]/40"
-                              >
-                                {c.split("&")[0].trim()}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : selectedPost ? (
-                /* ── POST DETAIL VIEW ── */
-                <div className="bg-white border border-[#111111]/10 overflow-hidden">
-                  <div className="p-4 md:p-6 flex flex-col gap-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs text-[#111111]/40">
-                        <button
-                          onClick={() => setSelectedPostId(null)}
-                          className="p-1 hover:bg-[#111111]/5 rounded transition-colors mr-1"
-                        >
-                          <ArrowLeft className="w-[18px] h-[18px] text-[#111111]/60" />
-                        </button>
-                        <div
-                          className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                            COMMUNITIES.find((c) => c.name === selectedPost.community)?.color ||
-                            "bg-[#FF4D00]"
-                          }`}
-                        >
-                          <span className="text-[8px] font-bold text-white uppercase">
-                            {selectedPost.community[0]}
-                          </span>
-                        </div>
-                        <span className="font-bold text-[#111111]/60">{selectedPost.community}</span>
-                        <span>•</span>
-                        <span>{selectedPost.timestamp}</span>
-                        <span>•</span>
-                        <span className="text-[#111111]/60 flex items-center gap-1">
-                          {selectedPost.authorName}
-                          {isRecentlyActive(selectedPost.timestamp) && (
-                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                          )}
-                        </span>
-                      </div>
-                      <button className="p-1 hover:bg-[#111111]/5 rounded transition-colors">
-                        <MoreHorizontal className="w-5 h-5 text-[#111111]/30" />
-                      </button>
-                    </div>
-
-                    <h1 className="text-xl font-display font-medium tracking-tight text-[#111111] leading-snug mt-1">
-                      {selectedPost.title}
-                    </h1>
-
-                    {selectedPost.content && (
-                      <div className="text-[14px] text-[#111111]/60 leading-relaxed prose prose-slate max-w-none py-1">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {selectedPost.content}
-                        </ReactMarkdown>
-                      </div>
-                    )}
-
-                    {selectedPost.imageUrl && (
-                      <div className="mt-3 w-full overflow-hidden border border-[#111111]/10">
-                        <img
-                          src={selectedPost.imageUrl}
-                          alt=""
-                          className="w-full h-auto max-h-[500px] object-cover"
-                        />
-                      </div>
-                    )}
-
-                    {/* Post Actions */}
-                    <div className="flex items-center gap-2 py-2 mt-2 border-t border-b border-[#111111]/5">
-                      <div className="flex items-center bg-[#FAFAFA] rounded border border-[#111111]/5">
-                        <button
-                          onClick={(e) => handleVote(selectedPost.id, "up", e)}
-                          className={`p-1.5 hover:bg-[#111111]/5 rounded-l transition-colors ${
-                            selectedPost.userVote === "up" ? "text-[#FF4D00]" : "text-[#111111]/30"
-                          }`}
-                        >
-                          <ArrowUp className="w-4 h-4" strokeWidth={2.5} />
-                        </button>
-                        <span
-                          className={`text-[13px] font-bold px-1.5 ${
-                            selectedPost.userVote === "up"
-                              ? "text-[#FF4D00]"
-                              : selectedPost.userVote === "down"
-                              ? "text-[#111111]/40"
-                              : "text-[#111111]/50"
-                          }`}
-                        >
-                          {selectedPost.upvotes}
-                        </span>
-                        <button
-                          onClick={(e) => handleVote(selectedPost.id, "down", e)}
-                          className={`p-1.5 hover:bg-[#111111]/5 rounded-r transition-colors ${
-                            selectedPost.userVote === "down" ? "text-[#111111]/60" : "text-[#111111]/30"
-                          }`}
-                        >
-                          <ArrowDown className="w-4 h-4" strokeWidth={2.5} />
-                        </button>
-                      </div>
-                      <button
-                        onClick={(e) => handleHeart(selectedPost.id, e)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${
-                            selectedPost.userHearted
-                              ? "text-[#FF4D00] fill-[#FF4D00]"
-                              : "text-[#111111]/30"
-                          }`}
-                        />
-                        <span className="text-[13px] font-bold text-[#111111]/50">
-                          {selectedPost.hearts || ""}
-                        </span>
-                      </button>
-                      <button className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors">
-                        <MessageSquare className="w-4 h-4 text-[#111111]/30" />
-                        <span className="text-[13px] font-bold text-[#111111]/50">
-                          {selectedPost.comments.length}
-                        </span>
-                      </button>
-                      <button className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors">
-                        <Share2 className="w-4 h-4 text-[#111111]/30" />
-                        <span className="text-[13px] font-bold text-[#111111]/50 hidden sm:inline">
-                          Share
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Add Comment */}
-                  <div className="px-4 md:px-6 py-3 border-t border-[#111111]/5">
-                    <div className="flex gap-3 items-start">
-                      <div
-                        className="w-8 h-8 flex items-center justify-center font-bold text-white text-xs shrink-0"
-                        style={{ backgroundColor: userAvatarColor }}
-                      >
-                        {userName[0]}
-                      </div>
-                      <div className="flex-1 flex flex-col gap-2">
-                        <textarea
-                          value={commentText}
-                          onChange={(e) => setCommentText(e.target.value)}
-                          placeholder="Add a comment"
-                          rows={2}
-                          className="w-full bg-[#FAFAFA] border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-3 py-2 text-sm text-[#111111] outline-none transition resize-y"
-                        />
-                        <div className="flex justify-end">
                           <button
-                            onClick={() => handleAddComment(selectedPost.id)}
-                            disabled={!commentText.trim()}
-                            className="px-4 py-1.5 bg-[#FF4D00] text-white font-bold rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 transition"
+                            onClick={() => setSelectedMemberId(null)}
+                            className="text-[#111111]/30 hover:text-[#111111] transition-colors p-1"
                           >
-                            Comment
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {selectedMember.bio && (
+                          <p className="text-[13px] text-[#111111]/60 leading-relaxed mt-4">
+                            {selectedMember.bio}
+                          </p>
+                        )}
+
+                        {parseCommunities(selectedMember.communities).length > 0 && (
+                          <div className="mt-4">
+                            <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
+                              Communities
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {parseCommunities(selectedMember.communities).map((c) => {
+                                const comm = COMMUNITIES.find((x) => x.name === c);
+                                return (
+                                  <span
+                                    key={c}
+                                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-bold tracking-[0.05em] uppercase text-white ${comm?.color || "bg-[#FF4D00]"}`}
+                                  >
+                                    {c}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedMember.posts && selectedMember.posts.length > 0 && (
+                          <div className="mt-4 pt-4 border-t border-[#111111]/5">
+                            <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
+                              Recent Posts ({selectedMember.posts.length})
+                            </div>
+                            <div className="space-y-2">
+                              {selectedMember.posts.slice(0, 3).map((post) => (
+                                <button
+                                  key={post.id}
+                                  onClick={() => { setSelectedPostId(post.id); setActiveCategory("home"); }}
+                                  className="w-full text-left p-3 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
+                                >
+                                  <div className="text-[12px] font-medium text-[#111111]">{post.title}</div>
+                                  <div className="text-[10px] text-[#111111]/40 mt-0.5">{post.upvotes} upvotes · {formatRelativeTime(post.createdAt)}</div>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex gap-2 mt-5">
+                          <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-[#FF4D00]/90 transition-colors">
+                            <Mail className="w-3.5 h-3.5" />
+                            Message
+                          </button>
+                          <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 border border-[#111111]/10 text-[#111111]/50 text-[11px] font-bold uppercase tracking-[0.1em] hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors">
+                            <User className="w-3.5 h-3.5" />
+                            Connect
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  )}
 
-                  {/* Comments */}
-                  <div className="px-4 md:px-6 pb-6 border-t border-[#111111]/5">
-                    <div className="py-3">
-                      <span className="text-[11px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30">
-                        {selectedPost.comments.length} Comments
-                      </span>
+                  {/* Members Grid */}
+                  {networkLoading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <MemberCardSkeleton key={i} />
+                      ))}
                     </div>
-                    {selectedPost.comments.length === 0 ? (
-                      <div className="py-8 text-center text-[#111111]/30 text-sm">
-                        No comments yet. Start the discussion.
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {networkMembers
+                        .filter((m) => {
+                          if (!networkSearch.trim()) return true;
+                          const q = networkSearch.toLowerCase();
+                          return (
+                            m.name.toLowerCase().includes(q) ||
+                            m.role.toLowerCase().includes(q) ||
+                            (m.company || "").toLowerCase().includes(q) ||
+                            (m.title || "").toLowerCase().includes(q) ||
+                            (m.location || "").toLowerCase().includes(q)
+                          );
+                        })
+                        .map((member) => {
+                          const memberCommunities = parseCommunities(member.communities);
+                          return (
+                            <button
+                              key={member.id}
+                              onClick={() => setSelectedMemberId(member.id === selectedMemberId ? null : member.id)}
+                              className={`bg-white border text-left overflow-hidden transition-all ${
+                                selectedMemberId === member.id
+                                  ? "border-[#FF4D00] ring-1 ring-[#FF4D00]/20"
+                                  : "border-[#111111]/10 hover:border-[#FF4D00]/30"
+                              }`}
+                            >
+                              <div className="h-10 bg-[#111111]/5 relative">
+                                <div className="absolute -bottom-4 left-4">
+                                  <div className="relative">
+                                    <div
+                                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-[12px] border-2 border-white"
+                                      style={{ backgroundColor: member.avatarColor }}
+                                    >
+                                      {getInitials(member.name)}
+                                    </div>
+                                    {isRecentlyActive(member.lastActiveAt) && (
+                                      <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="pt-7 px-4 pb-4">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="text-[13px] font-display font-medium text-[#111111] truncate">{member.name}</h4>
+                                    <p className="text-[11px] text-[#111111]/40 truncate mt-0.5">
+                                      {member.title || ""}{member.company ? ` at ${member.company}` : ""}
+                                    </p>
+                                  </div>
+                                  <span
+                                    className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase px-1.5 py-0.5 text-white shrink-0 ml-2"
+                                    style={{ backgroundColor: ROLE_COLORS[member.role] || "#6b7280" }}
+                                  >
+                                    {member.role}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-2">
+                                  {member.location && (
+                                    <span className="flex items-center gap-1 text-[10px] text-[#111111]/40">
+                                      <MapPin className="w-3 h-3" />
+                                      {member.location}
+                                    </span>
+                                  )}
+                                </div>
+                                {member.bio && (
+                                  <p className="text-[11px] text-[#111111]/40 mt-2 line-clamp-2 leading-relaxed">
+                                    {member.bio}
+                                  </p>
+                                )}
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {memberCommunities.slice(0, 2).map((c) => (
+                                    <span
+                                      key={c}
+                                      className="text-[8px] font-mono font-bold tracking-[0.05em] uppercase px-1.5 py-0.5 bg-[#111111]/5 text-[#111111]/40"
+                                    >
+                                      {c.split("&")[0].trim()}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                    </div>
+                  )}
+                </div>
+              ) : selectedPostId ? (
+                /* ── POST DETAIL VIEW ── */
+                <div className="bg-white border border-[#111111]/10 overflow-hidden">
+                  {postDetailLoading ? (
+                    <div className="p-8 flex items-center justify-center">
+                      <Loader2 className="w-6 h-6 animate-spin text-[#FF4D00]" />
+                    </div>
+                  ) : selectedPost ? (
+                    <>
+                      <div className="p-4 md:p-6 flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-xs text-[#111111]/40">
+                            <button
+                              onClick={() => setSelectedPostId(null)}
+                              className="p-1 hover:bg-[#111111]/5 rounded transition-colors mr-1"
+                            >
+                              <ArrowLeft className="w-[18px] h-[18px] text-[#111111]/60" />
+                            </button>
+                            <div
+                              className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
+                                COMMUNITIES.find((c) => c.name === selectedPost.community)?.color ||
+                                "bg-[#FF4D00]"
+                              }`}
+                            >
+                              <span className="text-[8px] font-bold text-white uppercase">
+                                {selectedPost.community[0]}
+                              </span>
+                            </div>
+                            <span className="font-bold text-[#111111]/60">{selectedPost.community}</span>
+                            <span>•</span>
+                            <span>{formatRelativeTime(selectedPost.createdAt)}</span>
+                            <span>•</span>
+                            <span className="text-[#111111]/60 flex items-center gap-1">
+                              {selectedPost.author.name}
+                              {isRecentlyActive(selectedPost.createdAt) && (
+                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                              )}
+                            </span>
+                          </div>
+                          <button className="p-1 hover:bg-[#111111]/5 rounded transition-colors">
+                            <MoreHorizontal className="w-5 h-5 text-[#111111]/30" />
+                          </button>
+                        </div>
+
+                        <h1 className="text-xl font-display font-medium tracking-tight text-[#111111] leading-snug mt-1">
+                          {selectedPost.title}
+                        </h1>
+
+                        {selectedPost.content && (
+                          <div className="text-[14px] text-[#111111]/60 leading-relaxed prose prose-slate max-w-none py-1">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                              {selectedPost.content}
+                            </ReactMarkdown>
+                          </div>
+                        )}
+
+                        {selectedPost.imageUrl && (
+                          <div className="mt-3 w-full overflow-hidden border border-[#111111]/10">
+                            <img
+                              src={selectedPost.imageUrl}
+                              alt=""
+                              className="w-full h-auto max-h-[500px] object-cover"
+                            />
+                          </div>
+                        )}
+
+                        {/* Post Actions */}
+                        <div className="flex items-center gap-2 py-2 mt-2 border-t border-b border-[#111111]/5">
+                          <div className="flex items-center bg-[#FAFAFA] rounded border border-[#111111]/5">
+                            <button
+                              onClick={(e) => handleVote(selectedPost.id, "up", e)}
+                              className={`p-1.5 hover:bg-[#111111]/5 rounded-l transition-colors ${
+                                selectedPost.userVote === "up" ? "text-[#FF4D00]" : "text-[#111111]/30"
+                              }`}
+                            >
+                              <ArrowUp className="w-4 h-4" strokeWidth={2.5} />
+                            </button>
+                            <span
+                              className={`text-[13px] font-bold px-1.5 ${
+                                selectedPost.userVote === "up"
+                                  ? "text-[#FF4D00]"
+                                  : selectedPost.userVote === "down"
+                                  ? "text-[#111111]/40"
+                                  : "text-[#111111]/50"
+                              }`}
+                            >
+                              {selectedPost.upvotes}
+                            </span>
+                            <button
+                              onClick={(e) => handleVote(selectedPost.id, "down", e)}
+                              className={`p-1.5 hover:bg-[#111111]/5 rounded-r transition-colors ${
+                                selectedPost.userVote === "down" ? "text-[#111111]/60" : "text-[#111111]/30"
+                              }`}
+                            >
+                              <ArrowDown className="w-4 h-4" strokeWidth={2.5} />
+                            </button>
+                          </div>
+                          <button
+                            onClick={(e) => handleHeart(selectedPost.id, e)}
+                            className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
+                          >
+                            <Heart
+                              className={`w-4 h-4 ${
+                                selectedPost.userHearted
+                                  ? "text-[#FF4D00] fill-[#FF4D00]"
+                                  : "text-[#111111]/30"
+                              }`}
+                            />
+                            <span className="text-[13px] font-bold text-[#111111]/50">
+                              {selectedPost.hearts || ""}
+                            </span>
+                          </button>
+                          <button className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors">
+                            <MessageSquare className="w-4 h-4 text-[#111111]/30" />
+                            <span className="text-[13px] font-bold text-[#111111]/50">
+                              {selectedPost.comments?.length || 0}
+                            </span>
+                          </button>
+                          <button className="flex items-center gap-1 px-2.5 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors">
+                            <Share2 className="w-4 h-4 text-[#111111]/30" />
+                            <span className="text-[13px] font-bold text-[#111111]/50 hidden sm:inline">
+                              Share
+                            </span>
+                          </button>
+                        </div>
                       </div>
-                    ) : (
-                      <div className="space-y-4">
-                        {selectedPost.comments.map((comment) => (
-                          <CommentNode
-                            key={comment.id}
-                            comment={comment}
-                            postId={selectedPost.id}
-                            replyingToCommentId={replyingToCommentId}
-                            setReplyingToCommentId={setReplyingToCommentId}
-                            replyContent={replyContent}
-                            setReplyContent={setReplyContent}
-                            handleAddReply={handleAddReply}
-                          />
-                        ))}
+
+                      {/* Add Comment */}
+                      <div className="px-4 md:px-6 py-3 border-t border-[#111111]/5">
+                        <div className="flex gap-3 items-start">
+                          <div
+                            className="w-8 h-8 flex items-center justify-center font-bold text-white text-xs shrink-0"
+                            style={{ backgroundColor: userAvatarColor }}
+                          >
+                            {userName[0]}
+                          </div>
+                          <div className="flex-1 flex flex-col gap-2">
+                            <textarea
+                              value={commentText}
+                              onChange={(e) => setCommentText(e.target.value)}
+                              placeholder="Add a comment"
+                              rows={2}
+                              className="w-full bg-[#FAFAFA] border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-3 py-2 text-sm text-[#111111] outline-none transition resize-y"
+                            />
+                            <div className="flex justify-end">
+                              <button
+                                onClick={() => handleAddComment(selectedPost.id)}
+                                disabled={!commentText.trim()}
+                                className="px-4 py-1.5 bg-[#FF4D00] text-white font-bold rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 transition"
+                              >
+                                Comment
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    )}
-                  </div>
+
+                      {/* Comments */}
+                      <div className="px-4 md:px-6 pb-6 border-t border-[#111111]/5">
+                        <div className="py-3">
+                          <span className="text-[11px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30">
+                            {selectedPost.comments?.length || 0} Comments
+                          </span>
+                        </div>
+                        {!selectedPost.comments || selectedPost.comments.length === 0 ? (
+                          <div className="py-8 text-center text-[#111111]/30 text-sm">
+                            No comments yet. Start the discussion.
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {selectedPost.comments.map((comment) => (
+                              <CommentNode
+                                key={comment.id}
+                                comment={comment}
+                                postId={selectedPost.id}
+                                replyingToCommentId={replyingToCommentId}
+                                setReplyingToCommentId={setReplyingToCommentId}
+                                replyContent={replyContent}
+                                setReplyContent={setReplyContent}
+                                handleAddReply={handleAddReply}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="p-8 text-center text-[#111111]/30 text-sm">
+                      Post not found.
+                    </div>
+                  )}
                 </div>
               ) : (
                 /* ── FEED VIEW ── */
@@ -1705,138 +1737,150 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                   </div>
 
                   {/* Feed items */}
-                  {filteredPosts.map((post) => {
-                    const isUpvoted = post.userVote === "up";
-                    const isDownvoted = post.userVote === "down";
-                    const communityDetails = COMMUNITIES.find((c) => c.name === post.community);
+                  {postsLoading ? (
+                    <>
+                      {Array.from({ length: 4 }).map((_, i) => (
+                        <PostSkeleton key={i} />
+                      ))}
+                    </>
+                  ) : filteredPosts.length === 0 ? (
+                    <div className="bg-white border border-[#111111]/10 p-8 text-center text-[#111111]/30 text-sm">
+                      No posts yet. Be the first to start a discussion!
+                    </div>
+                  ) : (
+                    filteredPosts.map((post) => {
+                      const isUpvoted = post.userVote === "up";
+                      const isDownvoted = post.userVote === "down";
+                      const communityDetails = COMMUNITIES.find((c) => c.name === post.community);
 
-                    return (
-                      <article
-                        key={post.id}
-                        className="bg-white border border-[#111111]/10 hover:border-[#FF4D00]/20 transition-colors overflow-hidden group"
-                      >
-                        <div
-                          className="p-4 flex flex-col gap-2 cursor-pointer"
-                          onClick={() => setSelectedPostId(post.id)}
+                      return (
+                        <article
+                          key={post.id}
+                          className="bg-white border border-[#111111]/10 hover:border-[#FF4D00]/20 transition-colors overflow-hidden group"
                         >
-                          {/* Header */}
-                          <div className="flex items-center gap-1.5 text-xs text-[#111111]/40">
-                            <div
-                              className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                                communityDetails?.color || "bg-[#FF4D00]"
-                              }`}
-                            >
-                              <span className="text-[8px] font-bold text-white uppercase">
-                                {post.community[0]}
+                          <div
+                            className="p-4 flex flex-col gap-2 cursor-pointer"
+                            onClick={() => setSelectedPostId(post.id)}
+                          >
+                            {/* Header */}
+                            <div className="flex items-center gap-1.5 text-xs text-[#111111]/40">
+                              <div
+                                className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
+                                  communityDetails?.color || "bg-[#FF4D00]"
+                                }`}
+                              >
+                                <span className="text-[8px] font-bold text-white uppercase">
+                                  {post.community[0]}
+                                </span>
+                              </div>
+                              <span
+                                className="font-bold text-[#111111]/60 hover:underline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveCommunity(post.community);
+                                }}
+                              >
+                                {post.community}
+                              </span>
+                              <span>•</span>
+                              <span>{formatRelativeTime(post.createdAt)}</span>
+                              <span>•</span>
+                              <span className="text-[#111111]/40 flex items-center gap-1">
+                                {post.author.name}
+                                {isRecentlyActive(post.createdAt) && (
+                                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                )}
                               </span>
                             </div>
-                            <span
-                              className="font-bold text-[#111111]/60 hover:underline"
+
+                            {/* Content */}
+                            <h3 className="text-base font-display font-medium tracking-tight text-[#111111] leading-snug pr-4">
+                              {post.title}
+                            </h3>
+                            {post.content && (
+                              <div className="text-[13px] text-[#111111]/50 leading-relaxed line-clamp-3">
+                                {post.content}
+                              </div>
+                            )}
+                            {post.imageUrl && (
+                              <div className="mt-2 w-full max-h-[300px] overflow-hidden border border-[#111111]/10">
+                                <img
+                                  src={post.imageUrl}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Actions bar */}
+                          <div className="flex items-center gap-2 px-4 pb-3">
+                            <div className="flex items-center bg-[#FAFAFA] border border-[#111111]/5 rounded">
+                              <button
+                                onClick={(e) => handleVote(post.id, "up", e)}
+                                className={`p-1.5 hover:bg-[#111111]/5 rounded-l transition-colors ${
+                                  isUpvoted ? "text-[#FF4D00]" : "text-[#111111]/30 hover:text-[#FF4D00]"
+                                }`}
+                              >
+                                <ArrowUp className="w-4 h-4" strokeWidth={2.5} />
+                              </button>
+                              <span
+                                className={`text-[13px] font-bold px-1 ${
+                                  isUpvoted
+                                    ? "text-[#FF4D00]"
+                                    : isDownvoted
+                                    ? "text-[#111111]/40"
+                                    : "text-[#111111]/40"
+                                }`}
+                              >
+                                {post.upvotes}
+                              </span>
+                              <button
+                                onClick={(e) => handleVote(post.id, "down", e)}
+                                className={`p-1.5 hover:bg-[#111111]/5 rounded-r transition-colors ${
+                                  isDownvoted
+                                    ? "text-[#111111]/60"
+                                    : "text-[#111111]/30 hover:text-[#111111]/60"
+                                }`}
+                              >
+                                <ArrowDown className="w-4 h-4" strokeWidth={2.5} />
+                              </button>
+                            </div>
+                            <button
+                              onClick={(e) => handleHeart(post.id, e)}
+                              className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
+                            >
+                              <Heart
+                                className={`w-4 h-4 ${
+                                  post.userHearted
+                                    ? "text-[#FF4D00] fill-[#FF4D00]"
+                                    : "text-[#111111]/30"
+                                }`}
+                              />
+                              <span className="text-[13px] font-bold text-[#111111]/40">
+                                {post.hearts || ""}
+                              </span>
+                            </button>
+                            <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveCommunity(post.community);
+                                setSelectedPostId(post.id);
                               }}
+                              className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
                             >
-                              {post.community}
-                            </span>
-                            <span>•</span>
-                            <span>{post.timestamp}</span>
-                            <span>•</span>
-                            <span className="text-[#111111]/40 flex items-center gap-1">
-                              {post.authorName}
-                              {isRecentlyActive(post.timestamp) && (
-                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                              )}
-                            </span>
-                          </div>
-
-                          {/* Content */}
-                          <h3 className="text-base font-display font-medium tracking-tight text-[#111111] leading-snug pr-4">
-                            {post.title}
-                          </h3>
-                          {post.content && (
-                            <div className="text-[13px] text-[#111111]/50 leading-relaxed line-clamp-3">
-                              {post.content}
-                            </div>
-                          )}
-                          {post.imageUrl && (
-                            <div className="mt-2 w-full max-h-[300px] overflow-hidden border border-[#111111]/10">
-                              <img
-                                src={post.imageUrl}
-                                alt=""
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Actions bar */}
-                        <div className="flex items-center gap-2 px-4 pb-3">
-                          <div className="flex items-center bg-[#FAFAFA] border border-[#111111]/5 rounded">
-                            <button
-                              onClick={(e) => handleVote(post.id, "up", e)}
-                              className={`p-1.5 hover:bg-[#111111]/5 rounded-l transition-colors ${
-                                isUpvoted ? "text-[#FF4D00]" : "text-[#111111]/30 hover:text-[#FF4D00]"
-                              }`}
-                            >
-                              <ArrowUp className="w-4 h-4" strokeWidth={2.5} />
+                              <MessageSquare className="w-4 h-4 text-[#111111]/30" />
+                              <span className="text-[13px] font-bold text-[#111111]/40">
+                                {post.commentCount}
+                              </span>
                             </button>
-                            <span
-                              className={`text-[13px] font-bold px-1 ${
-                                isUpvoted
-                                  ? "text-[#FF4D00]"
-                                  : isDownvoted
-                                  ? "text-[#111111]/40"
-                                  : "text-[#111111]/40"
-                              }`}
-                            >
-                              {post.upvotes}
-                            </span>
-                            <button
-                              onClick={(e) => handleVote(post.id, "down", e)}
-                              className={`p-1.5 hover:bg-[#111111]/5 rounded-r transition-colors ${
-                                isDownvoted
-                                  ? "text-[#111111]/60"
-                                  : "text-[#111111]/30 hover:text-[#111111]/60"
-                              }`}
-                            >
-                              <ArrowDown className="w-4 h-4" strokeWidth={2.5} />
+                            <button className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors ml-auto">
+                              <Share2 className="w-4 h-4 text-[#111111]/30" />
                             </button>
                           </div>
-                          <button
-                            onClick={(e) => handleHeart(post.id, e)}
-                            className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
-                          >
-                            <Heart
-                              className={`w-4 h-4 ${
-                                post.userHearted
-                                  ? "text-[#FF4D00] fill-[#FF4D00]"
-                                  : "text-[#111111]/30"
-                              }`}
-                            />
-                            <span className="text-[13px] font-bold text-[#111111]/40">
-                              {post.hearts || ""}
-                            </span>
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedPostId(post.id);
-                            }}
-                            className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
-                          >
-                            <MessageSquare className="w-4 h-4 text-[#111111]/30" />
-                            <span className="text-[13px] font-bold text-[#111111]/40">
-                              {post.comments.length}
-                            </span>
-                          </button>
-                          <button className="flex items-center gap-1 px-2 py-1.5 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors ml-auto">
-                            <Share2 className="w-4 h-4 text-[#111111]/30" />
-                          </button>
-                        </div>
-                      </article>
-                    );
-                  })}
+                        </article>
+                      );
+                    })
+                  )}
                 </>
               )}
             </main>
@@ -1858,41 +1902,50 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                   <h3 className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-3">
                     Trending Discussions
                   </h3>
-                  {posts.slice(0, 5).map((post) => {
-                    const postCommunity = COMMUNITIES.find((c) => c.name === post.community);
-                    return (
-                      <div
-                        key={`trending-${post.id}`}
-                        onClick={() => setSelectedPostId(post.id)}
-                        className="py-3 border-b border-[#111111]/5 last:border-b-0 cursor-pointer hover:bg-[#FAFAFA] -mx-2 px-2 transition-colors"
-                      >
-                        <div className="flex items-center gap-1.5 text-[11px] text-[#111111]/30 mb-1">
-                          <div
-                            className={`w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 ${
-                              postCommunity?.color || "bg-[#FF4D00]"
-                            }`}
-                          >
-                            <span className="text-[6px] font-bold text-white uppercase">
-                              {post.community[0]}
-                            </span>
-                          </div>
-                          <span className="font-medium text-[#111111]/50 truncate">
-                            {post.community}
-                          </span>
-                          <span>•</span>
-                          <span>{post.timestamp}</span>
-                        </div>
-                        <h4 className="text-[13px] font-medium text-[#111111]/70 leading-snug line-clamp-2">
-                          {post.title}
-                        </h4>
-                        <div className="text-[10px] text-[#111111]/30 mt-1 flex items-center gap-2">
-                          <span>{post.upvotes} upvotes</span>
-                          <span>•</span>
-                          <span>{post.comments.length} comments</span>
-                        </div>
+                  {postsLoading ? (
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="py-3 border-b border-[#111111]/5 last:border-b-0">
+                        <div className="h-3 w-3/4 bg-[#111111]/10 rounded animate-pulse mb-2" />
+                        <div className="h-2.5 w-1/2 bg-[#111111]/10 rounded animate-pulse" />
                       </div>
-                    );
-                  })}
+                    ))
+                  ) : (
+                    posts.slice(0, 5).map((post) => {
+                      const postCommunity = COMMUNITIES.find((c) => c.name === post.community);
+                      return (
+                        <div
+                          key={`trending-${post.id}`}
+                          onClick={() => setSelectedPostId(post.id)}
+                          className="py-3 border-b border-[#111111]/5 last:border-b-0 cursor-pointer hover:bg-[#FAFAFA] -mx-2 px-2 transition-colors"
+                        >
+                          <div className="flex items-center gap-1.5 text-[11px] text-[#111111]/30 mb-1">
+                            <div
+                              className={`w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 ${
+                                postCommunity?.color || "bg-[#FF4D00]"
+                              }`}
+                            >
+                              <span className="text-[6px] font-bold text-white uppercase">
+                                {post.community[0]}
+                              </span>
+                            </div>
+                            <span className="font-medium text-[#111111]/50 truncate">
+                              {post.community}
+                            </span>
+                            <span>•</span>
+                            <span>{formatRelativeTime(post.createdAt)}</span>
+                          </div>
+                          <h4 className="text-[13px] font-medium text-[#111111]/70 leading-snug line-clamp-2">
+                            {post.title}
+                          </h4>
+                          <div className="text-[10px] text-[#111111]/30 mt-1 flex items-center gap-2">
+                            <span>{post.upvotes} upvotes</span>
+                            <span>•</span>
+                            <span>{post.commentCount} comments</span>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
 
                 <div className="px-4 py-3 border-t border-[#111111]/5 text-[10px] text-[#111111]/20 font-mono">
@@ -1995,9 +2048,10 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                   </button>
                   <button
                     type="submit"
-                    disabled={!newTitle.trim()}
-                    className="px-6 py-2 text-sm font-bold bg-[#FF4D00] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 rounded transition"
+                    disabled={!newTitle.trim() || submittingPost}
+                    className="flex items-center gap-2 px-6 py-2 text-sm font-bold bg-[#FF4D00] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 rounded transition"
                   >
+                    {submittingPost && <Loader2 className="w-4 h-4 animate-spin" />}
                     Post
                   </button>
                 </div>
@@ -2014,22 +2068,47 @@ function ForumContent({ user }: { user: TownSquareUser }) {
    TOWN SQUARE PAGE (entry point: handles onboarding gate)
    ══════════════════════════════════════════════════════════════════════════ */
 export function TownSquare() {
-  const [currentUser, setCurrentUser] = useState<TownSquareUser | null>(() => {
-    if (typeof window === "undefined") return null;
-    const saved = localStorage.getItem("xcelero_townsquare_user");
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return null;
-      }
-    }
-    return null;
-  });
+  const [currentUser, setCurrentUser] = useState<ForumUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleOnboardingComplete = (user: TownSquareUser) => {
+  useEffect(() => {
+    const loadUser = async () => {
+      const storedId = localStorage.getItem("xcelero_townsquare_user_id");
+      if (!storedId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/forum/users/${storedId}`);
+        if (res.ok) {
+          const user = await res.json();
+          setCurrentUser(user);
+        } else {
+          // User ID invalid, clear it
+          localStorage.removeItem("xcelero_townsquare_user_id");
+        }
+      } catch {
+        localStorage.removeItem("xcelero_townsquare_user_id");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadUser();
+  }, []);
+
+  const handleOnboardingComplete = (user: ForumUser) => {
     setCurrentUser(user);
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-white items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#FF4D00]" />
+        <span className="mt-3 text-sm text-[#111111]/40">Loading Town Square...</span>
+      </div>
+    );
+  }
 
   // Show onboarding if no user
   if (!currentUser) {

@@ -104,3 +104,87 @@ model ProgramApplication {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// ─── Town Square / Forum Models ───
+
+model ForumUser {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  bio         String?
+  role        String   // Founder, Operator, Investor, Mentor, Other
+  location    String?
+  communities String   @default("") // comma-separated
+  avatarColor String   @default("#6b7280")
+  company     String?
+  title       String?
+  lastActiveAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  posts     ForumPost[]
+  comments  ForumComment[]
+  votes     ForumVote[]
+  hearts    ForumHeart[]
+}
+
+model ForumPost {
+  id         String   @id @default(cuid())
+  authorId   String
+  community  String
+  title      String
+  content    String?
+  upvotes    Int      @default(0)
+  hearts     Int      @default(0)
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  author    ForumUser     @relation(fields: [authorId], references: [id])
+  comments  ForumComment[]
+  votes     ForumVote[]
+  heartUsers ForumHeart[]
+}
+
+model ForumComment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  parentId  String?  // self-reference for threaded replies
+  content   String
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  post     ForumPost     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   ForumUser     @relation(fields: [authorId], references: [id])
+  parent   ForumComment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  ForumComment[] @relation("CommentReplies")
+  votes    ForumVote[]
+}
+
+model ForumVote {
+  id         String  @id @default(cuid())
+  userId     String
+  postId     String?
+  commentId  String?
+  direction  String  // "up" or "down"
+
+  user       ForumUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post       ForumPost?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment    ForumComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+}
+
+model ForumHeart {
+  id     String @id @default(cuid())
+  userId String
+  postId String
+
+  user   ForumUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
