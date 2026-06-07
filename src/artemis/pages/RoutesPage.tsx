@@ -145,7 +145,7 @@ function RoutesBridge() {
               The world doesn&apos;t operate in countries. It operates in <span className="text-[#FF4D00]">Routes</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              The Hanseatic League connected 190 cities through shared protocols for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe — not through conquest, but through flow. xCelero rebuilds that model for the 21st century: 190 hubs, 39 countries, one circulatory system for goods, capital, data, and people. <span className="text-[#111111] font-semibold">Where the Route connects, prosperity follows.</span>
+              The Hanseatic League connected 190 cities through shared protocols for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe, not through conquest, but through flow. xCelero rebuilds that model for the 21st century: 190 hubs, 39 countries, one circulatory system for goods, capital, data, and people. <span className="text-[#111111] font-semibold">Where the Route connects, prosperity follows.</span>
             </p>
           </motion.div>
 

@@ -516,7 +516,7 @@ function FeaturedMembersSection() {
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
             Four archetypes, one flywheel. Founders, operators, investors, and
-            mentors — each role compounds the others. The architecture is set;
+            mentors, each role compounding the others. The architecture is set;
             the network is assembling.
           </p>
         </motion.div>

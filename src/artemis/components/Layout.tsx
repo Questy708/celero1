@@ -169,27 +169,27 @@ function Nav() {
     {
       label: "Company",
       links: [
-        { name: "about", path: "/about" },
-        { name: "how we work", path: "/approach" },
-        { name: "manifesto", path: "/manifesto" },
+        { name: "About", path: "/about" },
+        { name: "How We Work", path: "/approach" },
+        { name: "Manifesto", path: "/manifesto" },
       ],
     },
     {
       label: "Platform",
       links: [
-        { name: "infrastructure", path: "/platform" },
-        { name: "routes", path: "/routes" },
-        { name: "ventures", path: "/ventures" },
+        { name: "Infrastructure", path: "/platform" },
+        { name: "Routes", path: "/routes" },
+        { name: "Ventures", path: "/ventures" },
       ],
     },
     {
       label: "Network",
       links: [
-        { name: "capital", path: "/capital" },
-        { name: "programs", path: "/programs" },
-        { name: "community", path: "/community" },
-        { name: "insights", path: "/insights" },
-        { name: "careers", path: "/careers" },
+        { name: "Capital", path: "/capital" },
+        { name: "Programs", path: "/programs" },
+        { name: "Community", path: "/community" },
+        { name: "Insights", path: "/insights" },
+        { name: "Careers", path: "/careers" },
       ],
     },
   ];
@@ -198,27 +198,27 @@ function Nav() {
     {
       label: "Company",
       links: [
-        { name: "about", path: "/about" },
-        { name: "how we work", path: "/approach" },
-        { name: "manifesto", path: "/manifesto" },
+        { name: "About", path: "/about" },
+        { name: "How We Work", path: "/approach" },
+        { name: "Manifesto", path: "/manifesto" },
       ],
     },
     {
       label: "The Platform",
       links: [
-        { name: "infrastructure", path: "/platform" },
-        { name: "routes", path: "/routes" },
-        { name: "ventures", path: "/ventures" },
+        { name: "Infrastructure", path: "/platform" },
+        { name: "Routes", path: "/routes" },
+        { name: "Ventures", path: "/ventures" },
       ],
     },
     {
       label: "Capital & Network",
       links: [
-        { name: "capital", path: "/capital" },
-        { name: "programs", path: "/programs" },
-        { name: "community", path: "/community" },
-        { name: "careers", path: "/careers" },
-        { name: "insights", path: "/insights" },
+        { name: "Capital", path: "/capital" },
+        { name: "Programs", path: "/programs" },
+        { name: "Community", path: "/community" },
+        { name: "Careers", path: "/careers" },
+        { name: "Insights", path: "/insights" },
       ],
     },
   ];
@@ -239,7 +239,7 @@ function Nav() {
             {navGroups.map((group) => (
               <div key={group.label} className="relative group/dropdown">
                 <button
-                  className="flex items-center gap-1 px-3 py-2 text-[11px] lowercase tracking-[0.1em] font-medium text-[#111111]/60 hover:text-[#FF4D00] transition-colors"
+                  className="flex items-center gap-1 px-3 py-2 text-[11px] tracking-[0.1em] font-medium text-[#111111]/60 hover:text-[#FF4D00] transition-colors"
                 >
                   {group.label}
                   <ChevronDown className="w-3 h-3 transition-transform duration-200 group-hover/dropdown:rotate-180" />
@@ -278,12 +278,12 @@ function Nav() {
               <Search className="w-4 h-4 text-[#111111] group-hover:text-white" />
               <span className="hidden sm:inline-flex text-[10px] font-mono font-medium text-[#111111]/40 group-hover:text-white/50">⌘K</span>
             </button>
-            <Link to="/townsquare" className="px-5 py-2.5 bg-[#FF4D00] text-white text-[11px] lowercase tracking-[0.1em] font-bold hover:bg-[#FF4D00]/90 transition-colors inline-flex items-center gap-1.5">
+            <Link to="/townsquare" className="px-5 py-2.5 bg-[#FF4D00] text-white text-[11px] tracking-[0.1em] font-bold hover:bg-[#FF4D00]/90 transition-colors inline-flex items-center gap-1.5">
               <LogIn className="w-3.5 h-3.5" />
-              sign in
+              Sign In
             </Link>
-            <Link to="/join" className="px-5 py-2.5 border border-[#111111] text-[11px] lowercase tracking-[0.1em] font-bold hover:bg-[#111111] hover:text-white transition-colors hidden sm:inline-flex">
-              join
+            <Link to="/join" className="px-5 py-2.5 border border-[#111111] text-[11px] tracking-[0.1em] font-bold hover:bg-[#111111] hover:text-white transition-colors hidden sm:inline-flex">
+              Join
             </Link>
 
             {/* Hamburger button — mobile only */}

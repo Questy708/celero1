@@ -23,10 +23,12 @@ import {
   Download,
   Lock,
   LogOut,
+  ArrowLeft,
   Eye,
   EyeOff,
   Loader2,
 } from "lucide-react";
+import { Link } from "@/artemis/router";
 
 /* ══════════════════════════════════════════════════════════════════════════
    TYPES
@@ -732,6 +734,13 @@ export function AdminDashboard() {
               <span className="text-[11px] font-mono text-white/30">
                 Last refreshed: {formatTimestamp(lastRefreshed.toISOString())}
               </span>
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/10 text-white/40 text-[11px] font-bold uppercase tracking-[0.1em] hover:border-white/30 hover:text-white transition-colors"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Back to Site
+              </Link>
               <div className="flex-1" />
               <button
                 onClick={handleLogout}
@@ -752,14 +761,14 @@ export function AdminDashboard() {
             <StatCard
               icon={<Users className="w-4 h-4" />}
               label="Total Subscribers"
-              value={stats?.totalSubscribers ?? "—"}
+              value={stats?.totalSubscribers ?? "N/A"}
               loading={loading}
               delay={0}
             />
             <StatCard
               icon={<DollarSign className="w-4 h-4" />}
               label="Investment Inquiries"
-              value={stats?.totalInquiries ?? "—"}
+              value={stats?.totalInquiries ?? "N/A"}
               sub={stats ? formatCurrency(stats.totalInvestmentAmount) : undefined}
               loading={loading}
               delay={0.1}
@@ -767,7 +776,7 @@ export function AdminDashboard() {
             <StatCard
               icon={<FileText className="w-4 h-4" />}
               label="Join Applications"
-              value={stats?.totalApplications ?? "—"}
+              value={stats?.totalApplications ?? "N/A"}
               sub={stats ? `${founderCount} founder · ${partnerCount} partner` : undefined}
               loading={loading}
               delay={0.15}
@@ -775,7 +784,7 @@ export function AdminDashboard() {
             <StatCard
               icon={<Briefcase className="w-4 h-4" />}
               label="Job Applications"
-              value={stats?.totalJobApplications ?? "—"}
+              value={stats?.totalJobApplications ?? "N/A"}
               sub={stats ? `${jobAppRoleCount} role${jobAppRoleCount !== 1 ? "s" : ""}` : undefined}
               loading={loading}
               delay={0.2}
@@ -783,7 +792,7 @@ export function AdminDashboard() {
             <StatCard
               icon={<Globe className="w-4 h-4" />}
               label="Program Applications"
-              value={stats?.totalProgramApplications ?? "—"}
+              value={stats?.totalProgramApplications ?? "N/A"}
               sub={stats && programAppBreakdown ? programAppBreakdown : undefined}
               loading={loading}
               delay={0.25}
@@ -791,7 +800,7 @@ export function AdminDashboard() {
             <StatCard
               icon={<Clock className="w-4 h-4" />}
               label="Pending Items"
-              value={pendingTotal || "—"}
+              value={pendingTotal || "N/A"}
               sub={stats ? `${stats.pendingInquiries} inq · ${stats.pendingApplications} app · ${stats.pendingJobApplications} job · ${stats.pendingProgramApplications} prog` : undefined}
               loading={loading}
               delay={0.3}
@@ -1071,7 +1080,7 @@ function SubscribersTab({
             >
               <div className="col-span-3 mb-1 md:mb-0">
                 <span className="text-[13px] md:text-[14px] font-medium text-white/80 group-hover:text-white transition-colors">
-                  {sub.firstName && sub.lastName ? `${sub.firstName} ${sub.lastName}` : sub.firstName || "—"}
+                  {sub.firstName && sub.lastName ? `${sub.firstName} ${sub.lastName}` : sub.firstName || "N/A"}
                 </span>
               </div>
               <div className="col-span-3 mb-1 md:mb-0">
@@ -1407,7 +1416,7 @@ function ApplicationsTab({
                 <div className="col-span-2 mb-1 lg:mb-0">
                   <span className="lg:hidden text-[10px] font-mono text-white/20 mr-2">Info </span>
                   <span className="text-[12px] text-white/50">
-                    {app.type === "founder" ? app.companyName || "—" : app.orgName || "—"}
+                    {app.type === "founder" ? app.companyName || "N/A" : app.orgName || "N/A"}
                   </span>
                 </div>
 
@@ -1603,13 +1612,13 @@ function JobApplicationsTab({
               {/* Location */}
               <div className="col-span-1 mb-1 lg:mb-0">
                 <span className="lg:hidden text-[10px] font-mono text-white/20 mr-2">Location </span>
-                <span className="text-[12px] text-white/40">{ja.location || "—"}</span>
+                <span className="text-[12px] text-white/40">{ja.location || "N/A"}</span>
               </div>
 
               {/* Availability */}
               <div className="col-span-1 mb-1 lg:mb-0">
                 <span className="lg:hidden text-[10px] font-mono text-white/20 mr-2">Avail. </span>
-                <span className="text-[12px] text-white/40">{ja.availability || "—"}</span>
+                <span className="text-[12px] text-white/40">{ja.availability || "N/A"}</span>
               </div>
 
               {/* Status dropdown */}
@@ -1792,14 +1801,14 @@ function ProgramApplicationsTab({
               <div className="col-span-2 mb-1 lg:mb-0">
                 <span className="lg:hidden text-[10px] font-mono text-white/20 mr-2">Role/Co </span>
                 <span className="text-[12px] text-white/50">
-                  {pa.currentRole || "—"}{pa.currentRole && pa.companyName ? " @ " : ""}{pa.companyName || ""}
+                  {pa.currentRole || "N/A"}{pa.currentRole && pa.companyName ? " @ " : ""}{pa.companyName || ""}
                 </span>
               </div>
 
               {/* Location */}
               <div className="col-span-1 mb-1 lg:mb-0">
                 <span className="lg:hidden text-[10px] font-mono text-white/20 mr-2">Location </span>
-                <span className="text-[12px] text-white/40">{pa.location || "—"}</span>
+                <span className="text-[12px] text-white/40">{pa.location || "N/A"}</span>
               </div>
 
               {/* Status dropdown */}

@@ -22,12 +22,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "xCelero Labs — Critical Technology for Emerging Markets",
+  title: "xCelero Labs: Critical Technology for Emerging Markets",
   description: "Venture studio and infrastructure platform building critical technology across 39 countries. Invest from $500.",
   keywords: ["xCelero", "Critical Technology", "Venture Capital", "Deep Tech", "Emerging Markets", "Infrastructure"],
   manifest: "/manifest.json",
   openGraph: {
-    title: "xCelero Labs — Critical Technology for Emerging Markets",
+    title: "xCelero Labs: Critical Technology for Emerging Markets",
     description: "Venture studio and infrastructure platform building critical technology across 39 countries. Invest from $500.",
     url: "https://xcelero.com",
     siteName: "xCelero Labs",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=630&fit=crop",
         width: 1200,
         height: 630,
-        alt: "xCelero Labs — Critical Technology for Emerging Markets",
+        alt: "xCelero Labs: Critical Technology for Emerging Markets",
       },
     ],
     locale: "en_US",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "xCelero Labs — Critical Technology for Emerging Markets",
+    title: "xCelero Labs: Critical Technology for Emerging Markets",
     description: "Venture studio and infrastructure platform building critical technology across 39 countries. Invest from $500.",
     images: ["https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=630&fit=crop"],
   },

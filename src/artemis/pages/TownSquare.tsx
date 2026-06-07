@@ -87,13 +87,25 @@ const COMMUNITIES = [
   { name: "Founders Corner", color: "bg-violet-600" },
 ];
 
+/* ── Recently Active Helper ── */
+function isRecentlyActive(timestamp: string): boolean {
+  if (timestamp === "Just now") return true;
+  const hrMatch = timestamp.match(/(\d+)\s*hr\.?\s*ago/i);
+  if (hrMatch) {
+    const hrs = parseInt(hrMatch[1], 10);
+    return hrs <= 12;
+  }
+  if (timestamp.includes("min")) return true;
+  return false;
+}
+
 /* ── Seed Posts ── */
 const PRESET_POSTS: ForumPost[] = [
   {
     id: "post-1",
     authorName: "Dr. Amina Osei",
     community: "Life Sciences",
-    title: "Regulatory pathways for diagnostics in East Africa — lessons from our Rwanda pilot",
+    title: "Regulatory pathways for diagnostics in East Africa: lessons from our Rwanda pilot",
     content:
       "We just completed a 6-month pilot for our point-of-care diagnostic in Kigali. The regulatory landscape is fragmented but navigable. Key takeaway: start with the Rwanda FDA pathway, then use mutual recognition to expand to Kenya and Uganda. Happy to share our full compliance timeline if anyone is interested.",
     upvotes: 87,
@@ -117,7 +129,7 @@ const PRESET_POSTS: ForumPost[] = [
     community: "Energy & Infrastructure",
     title: "Mini-grid economics in Northern Nigeria: unit economics from Cohort 7",
     content:
-      "Sharing our updated unit economics after 18 months of operations. Revenue per connection up 40% from initial projections. The key variable turns out to be productive-use appliances — once you bundle in refrigeration and welding, the revenue per user completely changes. Full breakdown in the thread.",
+      "Sharing our updated unit economics after 18 months of operations. Revenue per connection up 40% from initial projections. The key variable turns out to be productive-use appliances: once you bundle in refrigeration and welding, the revenue per user completely changes. Full breakdown in the thread.",
     upvotes: 142,
     userVote: null,
     hearts: 23,
@@ -133,7 +145,7 @@ const PRESET_POSTS: ForumPost[] = [
     community: "Digital Finance",
     title: "Cross-border payments infrastructure: what we learned building across 3 corridors",
     content:
-      "After 14 months of live operations across the Lagos-Accra-Nairobi corridor, here's what we wish we knew before starting. The biggest surprise wasn't regulatory — it was settlement timing. Mobile money settlement in East Africa is fundamentally different from West African bank-based rails. Thread below.",
+      "After 14 months of live operations across the Lagos-Accra-Nairobi corridor, here's what we wish we knew before starting. The biggest surprise wasn't regulatory, it was settlement timing. Mobile money settlement in East Africa is fundamentally different from West African bank-based rails. Thread below.",
     upvotes: 204,
     userVote: null,
     hearts: 31,
@@ -198,9 +210,9 @@ const PRESET_POSTS: ForumPost[] = [
     id: "post-6",
     authorName: "Liya Tadesse",
     community: "Founders Corner",
-    title: "Hiring your first 5 engineers in Addis — what worked and what didn't",
+    title: "Hiring your first 5 engineers in Addis: what worked and what didn't",
     content:
-      "We went from 0 to 5 engineers in 4 months. The conventional wisdom is to hire from the diaspora. We did the opposite — hired locally, invested heavily in onboarding, and it paid off. Retention is 100% after 12 months. Here's the playbook.",
+      "We went from 0 to 5 engineers in 4 months. The conventional wisdom is to hire from the diaspora. We did the opposite, hired locally, invested heavily in onboarding, and it paid off. Retention is 100% after 12 months. Here's the playbook.",
     upvotes: 98,
     userVote: null,
     hearts: 19,
@@ -623,6 +635,10 @@ function ForumContent({ user }: { user: TownSquareUser }) {
   const [isComposing, setIsComposing] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [newCommunity, setNewCommunity] = useState<string>(
+    activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity
+  );
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -631,6 +647,8 @@ function ForumContent({ user }: { user: TownSquareUser }) {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [showProfile]);
+
+
 
   const handleSave = (newPosts: ForumPost[]) => {
     localStorage.setItem("xcelero_townsquare_posts", JSON.stringify(newPosts));
@@ -643,7 +661,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
     const created: ForumPost = {
       id: `post-${Date.now()}`,
       authorName: userName,
-      community: activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity,
+      community: newCommunity,
       title: newTitle,
       content: newContent,
       upvotes: 1,
@@ -785,7 +803,10 @@ function ForumContent({ user }: { user: TownSquareUser }) {
 
         <div className="flex items-center gap-2 justify-end">
           <button
-            onClick={() => setIsComposing(true)}
+            onClick={() => {
+              setNewCommunity(activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity);
+              setIsComposing(true);
+            }}
             className="flex items-center gap-1.5 px-4 py-1.5 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-[#FF4D00]/90 transition-colors"
           >
             <PlusCircle className="w-4 h-4" />
@@ -905,6 +926,35 @@ function ForumContent({ user }: { user: TownSquareUser }) {
         </div>
       </header>
 
+      {/* ── PLATFORM STATUS BANNER ── */}
+      <AnimatePresence>
+        {!bannerDismissed && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="bg-[#FF4D00]/5 border-b border-[#FF4D00]/10 overflow-hidden"
+          >
+            <div className="px-4 md:px-8 py-1.5 flex items-center justify-between">
+              <span className="text-[10px] font-mono tracking-[0.08em] text-[#FF4D00]/70">
+                <span className="tracking-[0.15em] uppercase font-bold">Community Preview</span>
+                <span className="text-[#FF4D00]/40 mx-2">·</span>
+                Posts are stored locally
+                <span className="text-[#FF4D00]/40 mx-2">·</span>
+                <span className="tracking-[0.15em] uppercase font-bold">Full platform</span> coming soon
+              </span>
+              <button
+                onClick={() => setBannerDismissed(true)}
+                className="text-[#FF4D00]/40 hover:text-[#FF4D00]/70 transition-colors p-0.5"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── MAIN CONTENT ── */}
       <div className="flex flex-1 overflow-hidden relative">
         {/* LEFT SIDEBAR */}
@@ -969,6 +1019,34 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                 ))}
               </div>
             </div>
+
+            {/* Network Stats */}
+            <div className="mb-6">
+              <h3 className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30 mb-3 px-3">
+                Network
+              </h3>
+              <div className="space-y-2 px-3">
+                <div className="flex items-baseline justify-between">
+                  <span className="text-[14px] font-bold text-[#111111]">2,847</span>
+                  <span className="text-[11px] text-[#111111]/40">XCitizens</span>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[14px] font-bold text-[#111111]">341</span>
+                  </span>
+                  <span className="text-[11px] text-[#111111]/40">Active today</span>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-[14px] font-bold text-[#111111]">12.4K</span>
+                  <span className="text-[11px] text-[#111111]/40">Discussions</span>
+                </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="text-[14px] font-bold text-[#111111]">190</span>
+                  <span className="text-[11px] text-[#111111]/40">Route hubs</span>
+                </div>
+              </div>
+            </div>
           </aside>
         )}
 
@@ -976,73 +1054,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
         <div className="flex-1 overflow-y-auto w-full flex justify-center pt-6 px-0 sm:px-4 md:px-6 pb-12">
           <div className="flex max-w-[1040px] w-full gap-6 items-start justify-center">
             <main className="flex-1 min-w-0 max-w-[700px] w-full flex flex-col gap-4">
-              {isComposing ? (
-                /* ── COMPOSE VIEW ── */
-                <div className="bg-white border border-[#111111]/10 p-0 overflow-hidden">
-                  <div className="flex items-center justify-between p-4 border-b border-[#111111]/10">
-                    <h2 className="text-lg font-display font-medium tracking-tight">
-                      New discussion
-                    </h2>
-                    <button
-                      onClick={() => setIsComposing(false)}
-                      className="text-[#111111]/40 hover:text-[#111111] transition-colors"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-
-                  <form onSubmit={handleCreatePost} className="p-4 flex flex-col gap-4">
-                    <div className="flex items-center gap-2">
-                      <select
-                        value={activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity}
-                        onChange={(e) => setActiveCommunity(e.target.value)}
-                        className="bg-[#FAFAFA] border border-[#111111]/10 rounded px-3 py-2 text-sm text-[#111111] font-medium outline-none cursor-pointer"
-                      >
-                        {COMMUNITIES.map((c) => (
-                          <option key={c.name} value={c.name}>
-                            {c.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <input
-                      autoFocus
-                      type="text"
-                      placeholder="Title*"
-                      value={newTitle}
-                      onChange={(e) => setNewTitle(e.target.value)}
-                      maxLength={300}
-                      className="w-full bg-transparent border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-4 py-3 text-[15px] font-medium text-[#111111] placeholder-[#111111]/30 outline-none transition"
-                    />
-
-                    <textarea
-                      placeholder="Body text (optional)"
-                      value={newContent}
-                      onChange={(e) => setNewContent(e.target.value)}
-                      rows={6}
-                      className="w-full bg-transparent border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-4 py-3 text-[14px] text-[#111111]/70 placeholder-[#111111]/30 outline-none transition resize-y min-h-[120px]"
-                    />
-
-                    <div className="flex justify-end gap-2 pt-2">
-                      <button
-                        type="button"
-                        onClick={() => setIsComposing(false)}
-                        className="px-5 py-2 text-sm font-bold text-[#111111]/50 hover:bg-[#111111]/5 rounded transition"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={!newTitle.trim()}
-                        className="px-6 py-2 text-sm font-bold bg-[#FF4D00] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 rounded transition"
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              ) : selectedPost ? (
+              {selectedPost ? (
                 /* ── POST DETAIL VIEW ── */
                 <div className="bg-white border border-[#111111]/10 overflow-hidden">
                   <div className="p-4 md:p-6 flex flex-col gap-3">
@@ -1068,7 +1080,12 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                         <span>•</span>
                         <span>{selectedPost.timestamp}</span>
                         <span>•</span>
-                        <span className="text-[#111111]/60">{selectedPost.authorName}</span>
+                        <span className="text-[#111111]/60 flex items-center gap-1">
+                          {selectedPost.authorName}
+                          {isRecentlyActive(selectedPost.timestamp) && (
+                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                          )}
+                        </span>
                       </div>
                       <button className="p-1 hover:bg-[#111111]/5 rounded transition-colors">
                         <MoreHorizontal className="w-5 h-5 text-[#111111]/30" />
@@ -1232,11 +1249,17 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                       type="text"
                       placeholder="Start a discussion"
                       readOnly
-                      onClick={() => setIsComposing(true)}
+                      onClick={() => {
+                        setNewCommunity(activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity);
+                        setIsComposing(true);
+                      }}
                       className="flex-1 bg-[#FAFAFA] hover:bg-[#F5F5F5] cursor-text border border-[#111111]/10 px-4 py-2 text-[#111111]/40 outline-none transition-colors text-sm"
                     />
                     <button
-                      onClick={() => setIsComposing(true)}
+                      onClick={() => {
+                        setNewCommunity(activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity);
+                        setIsComposing(true);
+                      }}
                       className="p-2 hover:bg-[#111111]/5 rounded text-[#111111]/30 hover:text-[#FF4D00] transition-colors"
                     >
                       <Plus className="w-5 h-5" />
@@ -1308,7 +1331,12 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                             <span>•</span>
                             <span>{post.timestamp}</span>
                             <span>•</span>
-                            <span className="text-[#111111]/40">{post.authorName}</span>
+                            <span className="text-[#111111]/40 flex items-center gap-1">
+                              {post.authorName}
+                              {isRecentlyActive(post.timestamp) && (
+                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                              )}
+                            </span>
                           </div>
 
                           {/* Content */}
@@ -1464,6 +1492,109 @@ function ForumContent({ user }: { user: TownSquareUser }) {
           </div>
         </div>
       </div>
+
+      {/* ── COMPOSE MODAL ── */}
+      <AnimatePresence>
+        {isComposing && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setIsComposing(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.97 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="w-full max-w-[600px] bg-white border border-[#111111]/10 shadow-xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-4 border-b border-[#111111]/10">
+                <h2 className="text-lg font-display font-medium tracking-tight text-[#111111]">
+                  New discussion
+                </h2>
+                <button
+                  onClick={() => setIsComposing(false)}
+                  className="text-[#111111]/40 hover:text-[#111111] transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleCreatePost} className="p-4 flex flex-col gap-4">
+                {/* Community Selector Buttons */}
+                <div>
+                  <label className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2 block">
+                    Post in
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {COMMUNITIES.map((c) => (
+                      <button
+                        key={c.name}
+                        type="button"
+                        onClick={() => setNewCommunity(c.name)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.05em] border transition-all ${
+                          newCommunity === c.name
+                            ? "border-[#FF4D00] bg-[#FF4D00]/5 text-[#111111]"
+                            : "border-[#111111]/10 text-[#111111]/40 hover:border-[#111111]/20 hover:text-[#111111]/60"
+                        }`}
+                      >
+                        <div className={`w-3 h-3 rounded-full ${c.color} shrink-0`} />
+                        <span className="truncate max-w-[120px]">{c.name.split("&")[0].trim()}</span>
+                        {newCommunity === c.name && (
+                          <Check className="w-3 h-3 text-[#FF4D00] shrink-0" strokeWidth={3} />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <input
+                  autoFocus
+                  type="text"
+                  placeholder="Title*"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  maxLength={300}
+                  className="w-full bg-transparent border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-4 py-3 text-[15px] font-medium text-[#111111] placeholder-[#111111]/30 outline-none transition"
+                />
+
+                {/* Content */}
+                <textarea
+                  placeholder="Body text (optional)"
+                  value={newContent}
+                  onChange={(e) => setNewContent(e.target.value)}
+                  rows={6}
+                  className="w-full bg-transparent border border-[#111111]/10 focus:border-[#FF4D00]/30 focus:ring-1 focus:ring-[#FF4D00]/20 rounded px-4 py-3 text-[14px] text-[#111111]/70 placeholder-[#111111]/30 outline-none transition resize-y min-h-[120px]"
+                />
+
+                {/* Actions */}
+                <div className="flex justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsComposing(false)}
+                    className="px-5 py-2 text-sm font-bold text-[#111111]/50 hover:bg-[#111111]/5 rounded transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={!newTitle.trim()}
+                    className="px-6 py-2 text-sm font-bold bg-[#FF4D00] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#FF4D00]/90 rounded transition"
+                  >
+                    Post
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

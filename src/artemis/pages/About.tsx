@@ -293,16 +293,16 @@ function WhatIsXceleroSection() {
 
           <div className="space-y-5">
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/55 font-medium">
-              xCelero Labs is a venture platform that exists to solve one problem: critical technology doesn&apos;t commercialize in the markets that need it most. The Global South has the youngest populations, the fastest-growing economies, and the boldest ambitions — but 90% of ventures there never cross the valley of death. Not because the technology doesn&apos;t work. Because the infrastructure to scale it doesn&apos;t exist.
+              xCelero Labs is a venture platform that exists to solve one problem: critical technology doesn&apos;t commercialize in the markets that need it most. The Global South has the youngest populations, the fastest-growing economies, and the boldest ambitions, but 90% of ventures there never cross the valley of death. Not because the technology doesn&apos;t work. Because the infrastructure to scale it doesn&apos;t exist.
             </p>
 
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/55 font-medium">
-              We built xCelero to fill that gap. Four integrated engines — Infrastructure, Ventures, Capital, and Community — operate as a single machine. M1 Core campuses provide 50,000+ sq ft of lab and maker space. Structured commercialization programs take ventures from prototype to revenue. Six investment vehicles deploy capital from $500 to $250K+. And the XCitizen network connects every operator, founder, investor, and mentor across 190 hubs and 39 countries.
+              We built xCelero to fill that gap. Four integrated engines, Infrastructure, Ventures, Capital, and Community, operate as a single machine. M1 Core campuses provide 50,000+ sq ft of lab and maker space. Structured commercialization programs take ventures from prototype to revenue. Six investment vehicles deploy capital from $500 to $250K+. And the XCitizen network connects every operator, founder, investor, and mentor across 190 hubs and 39 countries.
             </p>
 
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/55 font-medium">
               <strong className="text-[#111111] font-semibold">
-                The ambition is not incremental. We are not building another accelerator or another fund. We are building the operating system for a new civilization — one where the geographies that were once extracted from become the geographies that produce, invent, and export. Where self-reliance is not a slogan but a technological reality. Where a founder in Nairobi has the same architecture to scale as a founder in New York.
+                The ambition is not incremental. We are not building another accelerator or another fund. We are building the operating system for a new civilization, one where the geographies that were once extracted from become the geographies that produce, invent, and export. Where self-reliance is not a slogan but a technological reality. Where a founder in Nairobi has the same architecture to scale as a founder in New York.
               </strong>
             </p>
           </div>

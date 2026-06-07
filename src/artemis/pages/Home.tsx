@@ -260,7 +260,7 @@ function Hero() {
           className="mt-6 md:mt-8 text-center max-w-2xl mx-auto"
         >
           <p className="text-[15px] md:text-[17px] leading-[1.6] text-[#111111]/60 font-medium mb-8">
-            Uniting 190 hubs across 39 countries to commercialize the technology the next century needs — infrastructure, ventures, capital, and community, all on one platform.
+            Uniting 190 hubs across 39 countries to commercialize the technology the next century needs: infrastructure, ventures, capital, and community, all on one platform.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -408,10 +408,10 @@ function MissionBridge() {
             className="lg:col-span-6"
           >
             <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
-              The markets with the youngest populations and fastest growth are building what the next century runs on — yet <span className="text-[#FF4D00]">most ventures there never cross the valley of death</span>.
+              The markets with the youngest populations and fastest growth are building what the next century runs on, yet <span className="text-[#FF4D00]">most ventures there never cross the valley of death</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              xCelero bridges that gap. We connect 190 hubs across 39 countries into a single commercialization engine — infrastructure to build, programs to validate, capital to scale, and community to compound. A breakthrough in isolation is a tragedy. <span className="text-[#111111] font-semibold">On the Route, it becomes a flywheel.</span>
+              xCelero bridges that gap. We connect 190 hubs across 39 countries into a single commercialization engine: infrastructure to build, programs to validate, capital to scale, and community to compound. A breakthrough in isolation is a tragedy. <span className="text-[#111111] font-semibold">On the Route, it becomes a flywheel.</span>
             </p>
           </motion.div>
 
@@ -586,11 +586,10 @@ function BentoGrid() {
           >
             <div className="bento-card p-8 md:p-12 rounded-lg grain">
               <p className="text-[18px] sm:text-[22px] md:text-[26px] leading-[1.5] font-medium text-[#111111]/80 text-balance max-w-4xl">
-                Critical technology creates industries, builds cities, and unlocks wealth for generations. The next century belongs to the Global South — youngest populations, fastest-growing markets, boldest ambitions. But isolated breakthroughs don&apos;t compound.{" "}
+                Critical technology creates industries, builds cities, and unlocks wealth for generations. The next century belongs to the Global South, with the youngest populations, fastest-growing markets, and boldest ambitions. But isolated breakthroughs don&apos;t compound.{" "}
                 <span className="text-[#111111]">
-                  Connected ones do. xCelero unites 190 hubs across 39 countries into one commercialization engine — infrastructure, ventures, capital, and community
-                </span>{" "}
-                — so prosperity doesn&apos;t remain a promise, it becomes a product.
+                  Connected ones do. xCelero unites 190 hubs across 39 countries into one commercialization engine: infrastructure, ventures, capital, and community, so prosperity doesn&apos;t remain a promise but becomes a product.
+                </span>
               </p>
             </div>
           </motion.div>

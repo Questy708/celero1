@@ -404,7 +404,7 @@ function ThreeEnginesSection() {
             Four engines, <span className="text-[#111111]/40">one machine.</span>
           </h2>
           <p className="text-[17px] md:text-[19px] text-[#111111]/50 font-medium leading-relaxed">
-            xCelero operates through four integrated engines — Infrastructure, Ventures, Capital, and Community — each reinforcing the others to unblock commercialization at civilizational scale.
+            xCelero operates through four integrated engines, Infrastructure, Ventures, Capital, and Community, each reinforcing the others to unblock commercialization at civilizational scale.
           </p>
         </motion.div>
 

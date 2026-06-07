@@ -575,10 +575,10 @@ function CapitalBridge() {
             className="lg:col-span-6"
           >
             <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
-              Capital that understands the terrain — not just the <span className="text-[#FF4D00]">return profile</span>.
+              Capital that understands the terrain, not just the <span className="text-[#FF4D00]">return profile</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              Traditional venture capital flows where returns are proven. xCelero deploys capital where the technology is most needed — in the geographies building the next century&apos;s infrastructure. Six vehicles, one thesis: <span className="text-[#111111] font-semibold">critical technology in the markets that need it most</span>.
+              Traditional venture capital flows where returns are proven. xCelero deploys capital where the technology is most needed, in the geographies building the next century&apos;s infrastructure. Six vehicles, one thesis: <span className="text-[#111111] font-semibold">critical technology in the markets that need it most</span>.
             </p>
           </motion.div>
 
@@ -900,7 +900,7 @@ function CapitalMedia() {
         >
           <img
             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80"
-            alt="Infrastructure development across Africa — investment, technology, and connectivity hubs"
+            alt="Infrastructure development across Africa: investment, technology, and connectivity hubs"
             className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
           />
           {/* Overlay label */}
@@ -1205,7 +1205,7 @@ function InvestmentTiers() {
                     Choose your tier
                   </h3>
                   <p className="text-[14px] md:text-[15px] text-[#111111]/50 font-medium leading-[1.6]">
-                    Every tier builds on the one before. Start where you are — upgrade anytime.
+                    Every tier builds on the one before. Start where you are. Upgrade anytime.
                   </p>
                 </div>
 
@@ -2313,7 +2313,7 @@ function InvestmentTiers() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-[#111111]/25">Method</span>
-                        <span className="text-[13px] font-medium">{paymentMethods.find((m) => m.id === selectedPaymentId)?.name ?? "—"}</span>
+                        <span className="text-[13px] font-medium">{paymentMethods.find((m) => m.id === selectedPaymentId)?.name ?? "N/A"}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-[#111111]/25">Reference</span>
@@ -2338,10 +2338,10 @@ function InvestmentTiers() {
                     </span>
                     <div className="text-left space-y-3 mb-8">
                       {[
-                        "KYC verification — complete identity verification within 48 hours",
-                        "Fund transfer — capital is moved per your selected payment method",
-                        "Allocation confirmed — receive your portfolio allocation and dashboard access",
-                        "First report — quarterly NAV and portfolio update within 90 days",
+                        "KYC verification: complete identity verification within 48 hours",
+                        "Fund transfer: capital is moved per your selected payment method",
+                        "Allocation confirmed: receive your portfolio allocation and dashboard access",
+                        "First report: quarterly NAV and portfolio update within 90 days",
                       ].map((step, i) => (
                         <div key={i} className="flex items-start gap-3">
                           <div className="w-6 h-6 rounded-full bg-[#FF4D00]/10 flex items-center justify-center shrink-0 mt-0.5">
