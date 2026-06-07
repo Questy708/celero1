@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  consent   Boolean  @default(false)
+  source    String   @default("capital_page")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InvestmentInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  amount    Float
+  tier      String   // scout, syndicate, partner, anchor
+  accredited Boolean @default(false)
+  consent   Boolean  @default(false)
+  status    String   @default("pending") // pending, reviewing, contacted, declined, invested
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  type      String   // founder, partner
+  // Common fields
+  firstName String
+  lastName  String
+  email     String
+  referral  String?
+  // Founder-specific
+  linkedinUrl    String?
+  companyName    String?
+  companyWebsite String?
+  location       String?
+  role           String?
+  pitchDeckUrl   String?
+  motivation     String?
+  // Partner-specific
+  orgName    String?
+  orgWebsite String?
+  partnerRole String?
+  interest   String?
+  description String?
+  // Status tracking
+  status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JobApplication {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  linkedinUrl String?
+  portfolioUrl String?
+  role      String   // e.g. "Growth Lead", "Platform Engineer"
+  location  String?
+  availability String? // immediate, 2-weeks, 1-month
+  motivation String?
+  referral  String?
+  resumeUrl String?
+  status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProgramApplication {
+  id        String   @id @default(cuid())
+  programSlug String  // quest-fellowship, xcelerator, venture-studio, lab-residency
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  linkedinUrl String?
+  location  String?
+  currentRole String?
+  companyName String?
+  motivation String?
+  referral  String?
+  status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
