@@ -692,6 +692,16 @@ export function AdminDashboard() {
             <p className="text-[10px] font-mono text-white/15 mt-6 text-center">
               Access restricted to authorized personnel only.
             </p>
+
+            <div className="mt-6 pt-6 border-t border-white/5 text-center">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-white/30 hover:text-[#FF4D00] transition-colors"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Back to Site
+              </Link>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -467,7 +467,7 @@ function Hero({ onSubscribe }: { onSubscribe: () => void }) {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CAPITAL BRIDGE — Image strip + two-column capital thesis with dotted map
+   CAPITAL BRIDGE: Image strip + two-column capital thesis with dotted map
    ══════════════════════════════════════════════════════════════════════════ */
 
 const capitalBridgeImages = [
@@ -535,7 +535,7 @@ function CapitalBridge() {
   return (
     <section ref={ref} className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
       <div className="w-full max-w-[1400px] mx-auto">
-        {/* Image strip — three overlapping images */}
+        {/* Image strip: three overlapping images */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -605,7 +605,7 @@ function CapitalBridge() {
                     className="fill-[#111111]/70"
                   />
                 ))}
-                {/* Africa highlighted region — cols 23-33, rows 3-21 */}
+                {/* Africa highlighted region: cols 23-33, rows 3-21 */}
                 {capitalWorldDots
                   .filter(
                     (d) =>
@@ -880,7 +880,7 @@ function InvestmentVehicles() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CAPITAL MEDIA — Full-width image/video panel
+   CAPITAL MEDIA: Full-width image/video panel
    ══════════════════════════════════════════════════════════════════════════ */
 function CapitalMedia() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1555,7 +1555,7 @@ function InvestmentTiers() {
               </motion.div>
             )}
 
-            {/* STEP 4: Get Started — How it works timeline + CTA */}
+            {/* STEP 4: Get Started: How it works timeline + CTA */}
             {currentStep === 4 && selectedVehicle && (
               <motion.div
                 key="step-4"
@@ -1728,7 +1728,7 @@ function InvestmentTiers() {
               </motion.div>
             )}
 
-            {/* STEP 5: Fund Your Investment — Payment methods */}
+            {/* STEP 5: Fund Your Investment: Payment methods */}
             {currentStep === 5 && selectedVehicle && (
               <motion.div
                 key="step-5"
@@ -1748,7 +1748,7 @@ function InvestmentTiers() {
                   </p>
                 </div>
 
-                {/* Payment method cards — selectable */}
+                {/* Payment method cards: selectable */}
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
                   {paymentMethods.map((method, i) => {
                     const isSelected = selectedPaymentId === method.id;
@@ -1828,7 +1828,7 @@ function InvestmentTiers() {
                   })}
                 </div>
 
-                {/* Continue CTA — only visible when method selected */}
+                {/* Continue CTA: only visible when method selected */}
                 <AnimatePresence>
                   {selectedPaymentId && (
                     <motion.div
@@ -1886,7 +1886,7 @@ function InvestmentTiers() {
               </motion.div>
             )}
 
-            {/* STEP 6: Payment Details — Method-specific form */}
+            {/* STEP 6: Payment Details: Method-specific form */}
             {currentStep === 6 && selectedVehicle && selectedPaymentId && (
               <motion.div
                 key="step-6"
@@ -2254,7 +2254,7 @@ function InvestmentTiers() {
               </motion.div>
             )}
 
-            {/* STEP 7: Payment Confirmed — Success screen */}
+            {/* STEP 7: Payment Confirmed: Success screen */}
             {currentStep === 7 && selectedVehicle && (
               <motion.div
                 key="step-7"

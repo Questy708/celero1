@@ -300,10 +300,10 @@ function Hero() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   MISSION BRIDGE — Image strip + two-column mission statement with dotted map
+   MISSION BRIDGE: Image strip + two-column mission statement with dotted map
    ══════════════════════════════════════════════════════════════════════════ */
 
-/* Dot-matrix world map — recognizable continent outlines */
+/* Dot-matrix world map: recognizable continent outlines */
 const worldDots = (() => {
   const rows = [
     ".......##..........###.............#####..####..............",
@@ -368,7 +368,7 @@ function MissionBridge() {
   return (
     <section ref={ref} className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
       <div className="w-full max-w-[1400px] mx-auto">
-        {/* Image strip — three overlapping images */}
+        {/* Image strip: three overlapping images */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -438,7 +438,7 @@ function MissionBridge() {
                     className="fill-[#111111]/70"
                   />
                 ))}
-                {/* Africa highlighted region — cols 23-33, rows 3-21 */}
+                {/* Africa highlighted region: cols 23-33, rows 3-21 */}
                 {worldDots
                   .filter(
                     (d) =>
@@ -467,7 +467,7 @@ function MissionBridge() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   BENTO GRID — Modern asymmetric grid layout
+   BENTO GRID: Modern asymmetric grid layout
    ══════════════════════════════════════════════════════════════════════════ */
 function BentoGrid() {
   const ref = useRef<HTMLDivElement>(null);
@@ -577,7 +577,7 @@ function BentoGrid() {
             );
           })}
 
-          {/* Intro text card — spans full width */}
+          {/* Intro text card: spans full width */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -600,7 +600,7 @@ function BentoGrid() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   NUMBERS SECTION — Animated counting stats
+   NUMBERS SECTION: Animated counting stats
    ══════════════════════════════════════════════════════════════════════════ */
 function AnimatedCounter({ value, prefix, suffix, duration = 2 }: {
   value: number;

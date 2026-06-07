@@ -1452,7 +1452,7 @@ function PassportSection() {
 
         {/* Passport card + Benefits layout */}
         <div className="grid lg:grid-cols-5 gap-8 md:gap-12 items-start">
-          {/* Passport visual card — takes 2 cols */}
+          {/* Passport visual card: takes 2 cols */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -1535,7 +1535,7 @@ function PassportSection() {
             </div>
           </motion.div>
 
-          {/* Benefits list — takes 3 cols */}
+          {/* Benefits list: takes 3 cols */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -1647,7 +1647,7 @@ function TownSquareSection() {
     >
       <div className="w-full max-w-[1400px] mx-auto">
         <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
-          {/* Left — Copy + CTA */}
+          {/* Left: Copy + CTA */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -1693,7 +1693,7 @@ function TownSquareSection() {
             </div>
           </motion.div>
 
-          {/* Right — Preview cards */}
+          {/* Right: Preview cards */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}

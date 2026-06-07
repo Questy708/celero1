@@ -29,6 +29,9 @@ import {
   User,
   MapPin,
   Mail,
+  Users,
+  Briefcase,
+  ExternalLink,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -66,6 +69,19 @@ interface TownSquareUser {
   avatarColor: string;
 }
 
+interface NetworkMember {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  bio: string;
+  communities: string[];
+  avatarColor: string;
+  lastActive: string;
+  company?: string;
+  title?: string;
+}
+
 /* ── Role Colors ── */
 const ROLE_COLORS: Record<string, string> = {
   Founder: "#FF4D00",
@@ -98,6 +114,154 @@ function isRecentlyActive(timestamp: string): boolean {
   if (timestamp.includes("min")) return true;
   return false;
 }
+
+/* ── Seed Network Members ── */
+const SEED_MEMBERS: NetworkMember[] = [
+  {
+    id: "m1",
+    name: "Dr. Amina Osei",
+    role: "Founder",
+    location: "Kigali, Rwanda",
+    bio: "Building point-of-care diagnostics for East Africa. Rwanda FDA pathway pioneer.",
+    communities: ["Life Sciences"],
+    avatarColor: "#FF4D00",
+    lastActive: "3 hr. ago",
+    company: "DxRwanda",
+    title: "CEO & Co-Founder",
+  },
+  {
+    id: "m2",
+    name: "Yusuf Hassan",
+    role: "Operator",
+    location: "Kano, Nigeria",
+    bio: "Running mini-grid operations across Northern Nigeria. Cohort 7 alumni.",
+    communities: ["Energy & Infrastructure"],
+    avatarColor: "#111111",
+    lastActive: "5 hr. ago",
+    company: "PowerGrid North",
+    title: "Head of Operations",
+  },
+  {
+    id: "m3",
+    name: "Fatima Al-Rashid",
+    role: "Founder",
+    location: "Lagos, Nigeria",
+    bio: "Cross-border payments infrastructure across West and East Africa.",
+    communities: ["Digital Finance"],
+    avatarColor: "#FF4D00",
+    lastActive: "8 hr. ago",
+    company: "RailPay",
+    title: "CTO",
+  },
+  {
+    id: "m4",
+    name: "Chioma Adekunle",
+    role: "Operator",
+    location: "Lagos, Nigeria",
+    bio: "Managing XEmbassy Lagos hub. Data-driven community building.",
+    communities: ["Route Operations"],
+    avatarColor: "#111111",
+    lastActive: "12 hr. ago",
+    company: "xCelero Labs",
+    title: "Hub Manager, Lagos",
+  },
+  {
+    id: "m5",
+    name: "Amara Diallo",
+    role: "Investor",
+    location: "Dakar, Senegal",
+    bio: "Deploying SPVs across life sciences and energy. 34% aggregate IRR.",
+    communities: ["Capital & Deals"],
+    avatarColor: "#059669",
+    lastActive: "1 day ago",
+    company: "Hansa Capital",
+    title: "Managing Partner",
+  },
+  {
+    id: "m6",
+    name: "Liya Tadesse",
+    role: "Founder",
+    location: "Addis Ababa, Ethiopia",
+    bio: "Hiring locally and investing in onboarding. 100% retention after 12 months.",
+    communities: ["Founders Corner"],
+    avatarColor: "#FF4D00",
+    lastActive: "1 day ago",
+    company: "AddisTech",
+    title: "CEO",
+  },
+  {
+    id: "m7",
+    name: "Kofi Mensah",
+    role: "Mentor",
+    location: "Accra, Ghana",
+    bio: "Regulatory strategy for health tech across West Africa. Former Kenya Medical Board advisor.",
+    communities: ["Life Sciences", "Founders Corner"],
+    avatarColor: "#7c3aed",
+    lastActive: "1 hr. ago",
+    company: "HealthPath Advisory",
+    title: "Principal Consultant",
+  },
+  {
+    id: "m8",
+    name: "Samuel Mengistu",
+    role: "Operator",
+    location: "Nairobi, Kenya",
+    bio: "M-Pesa integration specialist. Settlement infrastructure engineer.",
+    communities: ["Digital Finance"],
+    avatarColor: "#111111",
+    lastActive: "6 hr. ago",
+    company: "RailPay",
+    title: "Payments Engineer",
+  },
+  {
+    id: "m9",
+    name: "Ngozi Eze",
+    role: "Investor",
+    location: "Lagos, Nigeria",
+    bio: "Early-stage venture capital. Focus on life sciences and diagnostics.",
+    communities: ["Capital & Deals", "Life Sciences"],
+    avatarColor: "#059669",
+    lastActive: "20 hr. ago",
+    company: "Verdant Ventures",
+    title: "Partner",
+  },
+  {
+    id: "m10",
+    name: "Thabo Moyo",
+    role: "Founder",
+    location: "Johannesburg, South Africa",
+    bio: "Building solar-as-a-service for commercial tenants. Series A raised.",
+    communities: ["Energy & Infrastructure"],
+    avatarColor: "#FF4D00",
+    lastActive: "4 hr. ago",
+    company: "SolarVault",
+    title: "Co-Founder",
+  },
+  {
+    id: "m11",
+    name: "Aisha Bello",
+    role: "Mentor",
+    location: "Abuja, Nigeria",
+    bio: "Former VP at GTBank. Now advising fintech founders on regulatory navigation.",
+    communities: ["Digital Finance", "Founders Corner"],
+    avatarColor: "#7c3aed",
+    lastActive: "2 hr. ago",
+    company: "Independent",
+    title: "Fintech Advisor",
+  },
+  {
+    id: "m12",
+    name: "Emmanuel Owusu",
+    role: "Operator",
+    location: "Kumasi, Ghana",
+    bio: "Route hub operations. Community events and programming.",
+    communities: ["Route Operations", "Founders Corner"],
+    avatarColor: "#111111",
+    lastActive: "30 min. ago",
+    company: "xCelero Labs",
+    title: "Hub Lead, Kumasi",
+  },
+];
 
 /* ── Seed Posts ── */
 const PRESET_POSTS: ForumPost[] = [
@@ -636,6 +800,8 @@ function ForumContent({ user }: { user: TownSquareUser }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [networkSearch, setNetworkSearch] = useState("");
   const [newCommunity, setNewCommunity] = useState<string>(
     activeCommunity === "all" ? COMMUNITIES[0].name : activeCommunity
   );
@@ -970,6 +1136,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
                 { key: "popular", icon: TrendingUp, label: "Popular" },
                 { key: "news", icon: Newspaper, label: "Latest" },
                 { key: "explore", icon: Compass, label: "Explore" },
+                { key: "network", icon: Users, label: "My Network" },
               ].map(({ key, icon: Icon, label }) => (
                 <button
                   key={key}
@@ -1020,31 +1187,44 @@ function ForumContent({ user }: { user: TownSquareUser }) {
               </div>
             </div>
 
-            {/* Network Stats */}
+            {/* My Network */}
             <div className="mb-6">
-              <h3 className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30 mb-3 px-3">
-                Network
-              </h3>
-              <div className="space-y-2 px-3">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-[14px] font-bold text-[#111111]">2,847</span>
-                  <span className="text-[11px] text-[#111111]/40">XCitizens</span>
-                </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[14px] font-bold text-[#111111]">341</span>
-                  </span>
-                  <span className="text-[11px] text-[#111111]/40">Active today</span>
-                </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-[14px] font-bold text-[#111111]">12.4K</span>
-                  <span className="text-[11px] text-[#111111]/40">Discussions</span>
-                </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-[14px] font-bold text-[#111111]">190</span>
-                  <span className="text-[11px] text-[#111111]/40">Route hubs</span>
-                </div>
+              <button
+                onClick={() => setActiveCategory("network")}
+                className="w-full flex items-center justify-between px-3 mb-3 group"
+              >
+                <h3 className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#111111]/30">
+                  My Network
+                </h3>
+                <span className="text-[10px] font-mono text-[#FF4D00]/60 group-hover:text-[#FF4D00] transition-colors flex items-center gap-0.5">
+                  View all
+                  <ArrowRight className="w-2.5 h-2.5" />
+                </span>
+              </button>
+              <div className="space-y-1 px-1">
+                {SEED_MEMBERS.slice(0, 5).map((member) => (
+                  <button
+                    key={member.id}
+                    onClick={() => { setActiveCategory("network"); setSelectedMemberId(member.id); }}
+                    className="w-full flex items-center gap-2.5 px-2 py-2 rounded hover:bg-[#111111]/5 transition-colors text-left"
+                  >
+                    <div className="relative shrink-0">
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-[10px]"
+                        style={{ backgroundColor: member.avatarColor }}
+                      >
+                        {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                      </div>
+                      {isRecentlyActive(member.lastActive) && (
+                        <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[12px] font-medium text-[#111111] truncate">{member.name}</div>
+                      <div className="text-[10px] text-[#111111]/40 truncate">{member.title}{member.company ? ` at ${member.company}` : ""}</div>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           </aside>
@@ -1054,7 +1234,238 @@ function ForumContent({ user }: { user: TownSquareUser }) {
         <div className="flex-1 overflow-y-auto w-full flex justify-center pt-6 px-0 sm:px-4 md:px-6 pb-12">
           <div className="flex max-w-[1040px] w-full gap-6 items-start justify-center">
             <main className="flex-1 min-w-0 max-w-[700px] w-full flex flex-col gap-4">
-              {selectedPost ? (
+              {activeCategory === "network" ? (
+                /* ── MY NETWORK VIEW ── */
+                <div className="flex flex-col gap-4">
+                  {/* Network Header */}
+                  <div className="bg-white border border-[#111111]/10 p-4 md:p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h2 className="text-xl font-display font-medium tracking-tight text-[#111111] flex items-center gap-2">
+                          <Users className="w-5 h-5 text-[#FF4D00]" />
+                          My Network
+                        </h2>
+                        <p className="text-[13px] text-[#111111]/40 mt-1">
+                          {SEED_MEMBERS.length} XCitizens in your network
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => { setActiveCategory("home"); setSelectedMemberId(null); }}
+                        className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#111111]/40 hover:text-[#FF4D00] transition-colors flex items-center gap-1"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                        Back
+                      </button>
+                    </div>
+
+                    {/* Search */}
+                    <div className="relative flex items-center bg-[#FAFAFA] hover:bg-[#F5F5F5] focus-within:bg-white focus-within:border-[#FF4D00]/30 focus-within:ring-1 focus-within:ring-[#FF4D00]/20 border border-[#111111]/10 rounded px-3 py-2 transition-colors">
+                      <Search className="w-4 h-4 text-[#111111]/30 shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Search members by name, role, or company"
+                        value={networkSearch}
+                        onChange={(e) => setNetworkSearch(e.target.value)}
+                        className="flex-1 bg-transparent border-none text-sm text-[#111111] placeholder-[#111111]/30 outline-none ml-2 min-w-0"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Selected Member Profile Card */}
+                  {selectedMemberId && (() => {
+                    const member = SEED_MEMBERS.find((m) => m.id === selectedMemberId);
+                    if (!member) return null;
+                    const memberPosts = posts.filter((p) => p.authorName === member.name);
+                    return (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-white border border-[#111111]/10 overflow-hidden"
+                      >
+                        <div className="h-16 bg-[#111111] relative">
+                          <div className="absolute -bottom-6 left-6">
+                            <div
+                              className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-lg border-4 border-white"
+                              style={{ backgroundColor: member.avatarColor }}
+                            >
+                              {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="pt-10 px-6 pb-6">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <h3 className="text-lg font-display font-medium text-[#111111]">{member.name}</h3>
+                              <p className="text-[13px] text-[#111111]/50 mt-0.5">
+                                {member.title}{member.company ? ` at ${member.company}` : ""}
+                              </p>
+                              <div className="flex items-center gap-3 mt-2">
+                                <span
+                                  className="text-[9px] font-mono font-bold tracking-[0.1em] uppercase px-2 py-0.5 text-white"
+                                  style={{ backgroundColor: ROLE_COLORS[member.role] || "#6b7280" }}
+                                >
+                                  {member.role}
+                                </span>
+                                <span className="flex items-center gap-1 text-[11px] text-[#111111]/40">
+                                  <MapPin className="w-3 h-3" />
+                                  {member.location}
+                                </span>
+                                {isRecentlyActive(member.lastActive) && (
+                                  <span className="flex items-center gap-1 text-[11px] text-green-600">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                    Online
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => setSelectedMemberId(null)}
+                              className="text-[#111111]/30 hover:text-[#111111] transition-colors p-1"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <p className="text-[13px] text-[#111111]/60 leading-relaxed mt-4">
+                            {member.bio}
+                          </p>
+
+                          {member.communities.length > 0 && (
+                            <div className="mt-4">
+                              <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
+                                Communities
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {member.communities.map((c) => {
+                                  const comm = COMMUNITIES.find((x) => x.name === c);
+                                  return (
+                                    <span
+                                      key={c}
+                                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-bold tracking-[0.05em] uppercase text-white ${comm?.color || "bg-[#FF4D00]"}`}
+                                    >
+                                      {c}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {memberPosts.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-[#111111]/5">
+                              <div className="text-[9px] font-mono font-bold tracking-[0.15em] uppercase text-[#111111]/30 mb-2">
+                                Recent Posts ({memberPosts.length})
+                              </div>
+                              <div className="space-y-2">
+                                {memberPosts.slice(0, 3).map((post) => (
+                                  <button
+                                    key={post.id}
+                                    onClick={() => { setSelectedPostId(post.id); setActiveCategory("home"); }}
+                                    className="w-full text-left p-3 bg-[#FAFAFA] hover:bg-[#111111]/5 border border-[#111111]/5 rounded transition-colors"
+                                  >
+                                    <div className="text-[12px] font-medium text-[#111111]">{post.title}</div>
+                                    <div className="text-[10px] text-[#111111]/40 mt-0.5">{post.upvotes} upvotes · {post.comments.length} comments · {post.timestamp}</div>
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex gap-2 mt-5">
+                            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#FF4D00] text-white text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-[#FF4D00]/90 transition-colors">
+                              <Mail className="w-3.5 h-3.5" />
+                              Message
+                            </button>
+                            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 border border-[#111111]/10 text-[#111111]/50 text-[11px] font-bold uppercase tracking-[0.1em] hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors">
+                              <User className="w-3.5 h-3.5" />
+                              Connect
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })()}
+
+                  {/* Members Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {SEED_MEMBERS
+                      .filter((m) => {
+                        if (!networkSearch.trim()) return true;
+                        const q = networkSearch.toLowerCase();
+                        return (
+                          m.name.toLowerCase().includes(q) ||
+                          m.role.toLowerCase().includes(q) ||
+                          (m.company || "").toLowerCase().includes(q) ||
+                          (m.title || "").toLowerCase().includes(q) ||
+                          m.location.toLowerCase().includes(q)
+                        );
+                      })
+                      .map((member) => (
+                      <button
+                        key={member.id}
+                        onClick={() => setSelectedMemberId(member.id === selectedMemberId ? null : member.id)}
+                        className={`bg-white border text-left overflow-hidden transition-all ${
+                          selectedMemberId === member.id
+                            ? "border-[#FF4D00] ring-1 ring-[#FF4D00]/20"
+                            : "border-[#111111]/10 hover:border-[#FF4D00]/30"
+                        }`}
+                      >
+                        <div className="h-10 bg-[#111111]/5 relative">
+                          <div className="absolute -bottom-4 left-4">
+                            <div className="relative">
+                              <div
+                                className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-[12px] border-2 border-white"
+                                style={{ backgroundColor: member.avatarColor }}
+                              >
+                                {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                              </div>
+                              {isRecentlyActive(member.lastActive) && (
+                                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="pt-7 px-4 pb-4">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-[13px] font-display font-medium text-[#111111] truncate">{member.name}</h4>
+                              <p className="text-[11px] text-[#111111]/40 truncate mt-0.5">
+                                {member.title}{member.company ? ` at ${member.company}` : ""}
+                              </p>
+                            </div>
+                            <span
+                              className="text-[8px] font-mono font-bold tracking-[0.1em] uppercase px-1.5 py-0.5 text-white shrink-0 ml-2"
+                              style={{ backgroundColor: ROLE_COLORS[member.role] || "#6b7280" }}
+                            >
+                              {member.role}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="flex items-center gap-1 text-[10px] text-[#111111]/40">
+                              <MapPin className="w-3 h-3" />
+                              {member.location}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-[#111111]/40 mt-2 line-clamp-2 leading-relaxed">
+                            {member.bio}
+                          </p>
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {member.communities.slice(0, 2).map((c) => (
+                              <span
+                                key={c}
+                                className="text-[8px] font-mono font-bold tracking-[0.05em] uppercase px-1.5 py-0.5 bg-[#111111]/5 text-[#111111]/40"
+                              >
+                                {c.split("&")[0].trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : selectedPost ? (
                 /* ── POST DETAIL VIEW ── */
                 <div className="bg-white border border-[#111111]/10 overflow-hidden">
                   <div className="p-4 md:p-6 flex flex-col gap-3">
@@ -1430,7 +1841,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
               )}
             </main>
 
-            {/* RIGHT SIDEBAR — Trending */}
+            {/* RIGHT SIDEBAR: Trending */}
             <aside className="w-[300px] shrink-0 hidden lg:block self-stretch">
               <div className="border border-[#111111]/10 overflow-hidden sticky top-0">
                 <div className="p-4 border-b border-[#111111]/10 bg-[#111111] text-white">
@@ -1600,7 +2011,7 @@ function ForumContent({ user }: { user: TownSquareUser }) {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   TOWN SQUARE PAGE (entry point — handles onboarding gate)
+   TOWN SQUARE PAGE (entry point: handles onboarding gate)
    ══════════════════════════════════════════════════════════════════════════ */
 export function TownSquare() {
   const [currentUser, setCurrentUser] = useState<TownSquareUser | null>(() => {

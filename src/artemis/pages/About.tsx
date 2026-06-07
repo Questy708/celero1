@@ -207,7 +207,7 @@ const criticalDomains = [
 ];
 
 /* ══════════════════════════════════════════════════════════════════════════
-   ABOUT PAGE — Opening + What Is + Flowing narrative + How we work + critical domains + manifesto cards
+   ABOUT PAGE: Opening + What Is + Flowing narrative + How we work + critical domains + manifesto cards
    ══════════════════════════════════════════════════════════════════════════ */
 export function About() {
   return (
@@ -223,7 +223,7 @@ export function About() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   OPENING — Understated entry point, not a "hero"
+   OPENING: Understated entry point, not a "hero"
    ══════════════════════════════════════════════════════════════════════════ */
 function OpeningSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -260,7 +260,7 @@ function OpeningSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   WHAT IS XCELERO LABS — Clean single-column editorial layout
+   WHAT IS XCELERO LABS: Clean single-column editorial layout
    ══════════════════════════════════════════════════════════════════════════ */
 const whatIsStats = [
   { value: "4", label: "Integrated Engines" },
@@ -308,7 +308,7 @@ function WhatIsXceleroSection() {
           </div>
         </motion.div>
 
-        {/* Stats row — horizontal, clean */}
+        {/* Stats row: horizontal, clean */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -332,7 +332,7 @@ function WhatIsXceleroSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   FLOWING CONTENT — Timeline only, one continuous thread
+   FLOWING CONTENT: Timeline only, one continuous thread
    ══════════════════════════════════════════════════════════════════════════ */
 function FlowingContent() {
   return (
@@ -448,7 +448,7 @@ function TimelineEntry({
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   HOW WE WORK — Card grid with photos, bios, filter tabs
+   HOW WE WORK: Card grid with photos, bios, filter tabs
    ══════════════════════════════════════════════════════════════════════════ */
 function HowWeWorkSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -466,7 +466,7 @@ function HowWeWorkSection() {
       ref={ref}
       className="py-16 md:py-24 px-5 sm:px-6 md:px-12 lg:px-20 bg-[#FAFAFA]"
     >
-      {/* Header — narrow, aligned with rest of page */}
+      {/* Header: narrow, aligned with rest of page */}
       <div className="w-full max-w-3xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -489,7 +489,7 @@ function HowWeWorkSection() {
         </motion.div>
       </div>
 
-      {/* Filter tabs + Team grid — wider for the card grid */}
+      {/* Filter tabs + Team grid: wider for the card grid */}
       <div className="w-full max-w-[1200px] mx-auto">
         {/* Filter tabs */}
         <motion.div
@@ -667,7 +667,7 @@ function TeamCard({
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CRITICAL DOMAINS — 13 domain image cards
+   CRITICAL DOMAINS: 13 domain image cards
    ══════════════════════════════════════════════════════════════════════════ */
 function CriticalDomainsSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -750,7 +750,7 @@ function CriticalDomainsSection() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   MANIFESTO CARDS — Horizontal side-by-side cards below How We Work
+   MANIFESTO CARDS: Horizontal side-by-side cards below How We Work
    ══════════════════════════════════════════════════════════════════════════ */
 function ManifestoCardsSection() {
   const ref = useRef<HTMLDivElement>(null);

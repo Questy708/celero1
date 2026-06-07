@@ -8,11 +8,11 @@ import { SearchModal } from "./SearchModal";
 
 /* ── Page transition variants based on path ── */
 function getTransitionForPath(path: string) {
-  // Editorial pages — fade-only, no y movement
+  // Editorial pages: fade-only, no y movement
   const editorialPaths = ["/about", "/manifesto", "/approach"];
-  // Content-heavy pages — slide-up
+  // Content-heavy pages: slide-up
   const contentPaths = ["/ventures", "/programs", "/routes", "/capital", "/platform"];
-  // Data pages — subtle crossfade
+  // Data pages: subtle crossfade
   const dataPaths = ["/community", "/insights", "/careers", "/team", "/case-studies", "/admin"];
 
   if (editorialPaths.includes(path)) {
@@ -39,7 +39,7 @@ function getTransitionForPath(path: string) {
       transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
     };
   }
-  // Default / home — gentle fade
+  // Default/home: gentle fade
   return {
     initial: { opacity: 0, y: 8 },
     animate: { opacity: 1, y: 0 },
@@ -51,9 +51,9 @@ function getTransitionForPath(path: string) {
 export function Layout({ children }: { children: React.ReactNode }) {
   const { path } = useRouter();
 
-  // Town Square is a full-screen immersive experience — no nav, footer, or sticky bars
+  // Town Square is a full-screen immersive experience: no nav, footer, or sticky bars
   const isImmersive = path === "/townsquare";
-  // Admin dashboard has its own dark layout — no nav, footer, or sticky bars
+  // Admin dashboard has its own dark layout: no nav, footer, or sticky bars
   const isAdmin = path === "/admin";
 
   useEffect(() => {
@@ -286,7 +286,7 @@ function Nav() {
               Join
             </Link>
 
-            {/* Hamburger button — mobile only */}
+            {/* Hamburger button: mobile only */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 border border-[#111111]/10 hover:border-[#111111] hover:bg-[#111111] hover:text-white transition-colors group"
@@ -338,7 +338,7 @@ function Nav() {
               </button>
             </div>
 
-            {/* Categorized nav links — centered vertically */}
+            {/* Categorized nav links: centered vertically */}
             <div className="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24 overflow-y-auto">
               {mobileNavGroups.map((group, groupIdx) => (
                 <motion.div
@@ -578,7 +578,7 @@ function Footer() {
               <Link to="/about" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">About</Link>
               <Link to="/ventures" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Companies</Link>
               <Link to="/careers" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">Careers</Link>
-              <Link to="/approach" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">How we work</Link>
+              <Link to="/approach" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">How We Work</Link>
               <Link to="/insights" className="text-[13px] font-bold text-white/60 hover:text-white transition-colors">News</Link>
             </div>
 

@@ -34,7 +34,7 @@ import {
 import type { RouteLeg, KeyCity, MapLocation } from "@/artemis/data/routes";
 
 /* ══════════════════════════════════════════════════════════════════════════
-   ROUTES BRIDGE — Image strip + two-column routes thesis with dotted map
+   ROUTES BRIDGE: Image strip + two-column routes thesis with dotted map
    ══════════════════════════════════════════════════════════════════════════ */
 
 const routesBridgeImages = [
@@ -102,7 +102,7 @@ function RoutesBridge() {
   return (
     <section ref={ref} className="px-6 md:px-12 lg:px-20 pb-16 md:pb-24 border-b border-[#111111]/10">
       <div className="w-full max-w-[1400px] mx-auto">
-        {/* Image strip — three overlapping images */}
+        {/* Image strip: three overlapping images */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -172,7 +172,7 @@ function RoutesBridge() {
                     className="fill-[#111111]/70"
                   />
                 ))}
-                {/* Africa highlighted region — cols 23-33, rows 3-21 */}
+                {/* Africa highlighted region: cols 23-33, rows 3-21 */}
                 {routesWorldDots
                   .filter(
                     (d) =>

@@ -128,15 +128,15 @@ export const programsData: ProgramDetail[] = [
       { name: "TerraHash", desc: "the blockchain layer for managing independent land registries.", focus: "Land Registry", field: "Built Env", funding: "$3M Seed", teamSize: "15-30", categories: "Blockchain / GovTech", location: "Accra" }
     ],
     applicationCycles: [
-      { cycle: "Cohort 3 — 2025", opens: "Mar 1, 2025", closes: "May 15, 2025", cohortStart: "Jul 2025", status: "open" },
-      { cycle: "Cohort 4 — 2026", opens: "Mar 1, 2026", closes: "May 15, 2026", cohortStart: "Jul 2026", status: "upcoming" },
+      { cycle: "Cohort 3, 2025", opens: "Mar 1, 2025", closes: "May 15, 2025", cohortStart: "Jul 2025", status: "open" },
+      { cycle: "Cohort 4, 2026", opens: "Mar 1, 2026", closes: "May 15, 2026", cohortStart: "Jul 2026", status: "upcoming" },
     ],
     whatYouGet: [
-      { title: "Needs-Based Stipend", desc: "$500–$1,200/month operational stipend. No salary, no benefits — mission-deployed compensation tied to outcomes, not time served.", icon: "Zap" },
+      { title: "Needs-Based Stipend", desc: "$500–$1,200/month operational stipend. No salary, no benefits. Mission-deployed compensation tied to outcomes, not time served.", icon: "Zap" },
       { title: "XEmbassy Workspace", desc: "Access to 190 strike zones across Africa and the Global South. Physical infrastructure for building and deploying.", icon: "Globe" },
       { title: "Anchor Partner Network", desc: "Pre-negotiated LOIs with institutional partners ready to pilot your solution from Day 1.", icon: "Users" },
       { title: "Performance Equity", desc: "Equity grants with 36-month vesting for top performers. The top 3% transition to permanent payroll.", icon: "Target" },
-      { title: "League Commons Access", desc: "Shared IP, infrastructure, and intelligence across the entire Hansa network — every breakthrough benefits every Pod.", icon: "Shield" },
+      { title: "League Commons Access", desc: "Shared IP, infrastructure, and intelligence across the entire Hansa network: every breakthrough benefits every Pod.", icon: "Shield" },
       { title: "Post-Deployment Support", desc: "Spun-out ventures receive continued access to the Playbook, network, and institutional backing.", icon: "Activity" },
     ],
     icon: Globe,
@@ -242,15 +242,15 @@ export const programsData: ProgramDetail[] = [
       { name: "AgriDrone", desc: "the automated drone solution for precision nutrient application.", focus: "AgriTech", field: "Food & Ag", funding: "$2M Seed", teamSize: "20-45", categories: "AgTech / Drones", location: "Nairobi" }
     ],
     applicationCycles: [
-      { cycle: "Batch 7 — Spring 2025", opens: "Jan 15, 2025", closes: "Mar 31, 2025", cohortStart: "May 2025", status: "open" },
-      { cycle: "Batch 8 — Fall 2025", opens: "Jul 1, 2025", closes: "Sep 15, 2025", cohortStart: "Oct 2025", status: "upcoming" },
-      { cycle: "Batch 9 — Spring 2026", opens: "Jan 15, 2026", closes: "Mar 31, 2026", cohortStart: "May 2026", status: "upcoming" },
+      { cycle: "Batch 7, Spring 2025", opens: "Jan 15, 2025", closes: "Mar 31, 2025", cohortStart: "May 2025", status: "open" },
+      { cycle: "Batch 8, Fall 2025", opens: "Jul 1, 2025", closes: "Sep 15, 2025", cohortStart: "Oct 2025", status: "upcoming" },
+      { cycle: "Batch 9, Spring 2026", opens: "Jan 15, 2026", closes: "Mar 31, 2026", cohortStart: "May 2026", status: "upcoming" },
     ],
     whatYouGet: [
-      { title: "$120K for 3% Equity", desc: "Fixed equity deal at $5M valuation cap. No dilution anxiety, no renegotiation — clean, founder-friendly terms from Day 1.", icon: "Zap" },
+      { title: "$120K for 3% Equity", desc: "Fixed equity deal at $5M valuation cap. No dilution anxiety, no renegotiation. Clean, founder-friendly terms from Day 1.", icon: "Zap" },
       { title: "$500K Uncapped SAFE", desc: "Follow-on capital available without friction. The uncapped SAFE ensures you can keep building when the program ends.", icon: "Target" },
       { title: "Dedicated Partner Support", desc: "3:1 mentor ratio with minimum 10 hours/month per company. Partners prepare for every session like defending a thesis.", icon: "Users" },
-      { title: "19-City Global Immersion", desc: "Each city stress-tests a different business assumption — regulatory risk, customer behavior, supply chain resilience.", icon: "Globe" },
+      { title: "19-City Global Immersion", desc: "Each city stress-tests a different business assumption: regulatory risk, customer behavior, supply chain resilience.", icon: "Globe" },
       { title: "Demo Day Access", desc: "Present to thousands of pre-briefed VC firms, angel investors, and strategic partners. Competitive tension accelerates due diligence.", icon: "Activity" },
       { title: "Alumni Economic Carry", desc: "Profit from $10,000 of 'money at work' in the fund's carry. You become an economic stakeholder in every future cohort's success.", icon: "Shield" },
     ],
@@ -345,8 +345,8 @@ export const programsData: ProgramDetail[] = [
       { name: "CivicID", desc: "the biometric framework for secure digital identity in emerging markets.", focus: "Identity", field: "Data & Int", funding: "$3M Seed", teamSize: "15-40", categories: "GovTech / Identity", location: "Cape Town" }
     ],
     applicationCycles: [
-      { cycle: "Studio Cycle 5 — 2025", opens: "Feb 1, 2025", closes: "Apr 30, 2025", cohortStart: "Jun 2025", status: "open" },
-      { cycle: "Studio Cycle 6 — 2026", opens: "Feb 1, 2026", closes: "Apr 30, 2026", cohortStart: "Jun 2026", status: "upcoming" },
+      { cycle: "Studio Cycle 5, 2025", opens: "Feb 1, 2025", closes: "Apr 30, 2025", cohortStart: "Jun 2025", status: "open" },
+      { cycle: "Studio Cycle 6, 2026", opens: "Feb 1, 2026", closes: "Apr 30, 2026", cohortStart: "Jun 2026", status: "upcoming" },
     ],
     whatYouGet: [
       { title: "Technology Blueprint", desc: "Comprehensive analysis of the technical landscape, competitive dynamics, and feasibility thresholds before a single line of code is written.", icon: "Workflow" },
@@ -365,8 +365,8 @@ export const programsData: ProgramDetail[] = [
     id: "quest-fellowship",
     title: "Quest Fellowship",
     tagline: "From Ideas to Impact, Powered by Queen's University.",
-    desc: "A semester-long initiative developed by AirDrop Labs in collaboration with the Dunin-Deshpande Queen's Innovation Centre (DDQIC) at Queen's University — equipping young minds with the tools to transform ideas, technologies, or passions into impactful ventures.",
-    longDesc: "More than just a conventional entrepreneurship program, Quest Fellowship is a global movement tailored for unconventional thinkers and ecosystem amplifiers from around the world. It is designed for those who aspire to address challenges on both global and local scales through innovation-driven entrepreneurship, fostering a sense of purpose and impact (#Ikigai) while integrating into the worldwide workforce. Quest transcends traditional boundaries, offering a comprehensive blend of education, mentorship, and support — curated lectures by acclaimed faculty members from Queen's University and hands-on boot camps held in diverse locations, providing an immersive learning experience like no other. The program focuses on emerging markets because therein lies the greatest potential for impact: tackling real-world problems, generating employment opportunities, and driving sustainable growth through innovative solutions that uplift communities and leave a lasting legacy.",
+    desc: "A semester-long initiative developed by AirDrop Labs in collaboration with the Dunin-Deshpande Queen's Innovation Centre (DDQIC) at Queen's University, equipping young minds with the tools to transform ideas, technologies, or passions into impactful ventures.",
+    longDesc: "More than just a conventional entrepreneurship program, Quest Fellowship is a global movement tailored for unconventional thinkers and ecosystem amplifiers from around the world. It is designed for those who aspire to address challenges on both global and local scales through innovation-driven entrepreneurship, fostering a sense of purpose and impact (#Ikigai) while integrating into the worldwide workforce. Quest transcends traditional boundaries, offering a comprehensive blend of education, mentorship, and support: curated lectures by acclaimed faculty members from Queen's University and hands-on boot camps held in diverse locations, providing an immersive learning experience like no other. The program focuses on emerging markets because therein lies the greatest potential for impact: tackling real-world problems, generating employment opportunities, and driving sustainable growth through innovative solutions that uplift communities and leave a lasting legacy.",
     details: [
       { label: "Partner", value: "DDQIC / Queen's" },
       { label: "Format", value: "Semester-Long" },
@@ -382,8 +382,8 @@ export const programsData: ProgramDetail[] = [
     process: [
       {
         title: "Explore",
-        desc: "The first stage of the Quest Fellowship. Fellows begin their entrepreneurial journey by completing assignments, attending lectures, engaging in quizzes, and actively participating in biweekly office hours. This stage is about discovery — identifying the problem you want to solve and the market you want to serve.",
-        extended: "The Explore stage is designed to help you find your Ikigai — the intersection of what you love, what the world needs, what you're good at, and what you can be rewarded for. Through bite-sized video lectures curated by Queen's University faculty and hands-on assignments drawn from the Disciplined Entrepreneurship framework, you'll validate your initial idea, understand your target market, and begin building the foundation for a viable venture."
+        desc: "The first stage of the Quest Fellowship. Fellows begin their entrepreneurial journey by completing assignments, attending lectures, engaging in quizzes, and actively participating in biweekly office hours. This stage is about discovery: identifying the problem you want to solve and the market you want to serve.",
+        extended: "The Explore stage is designed to help you find your Ikigai: the intersection of what you love, what the world needs, what you're good at, and what you can be rewarded for. Through bite-sized video lectures curated by Queen's University faculty and hands-on assignments drawn from the Disciplined Entrepreneurship framework, you'll validate your initial idea, understand your target market, and begin building the foundation for a viable venture."
       },
       {
         title: "Ignite",
@@ -396,14 +396,14 @@ export const programsData: ProgramDetail[] = [
         extended: "The Launch stage is where ventures become real. Fellows who have successfully navigated Explore and Ignite gain access to seed funding, strategic mentorship from operators who have built and scaled companies, and direct market access to emerging economies where their solutions can have the greatest impact. This stage is about execution: landing pilot customers, generating revenue, and building the operational foundation for sustainable growth."
       }
     ],
-    howWeHelpIntro: "We provide a comprehensive blend of education, mentorship, and support — curated lectures by Queen's University faculty, hands-on boot camps in diverse locations, and a self-paced curriculum built on MIT's Disciplined Entrepreneurship framework. Through three progressive stages you will...",
+    howWeHelpIntro: "We provide a comprehensive blend of education, mentorship, and support: curated lectures by Queen's University faculty, hands-on boot camps in diverse locations, and a self-paced curriculum built on MIT's Disciplined Entrepreneurship framework. Through three progressive stages you will...",
     features: [
-      { title: "Queen's University Curriculum", desc: "Curated lectures by acclaimed faculty members from one of Canada's premier research universities. The curriculum draws from Disciplined Entrepreneurship: 24 Steps to a Successful Startup by Bill Aulet, developed at the Martin Trust Center for MIT Entrepreneurship — a systematic, proven approach to venture creation.", icon: "Globe" },
-      { title: "Three-Stage Progression", desc: "The program structure revolves around three distinct stages — Explore, Ignite, and Launch — each unlocking new opportunities and resources. Advancement hinges on your commitment and dedication, demonstrated through assignments, lecture attendance, quizzes, and active participation in biweekly office hours.", icon: "Zap" },
+      { title: "Queen's University Curriculum", desc: "Curated lectures by acclaimed faculty members from one of Canada's premier research universities. The curriculum draws from Disciplined Entrepreneurship: 24 Steps to a Successful Startup by Bill Aulet, developed at the Martin Trust Center for MIT Entrepreneurship, a systematic, proven approach to venture creation.", icon: "Globe" },
+      { title: "Three-Stage Progression", desc: "The program structure revolves around three distinct stages (Explore, Ignite, and Launch), each unlocking new opportunities and resources. Advancement hinges on your commitment and dedication, demonstrated through assignments, lecture attendance, quizzes, and active participation in biweekly office hours.", icon: "Zap" },
       { title: "Self-Paced Learning", desc: "Quest is a self-paced program offering a wealth of training materials including bite-sized video lectures. Whether you're a full-time student or a working professional, the program adapts to your schedule while maintaining rigorous standards for advancement.", icon: "Activity" },
       { title: "Hands-On Boot Camps", desc: "Immersive boot camps held in diverse locations around the world, providing experiential learning that goes beyond the classroom. These boot camps are designed to stress-test your venture in real-world environments and expose you to different market dynamics.", icon: "Target" },
-      { title: "Seed Funding & Market Access", desc: "Each stage unlocks new resources — from seed funding to tailored mentorship and direct market access to emerging economies. Quest focuses on emerging markets because therein lies the greatest potential for impact: real-world problems, employment generation, and sustainable growth.", icon: "Users" },
-      { title: "Biweekly Office Hours", desc: "Regular one-on-one and group sessions with mentors and program leaders. These aren't generic check-ins — they're targeted working sessions designed to unblock your specific challenges and accelerate your venture's progress.", icon: "Workflow" }
+      { title: "Seed Funding & Market Access", desc: "Each stage unlocks new resources, from seed funding to tailored mentorship and direct market access to emerging economies. Quest focuses on emerging markets because therein lies the greatest potential for impact: real-world problems, employment generation, and sustainable growth.", icon: "Users" },
+      { title: "Biweekly Office Hours", desc: "Regular one-on-one and group sessions with mentors and program leaders. These aren't generic check-ins. They're targeted working sessions designed to unblock your specific challenges and accelerate your venture's progress.", icon: "Workflow" }
     ],
     unfairAdvantageTitle: "The Quest Unfair Advantage",
     unfairAdvantageImages: {
@@ -413,14 +413,14 @@ export const programsData: ProgramDetail[] = [
     isForYouIf: [
       "You are an unconventional thinker who wants to address challenges on a global or local scale.",
       "You are an ecosystem amplifier looking to drive innovation-driven entrepreneurship.",
-      "You want to find your Ikigai — purpose, impact, and sustainable livelihood.",
+      "You want to find your Ikigai: purpose, impact, and sustainable livelihood.",
       "You are committed to building ventures that create employment and drive sustainable growth in emerging markets.",
       "You value a structured, systematic approach to entrepreneurship backed by MIT's Disciplined Entrepreneurship framework.",
       "You want access to Queen's University faculty, mentorship, and global boot camp experiences."
     ],
     faqs: [
       { q: "What is the Quest Fellowship?", a: "Quest Fellowship is a semester-long initiative developed by AirDrop Labs in collaboration with the Dunin-Deshpande Queen's Innovation Centre (DDQIC) at Queen's University. It equips young minds with the tools to transform ideas, technologies, or passions into impactful ventures that contribute to shaping the future." },
-      { q: "How does the three-stage structure work?", a: "The program revolves around three stages: Explore, Ignite, and Launch. Advancement through stages hinges on your commitment and dedication — completing assignments, attending lectures, engaging in quizzes, and actively participating in biweekly office hours. Each stage unlocks new opportunities and resources, from mentorship to seed funding and market access." },
+      { q: "How does the three-stage structure work?", a: "The program revolves around three stages: Explore, Ignite, and Launch. Advancement through stages hinges on your commitment and dedication: completing assignments, attending lectures, engaging in quizzes, and actively participating in biweekly office hours. Each stage unlocks new opportunities and resources, from mentorship to seed funding and market access." },
       { q: "What curriculum does Quest use?", a: "The curriculum draws inspiration from the systematic approach outlined in Disciplined Entrepreneurship: 24 Steps to a Successful Startup by Bill Aulet, developed at the Martin Trust Center for MIT Entrepreneurship. This is delivered through bite-sized video lectures curated by Queen's University faculty." },
       { q: "Why does Quest focus on emerging markets?", a: "Because therein lies the greatest potential for impact. Quest is dedicated to tackling real-world problems, generating employment opportunities, and driving sustainable growth through innovative solutions that uplift communities and leave a lasting legacy." },
       { q: "Is the program full-time?", a: "No. Quest is a self-paced program offering a wealth of training materials including bite-sized video lectures. It's designed to accommodate both full-time students and working professionals, while maintaining rigorous standards for advancement through the three stages." }
@@ -439,7 +439,7 @@ export const programsData: ProgramDetail[] = [
       { partner: "DDQIC Lead", title: "GreenGrid", desc: "Decentralized renewable energy marketplace enabling peer-to-peer solar trading in urban informal settlements. [Energy Systems]", partnerImage: "https://i.pravatar.cc/100?img=30" }
     ],
     testimonial: {
-      quote: "Quest Fellowship isn't just about building companies — it's about finding your Ikigai and creating lasting impact in the communities that need it most.",
+      quote: "Quest Fellowship isn't just about building companies; it's about finding your Ikigai and creating lasting impact in the communities that need it most.",
       author: "Quest Fellow",
       role: "Cohort 1 Graduate",
       image: "https://i.pravatar.cc/100?img=4"
@@ -448,12 +448,12 @@ export const programsData: ProgramDetail[] = [
       { name: "AquaReach", desc: "low-cost water purification for rural East Africa.", focus: "Water Purification", field: "Water Systems", funding: "$500k Seed", teamSize: "5-10", categories: "Water / Infra", location: "Kampala" }
     ],
     applicationCycles: [
-      { cycle: "Cohort 3 — Spring 2025", opens: "Apr 1, 2025", closes: "Jun 15, 2025", cohortStart: "Aug 2025", status: "open" },
-      { cycle: "Cohort 4 — Fall 2025", opens: "Sep 1, 2025", closes: "Nov 15, 2025", cohortStart: "Jan 2026", status: "upcoming" },
+      { cycle: "Cohort 3, Spring 2025", opens: "Apr 1, 2025", closes: "Jun 15, 2025", cohortStart: "Aug 2025", status: "open" },
+      { cycle: "Cohort 4, Fall 2025", opens: "Sep 1, 2025", closes: "Nov 15, 2025", cohortStart: "Jan 2026", status: "upcoming" },
     ],
     whatYouGet: [
       { title: "Queen's University Curriculum", desc: "Curated lectures by acclaimed faculty. The MIT Disciplined Entrepreneurship 24-step framework delivered through bite-sized video content.", icon: "Globe" },
-      { title: "Three-Stage Progression", desc: "Explore, Ignite, and Launch — each stage unlocks new resources. Advancement based on demonstrated commitment, not arbitrary timelines.", icon: "Zap" },
+      { title: "Three-Stage Progression", desc: "Explore, Ignite, and Launch, each stage unlocks new resources. Advancement based on demonstrated commitment, not arbitrary timelines.", icon: "Zap" },
       { title: "Self-Paced Flexibility", desc: "Designed for both full-time students and working professionals. Bite-sized lectures that adapt to your schedule without compromising rigor.", icon: "Activity" },
       { title: "Hands-On Boot Camps", desc: "Immersive experiences in diverse locations, stress-testing your venture in real-world environments and different market dynamics.", icon: "Target" },
       { title: "Seed Funding Access", desc: "Launch stage fellows unlock seed funding to take their venture from prototype to real-world impact in emerging markets.", icon: "Users" },

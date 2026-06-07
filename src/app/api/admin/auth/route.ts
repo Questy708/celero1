@@ -93,7 +93,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// Token verification helper — validates structure and expiry (24h)
+// Token verification helper: validates structure and expiry (24h)
 export async function verifyToken(token: string): Promise<boolean> {
   try {
     const parts = token.split(".");
