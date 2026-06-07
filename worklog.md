@@ -240,3 +240,91 @@ Stage Summary:
 - 3. ADMIN_SECRET validation: 32-char minimum + placeholder detection, enforced at startup
 - 4. Production environment validation: startup checks in db.ts, health endpoint at /api/health
 - Site fully functional, lint clean, no errors
+
+---
+Task ID: 2
+Agent: deployment-fixes-agent
+Task: Implement 3 critical deployment fixes (CSP, rate limit memory leak, CORS)
+
+Work Log:
+- Added Content-Security-Policy header to next.config.ts securityHeaders array:
+  - default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' (Next.js requires unsafe-inline/eval)
+  - style-src 'self' 'unsafe-inline' https://fonts.googleapis.com (Tailwind + Google Fonts)
+  - font-src 'self' https://fonts.gstatic.com (Google Fonts woff2 files)
+  - img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc (Unsplash + avatars)
+  - connect-src 'self' (same-origin API); frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+- Fixed rate limit memory leak in src/middleware.ts:
+  - Added rateLimitCheckCount counter variable
+  - Added cleanupRateLimits() function that deletes entries where now - windowStart > API_RATE_WINDOW * 2
+  - Runs every 100th rate limit check (avoids per-request overhead, no setInterval needed for Edge Runtime)
+- Fixed rate limit memory leak in src/lib/auth.ts:
+  - Added rateLimitCheckCount counter variable
+  - Added cleanupRateLimitMap() function that deletes entries where now - lastAttempt > windowMs * 2
+  - Runs every 50th checkRateLimit call
+- Added CORS headers to all responses in src/middleware.ts:
+  - Access-Control-Allow-Origin: * in dev, NEXT_PUBLIC_SITE_URL or https://xcelerolabs.com in production
+  - Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS
+  - Access-Control-Allow-Headers: Content-Type, Authorization
+  - Access-Control-Max-Age: 86400 (24-hour preflight cache)
+- Added OPTIONS preflight handling: returns 204 with CORS headers, no body
+- CORS headers also added to rate-limited 429 responses
+- Lint passes clean, dev server runs clean, no errors
+
+Stage Summary:
+- CSP header locks down resource loading to only what the site needs (no iframes, no external scripts, no Web Workers)
+- Both rate limit Maps (middleware and auth) now clean up stale entries periodically — no more unbounded memory growth
+- CORS properly configured: strict origin in production, open in development, preflight handled with 204
+- All existing functionality preserved: rate limiting, blocked paths, HTTPS redirect still work
+
+---
+Task ID: 3
+Agent: error-pages-agent
+Task: Create error pages, Dockerfile, and .dockerignore
+
+Work Log:
+- Created /src/app/error.tsx - Global Error Boundary:
+  - Client Component with 'use client' directive
+  - Accepts error and reset props per Next.js convention
+  - In development: shows the actual error message
+  - In production: shows generic "Something went wrong" message
+  - Displays error.digest reference when available
+  - AlertTriangle icon from lucide-react
+  - "Try Again" button calls reset(), "Back to Home" link navigates to /
+  - framer-motion fade-in animation with staggered delays
+  - Styled with xCelero brand: #0a0a0a dark bg, #FF4D00 accent, white text
+- Created /src/app/not-found.tsx - Custom 404 Page:
+  - Uses 'use client' for framer-motion animation support
+  - Large "404" text in font-display style
+  - Message: "This page doesn't exist yet. The Route hasn't reached here."
+  - Compass icon from lucide-react (on-brand with "Routes" theme)
+  - "Back to Home" link with ArrowLeft icon
+  - framer-motion fade-in animation
+  - Consistent dark theme with #0a0a0a bg and #FF4D00 accent
+- Created /src/app/global-error.tsx - Root Layout Error Boundary:
+  - Client Component with 'use client' directive
+  - Minimal HTML structure (wraps in <html>/<body> since root layout may be broken)
+  - Uses inline styles only (NOT Tailwind) since the layout may be broken
+  - Dark background (#0a0a0a), white text, centered layout
+  - AlertTriangle SVG icon (inline, no dependency on lucide-react)
+  - "Reload" button calls window.location.reload()
+  - Shows error.digest when available
+  - Hover effects on button via onMouseOver/onMouseOut
+- Created /Dockerfile - Multi-stage production Dockerfile:
+  - Stage 1 (deps): node:20-alpine, installs bun, runs bun install --frozen-lockfile
+  - Stage 2 (builder): copies node_modules, runs prisma generate + npm run build
+  - Stage 3 (runner): node:20-alpine, non-root user (nextjs:nodejs), copies standalone output + static assets
+  - Copies prisma/ and scripts/ directories for production database setup
+  - EXPOSE 3000, CMD ["node", "server.js"]
+  - Compatible with output: "standalone" in next.config.ts
+- Created /.dockerignore:
+  - Excludes node_modules, .next, .git, *.md, .env files, db/*.db, dev.log
+- Lint passes clean
+- Dev server runs without errors
+
+Stage Summary:
+- 3 error boundary pages created (error.tsx, not-found.tsx, global-error.tsx)
+- All pages styled consistently with xCelero Labs dark theme (#0a0a0a, #FF4D00 accent)
+- global-error.tsx uses inline styles (no Tailwind) as safety net for broken layouts
+- Production-ready Dockerfile with multi-stage build, non-root user, standalone output
+- .dockerignore excludes dev artifacts and sensitive files
+- All code TypeScript, lint-clean

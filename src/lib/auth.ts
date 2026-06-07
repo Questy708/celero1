@@ -64,11 +64,34 @@ const rateLimitMap = new Map<
   { count: number; lastAttempt: number }
 >();
 
+// Counter for periodic cleanup (avoids running on every request)
+let rateLimitCheckCount = 0;
+
+/**
+ * Remove stale rate limit entries whose window has expired beyond
+ * twice the normal window length. Called every 50th check.
+ */
+function cleanupRateLimitMap(windowMs: number): void {
+  const now = Date.now();
+  const maxAge = windowMs * 2;
+  for (const [key, entry] of rateLimitMap) {
+    if (now - entry.lastAttempt > maxAge) {
+      rateLimitMap.delete(key);
+    }
+  }
+}
+
 export function checkRateLimit(
   ip: string,
   maxAttempts: number = 10,
   windowMs: number = 60 * 1000
 ): { allowed: boolean; retryAfterMs?: number } {
+  // Periodic cleanup: every 50th check
+  rateLimitCheckCount += 1;
+  if (rateLimitCheckCount % 50 === 0) {
+    cleanupRateLimitMap(windowMs);
+  }
+
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
 

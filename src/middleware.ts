@@ -9,6 +9,9 @@ const middlewareRateLimits = new Map<
 const API_RATE_LIMIT = 60; // requests per window
 const API_RATE_WINDOW = 60 * 1000; // 1 minute
 
+// Counter for periodic cleanup (avoids running on every request)
+let rateLimitCheckCount = 0;
+
 function getClientIp(req: NextRequest): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -17,7 +20,27 @@ function getClientIp(req: NextRequest): string {
   );
 }
 
+/**
+ * Remove stale rate limit entries whose window has expired beyond
+ * twice the normal window length. Called every 100th check.
+ */
+function cleanupRateLimits(): void {
+  const now = Date.now();
+  const maxAge = API_RATE_WINDOW * 2;
+  for (const [ip, entry] of middlewareRateLimits) {
+    if (now - entry.windowStart > maxAge) {
+      middlewareRateLimits.delete(ip);
+    }
+  }
+}
+
 function checkMiddlewareRateLimit(ip: string): boolean {
+  // Periodic cleanup: every 100th check
+  rateLimitCheckCount += 1;
+  if (rateLimitCheckCount % 100 === 0) {
+    cleanupRateLimits();
+  }
+
   const now = Date.now();
   const entry = middlewareRateLimits.get(ip);
 
@@ -34,6 +57,25 @@ function checkMiddlewareRateLimit(ip: string): boolean {
   return true;
 }
 
+/**
+ * Build CORS headers for the response.
+ * In production, uses NEXT_PUBLIC_SITE_URL or https://xcelerolabs.com.
+ * In development, uses *.
+ */
+function getCorsHeaders(): Record<string, string> {
+  const isDev = process.env.NODE_ENV !== "production";
+  const allowedOrigin = isDev
+    ? "*"
+    : (process.env.NEXT_PUBLIC_SITE_URL || "https://xcelerolabs.com");
+
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Max-Age": "86400",
+  };
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -47,16 +89,31 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(httpsUrl, 301);
   }
 
+  // ─── Handle CORS preflight (OPTIONS) ───
+  if (req.method === "OPTIONS") {
+    const corsHeaders = getCorsHeaders();
+    return new NextResponse(null, {
+      status: 204,
+      headers: corsHeaders,
+    });
+  }
+
   // ─── Rate limit all API routes ───
   if (pathname.startsWith("/api/")) {
     const ip = getClientIp(req);
     const allowed = checkMiddlewareRateLimit(ip);
 
     if (!allowed) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         { error: "Too many requests. Please slow down." },
         { status: 429 }
       );
+      // Add CORS headers even on rate-limited responses
+      const corsHeaders = getCorsHeaders();
+      for (const [key, value] of Object.entries(corsHeaders)) {
+        response.headers.set(key, value);
+      }
+      return response;
     }
   }
 
@@ -67,6 +124,12 @@ export function middleware(req: NextRequest) {
   }
 
   const response = NextResponse.next();
+
+  // ─── Add CORS headers to all responses ───
+  const corsHeaders = getCorsHeaders();
+  for (const [key, value] of Object.entries(corsHeaders)) {
+    response.headers.set(key, value);
+  }
 
   return response;
 }
