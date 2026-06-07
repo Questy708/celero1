@@ -1,19 +1,13 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is a reference schema for PostgreSQL deployment.
+// Replace schema.prisma with this content when deploying to production.
+// Usage: ./scripts/db-setup.sh postgresql
 
 generator client {
   provider = "prisma-client-js"
 }
 
-// For production, change provider to "postgresql" and set DATABASE_URL to your PostgreSQL connection string.
-// Example: DATABASE_URL="postgresql://user:password@host:5432/xcelero?schema=public"
-// Then run: npx prisma migrate dev --name init  (to create migration files)
-// And:      npx prisma migrate deploy            (to apply migrations in production)
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -57,13 +51,13 @@ model Application {
   location       String?
   role           String?
   pitchDeckUrl   String?
-  motivation     String?
+  motivation     String?  @db.Text
   // Partner-specific
   orgName    String?
   orgWebsite String?
   partnerRole String?
   interest   String?
-  description String?
+  description String?  @db.Text
   // Status tracking
   status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
   notes     String?
@@ -82,7 +76,7 @@ model JobApplication {
   role      String   // e.g. "Growth Lead", "Platform Engineer"
   location  String?
   availability String? // immediate, 2-weeks, 1-month
-  motivation String?
+  motivation String?  @db.Text
   referral  String?
   resumeUrl String?
   status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
@@ -102,7 +96,7 @@ model ProgramApplication {
   location  String?
   currentRole String?
   companyName String?
-  motivation String?
+  motivation String?  @db.Text
   referral  String?
   status    String   @default("pending") // pending, reviewing, contacted, accepted, declined
   notes     String?
@@ -116,7 +110,7 @@ model ForumUser {
   id          String   @id @default(cuid())
   name        String
   email       String   @unique
-  bio         String?
+  bio         String?  @db.Text
   role        String   // Founder, Operator, Investor, Mentor, Other
   location    String?
   communities String   @default("") // comma-separated
@@ -138,7 +132,7 @@ model ForumPost {
   authorId   String
   community  String
   title      String
-  content    String?
+  content    String?  @db.Text
   upvotes    Int      @default(0)
   hearts     Int      @default(0)
   imageUrl   String?
@@ -156,7 +150,7 @@ model ForumComment {
   postId    String
   authorId  String
   parentId  String?  // self-reference for threaded replies
-  content   String
+  content   String   @db.Text
   likes     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

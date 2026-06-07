@@ -1,4 +1,8 @@
 import { PrismaClient } from '@prisma/client'
+import { validateProductionEnv } from '@/lib/env'
+
+// Run production environment validation when this module is loaded
+validateProductionEnv()
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined

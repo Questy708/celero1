@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminSecret, checkRateLimit, getClientIp, isValidInput } from "@/lib/auth";
+import { isStrongPassword } from "@/lib/env";
 
 // ─── Rate Limiting (in-memory, per-IP) ───
 const LOGIN_MAX_ATTEMPTS = 5;
@@ -91,6 +92,17 @@ export async function POST(req: NextRequest) {
         { error: "Invalid password" },
         { status: 401 }
       );
+    }
+
+    // In production, warn if the configured ADMIN_PASSWORD is weak
+    if (process.env.NODE_ENV === "production") {
+      const strengthCheck = isStrongPassword(adminPassword);
+      if (!strengthCheck.valid) {
+        console.warn(
+          "[auth] WARNING: ADMIN_PASSWORD is weak in production. Issues: %s",
+          strengthCheck.issues.join("; ")
+        );
+      }
     }
 
     const token = await generateToken();
