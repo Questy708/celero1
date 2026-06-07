@@ -1,10 +1,30 @@
 import { db } from '@/lib/db'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { verifyAdminAuth, checkRateLimit, getClientIp, isValidInput } from '@/lib/auth'
 
-// POST /api/forum/seed - Seed the forum with sample data
-export async function POST() {
+// POST /api/forum/seed - Seed the forum with sample data (admin only)
+export async function POST(req: NextRequest) {
+  // Protect seed endpoint: require admin auth
+  const isAuthed = await verifyAdminAuth(req)
+  if (!isAuthed) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Seed endpoint requires admin authentication.' },
+      { status: 401 }
+    )
+  }
+
+  // Rate limit even for admin
+  const ip = getClientIp(req)
+  const rateCheck = checkRateLimit(ip, 3, 60 * 1000) // 3 per minute
+  if (!rateCheck.allowed) {
+    return NextResponse.json(
+      { error: 'Too many seed requests.' },
+      { status: 429 }
+    )
+  }
+
   try {
-    // Seed members data (from TownSquare.tsx SEED_MEMBERS)
+    // Seed members data
     const seedMembers = [
       {
         name: 'Dr. Amina Osei',
@@ -141,7 +161,7 @@ export async function POST() {
     ]
 
     // Upsert all users
-    const userMap = new Map<string, string>() // name -> id
+    const userMap = new Map<string, string>()
     for (const member of seedMembers) {
       const user = await db.forumUser.upsert({
         where: { email: member.email },
@@ -172,7 +192,7 @@ export async function POST() {
       userMap.set(member.name, user.id)
     }
 
-    // Seed posts data (from TownSquare.tsx PRESET_POSTS)
+    // Seed posts data
     const seedPosts = [
       {
         authorName: 'Dr. Amina Osei',
@@ -260,7 +280,6 @@ export async function POST() {
         createdPostIds.push(post.id)
       }
     } else {
-      // Get existing post IDs for comment creation
       const existingPosts = await db.forumPost.findMany({
         select: { id: true },
         orderBy: { createdAt: 'asc' },
@@ -273,7 +292,6 @@ export async function POST() {
     const existingCommentCount = await db.forumComment.count()
 
     if (existingCommentCount === 0 && createdPostIds.length >= 6) {
-      // Comment on post1 (index 0): Kofi Mensah
       await db.forumComment.create({
         data: {
           postId: createdPostIds[0],
@@ -284,7 +302,6 @@ export async function POST() {
         },
       })
 
-      // Comment on post3 (index 2): Samuel Mengistu
       await db.forumComment.create({
         data: {
           postId: createdPostIds[2],
@@ -295,7 +312,6 @@ export async function POST() {
         },
       })
 
-      // Comment on post5 (index 4): Ngozi Eze with reply from Amara Diallo
       const ngoziComment = await db.forumComment.create({
         data: {
           postId: createdPostIds[4],

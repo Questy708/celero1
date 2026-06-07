@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { isValidInput } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +13,53 @@ export async function POST(req: NextRequest) {
         { error: "Missing required fields: type, firstName, lastName, email" },
         { status: 400 }
       );
+    }
+
+    // Input length validation
+    if (!isValidInput(firstName, 200) || !isValidInput(lastName, 200)) {
+      return NextResponse.json({ error: "Name fields must be 1-200 characters" }, { status: 400 });
+    }
+    if (!isValidInput(email, 320)) {
+      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+    }
+    if (referral && !isValidInput(referral, 200)) {
+      return NextResponse.json({ error: "Invalid referral" }, { status: 400 });
+    }
+    if (body.linkedinUrl && !isValidInput(body.linkedinUrl, 2000)) {
+      return NextResponse.json({ error: "Invalid LinkedIn URL" }, { status: 400 });
+    }
+    if (body.companyName && !isValidInput(body.companyName, 200)) {
+      return NextResponse.json({ error: "Invalid company name" }, { status: 400 });
+    }
+    if (body.companyWebsite && !isValidInput(body.companyWebsite, 2000)) {
+      return NextResponse.json({ error: "Invalid company website" }, { status: 400 });
+    }
+    if (body.location && !isValidInput(body.location, 200)) {
+      return NextResponse.json({ error: "Invalid location" }, { status: 400 });
+    }
+    if (body.role && !isValidInput(body.role, 200)) {
+      return NextResponse.json({ error: "Invalid role" }, { status: 400 });
+    }
+    if (body.pitchDeckUrl && !isValidInput(body.pitchDeckUrl, 2000)) {
+      return NextResponse.json({ error: "Invalid pitch deck URL" }, { status: 400 });
+    }
+    if (body.motivation && !isValidInput(body.motivation, 5000)) {
+      return NextResponse.json({ error: "Motivation must be under 5,000 characters" }, { status: 400 });
+    }
+    if (body.orgName && !isValidInput(body.orgName, 200)) {
+      return NextResponse.json({ error: "Invalid organization name" }, { status: 400 });
+    }
+    if (body.orgWebsite && !isValidInput(body.orgWebsite, 2000)) {
+      return NextResponse.json({ error: "Invalid organization website" }, { status: 400 });
+    }
+    if (body.partnerRole && !isValidInput(body.partnerRole, 200)) {
+      return NextResponse.json({ error: "Invalid partner role" }, { status: 400 });
+    }
+    if (body.interest && !isValidInput(body.interest, 2000)) {
+      return NextResponse.json({ error: "Invalid interest" }, { status: 400 });
+    }
+    if (body.description && !isValidInput(body.description, 5000)) {
+      return NextResponse.json({ error: "Description must be under 5,000 characters" }, { status: 400 });
     }
 
     // Validate type

@@ -105,3 +105,38 @@ Stage Summary:
 - Investment vehicles have regulatory disclaimers
 - Security hardened: no more fallback secrets, rate limiting on auth, public data endpoints closed
 - .env.example created for production deployment guidance
+
+---
+Task ID: 2
+Agent: Main
+Task: Implement 4 remaining deployment notes (security hardening + production readiness)
+
+Work Log:
+- Created src/lib/auth.ts with shared verifyAdminAuth (no fallback secret), getAdminSecret, checkRateLimit, getClientIp, isValidInput utilities
+- Fixed CRITICAL fallback-secret bug in admin/export/route.ts: removed `|| "fallback-secret"` — now uses shared verifyAdminAuth that rejects tokens if ADMIN_SECRET env var is missing
+- Refactored admin/route.ts to use shared verifyAdminAuth (was a duplicate with correct behavior)
+- Refactored admin/auth/route.ts: uses shared getAdminSecret, replaced Math.random() with crypto.getRandomValues(), added timingSafeEqual for constant-time password comparison, uses shared checkRateLimit/getClientIp/isValidInput
+- Added security headers in next.config.ts: X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin, Strict-Transport-Security (2yr+preload), Permissions-Policy, X-XSS-Protection, X-DNS-Prefetch-Control
+- Enabled reactStrictMode: true in next.config.ts
+- Created src/middleware.ts: API rate limiting (60 req/min per IP), HTTPS redirect in production, blocked sensitive paths (/.env, /.git, /prisma, /db)
+- Protected forum seed endpoint: POST /api/forum/seed now requires admin Bearer token authentication (was previously wide open)
+- Added input length validation to ALL public API endpoints: forum/users, forum/posts, forum/comments, programs/apply, careers/apply, capital/subscribe, applications
+- Added user existence verification on forum post creation and voting (prevents authorId spoofing)
+- Fixed Prisma query logging: conditional on NODE_ENV (only logs in development, disabled in production)
+- Updated robots.txt: disallows /api/ and /admin for all user agents, added Sitemap reference
+- Created src/app/sitemap.ts: generates sitemap for all major site routes
+- Updated .env.example with completed deployment checklist
+
+Stage Summary:
+- Fallback secret bug FIXED — export route no longer accepts forged tokens
+- 3 copies of verifyAuth eliminated — single shared lib/auth.ts
+- Admin password comparison uses constant-time algorithm (timing-attack resistant)
+- Token generation uses crypto.getRandomValues instead of Math.random
+- 7 security headers applied to all routes via next.config.ts
+- Middleware rate limits all API routes (60/min per IP)
+- Forum seed endpoint requires admin auth (was public)
+- All 15 API routes have input length validation
+- Prisma logging disabled in production
+- robots.txt blocks API/admin paths from crawlers
+- sitemap.ts generated for SEO
+- All changes verified: lint passes, dev server runs clean, browser test confirms site works, security headers present, blocked paths return 404

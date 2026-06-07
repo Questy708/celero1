@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
+import { isValidInput } from '@/lib/auth'
 
 interface CommentWithAuthor {
   id: string
@@ -17,7 +18,6 @@ interface CommentWithAuthor {
 function buildCommentTree(comments: CommentWithAuthor[]) {
   const map = new Map<string, CommentWithAuthor & { replies: CommentWithAuthor[] }>()
 
-  // Create map entries with empty replies arrays
   for (const comment of comments) {
     map.set(comment.id, { ...comment, replies: [] })
   }
@@ -46,6 +46,10 @@ export async function GET(
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId') || ''
 
+    if (!isValidInput(id, 100)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 })
+    }
+
     const post = await db.forumPost.findUnique({
       where: { id },
       include: {
@@ -68,10 +72,8 @@ export async function GET(
       return NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
 
-    // Build nested comment tree
     const commentsTree = buildCommentTree(post.comments as CommentWithAuthor[])
 
-    // Add userVote and userHearted info to comments
     const enrichComments = (
       comments: (CommentWithAuthor & { replies: CommentWithAuthor[] })[]
     ) =>
@@ -116,11 +118,25 @@ export async function PATCH(
     const body = await request.json()
     const { action, userId, direction } = body
 
+    if (!isValidInput(id, 100)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 })
+    }
+
     if (!userId) {
       return NextResponse.json(
         { error: 'userId is required' },
         { status: 400 }
       )
+    }
+
+    if (!isValidInput(userId, 100)) {
+      return NextResponse.json({ error: 'Invalid userId' }, { status: 400 })
+    }
+
+    // Verify the user exists
+    const actingUser = await db.forumUser.findUnique({ where: { id: userId } })
+    if (!actingUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     const post = await db.forumPost.findUnique({ where: { id } })
@@ -136,14 +152,12 @@ export async function PATCH(
         )
       }
 
-      // Check existing vote
       const existingVote = await db.forumVote.findUnique({
         where: { userId_postId: { userId, postId: id } },
       })
 
       if (existingVote) {
         if (existingVote.direction === direction) {
-          // Toggle off: remove the vote, adjust count
           await db.forumVote.delete({
             where: { id: existingVote.id },
           })
@@ -152,7 +166,6 @@ export async function PATCH(
             data: { upvotes: { increment: direction === 'up' ? -1 : 1 } },
           })
         } else {
-          // Change direction: adjust count by 2
           await db.forumVote.update({
             where: { id: existingVote.id },
             data: { direction },
@@ -163,7 +176,6 @@ export async function PATCH(
           })
         }
       } else {
-        // New vote
         await db.forumVote.create({
           data: { userId, postId: id, direction },
         })
@@ -181,13 +193,11 @@ export async function PATCH(
     }
 
     if (action === 'heart') {
-      // Check existing heart
       const existingHeart = await db.forumHeart.findUnique({
         where: { userId_postId: { userId, postId: id } },
       })
 
       if (existingHeart) {
-        // Toggle off: remove heart
         await db.forumHeart.delete({
           where: { id: existingHeart.id },
         })
@@ -196,7 +206,6 @@ export async function PATCH(
           data: { hearts: { decrement: 1 } },
         })
       } else {
-        // Toggle on: add heart
         await db.forumHeart.create({
           data: { userId, postId: id },
         })

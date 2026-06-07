@@ -1,11 +1,20 @@
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
+import { isValidInput } from '@/lib/auth'
 
 // GET /api/forum/users - List all forum users with optional search
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
+
+    // Validate search input length
+    if (search && !isValidInput(search, 200)) {
+      return NextResponse.json(
+        { error: 'Search query too long' },
+        { status: 400 }
+      )
+    }
 
     const where = search
       ? {
@@ -44,6 +53,29 @@ export async function POST(request: NextRequest) {
         { error: 'name, email, and role are required' },
         { status: 400 }
       )
+    }
+
+    // Input length validation
+    if (!isValidInput(name, 200)) {
+      return NextResponse.json({ error: 'Name must be 1-200 characters' }, { status: 400 })
+    }
+    if (!isValidInput(email, 320)) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    }
+    if (!isValidInput(role, 100)) {
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 })
+    }
+    if (bio && !isValidInput(bio, 2000)) {
+      return NextResponse.json({ error: 'Bio must be under 2,000 characters' }, { status: 400 })
+    }
+    if (location && !isValidInput(location, 200)) {
+      return NextResponse.json({ error: 'Invalid location' }, { status: 400 })
+    }
+    if (company && !isValidInput(company, 200)) {
+      return NextResponse.json({ error: 'Invalid company name' }, { status: 400 })
+    }
+    if (title && !isValidInput(title, 200)) {
+      return NextResponse.json({ error: 'Invalid title' }, { status: 400 })
     }
 
     const communitiesStr = Array.isArray(communities)

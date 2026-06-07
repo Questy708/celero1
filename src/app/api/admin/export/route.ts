@@ -1,37 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-
-// Auth verification helper
-async function verifyAuth(req: NextRequest): Promise<boolean> {
-  try {
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token) return false;
-
-    const parts = token.split(".");
-    if (parts.length !== 3) return false;
-
-    const [timestampStr, randomPart, hashHex] = parts;
-    const timestamp = parseInt(timestampStr, 10);
-
-    const now = Date.now();
-    const maxAge = 24 * 60 * 60 * 1000;
-    if (now - timestamp > maxAge) return false;
-
-    const secret = process.env.ADMIN_SECRET || "fallback-secret";
-    const data = `${secret}:${timestampStr}:${randomPart}`;
-    const encoder = new TextEncoder();
-    const dataBuffer = encoder.encode(data);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const recomputedHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-
-    return recomputedHash === hashHex;
-  } catch {
-    return false;
-  }
-}
+import { verifyAdminAuth } from "@/lib/auth";
 
 function escapeCSV(value: string | number | boolean | null | undefined): string {
   if (value === null || value === undefined) return "";
@@ -49,7 +18,7 @@ function generateCSV(headers: string[], rows: string[][]): string {
 }
 
 export async function GET(req: NextRequest) {
-  const isAuthed = await verifyAuth(req);
+  const isAuthed = await verifyAdminAuth(req);
   if (!isAuthed) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

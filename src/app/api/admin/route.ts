@@ -1,45 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-
-// Auth verification helper
-async function verifyAuth(req: NextRequest): Promise<boolean> {
-  try {
-    const authHeader = req.headers.get("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-
-    if (!token) return false;
-
-    const parts = token.split(".");
-    if (parts.length !== 3) return false;
-
-    const [timestampStr, randomPart, hashHex] = parts;
-    const timestamp = parseInt(timestampStr, 10);
-
-    // Check if token is expired (24 hours)
-    const now = Date.now();
-    const maxAge = 24 * 60 * 60 * 1000;
-    if (now - timestamp > maxAge) return false;
-
-    // Recompute hash - MUST use env var, no fallback
-    const secret = process.env.ADMIN_SECRET;
-    if (!secret) return false; // If no secret configured, all tokens invalid
-
-    const data = `${secret}:${timestampStr}:${randomPart}`;
-    const encoder = new TextEncoder();
-    const dataBuffer = encoder.encode(data);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const recomputedHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-
-    return recomputedHash === hashHex;
-  } catch {
-    return false;
-  }
-}
+import { verifyAdminAuth } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
   // Verify auth
-  const isAuthed = await verifyAuth(req);
+  const isAuthed = await verifyAdminAuth(req);
   if (!isAuthed) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -205,7 +170,7 @@ export async function GET(req: NextRequest) {
 
 // Update status for all record types
 export async function PATCH(req: NextRequest) {
-  const isAuthed = await verifyAuth(req);
+  const isAuthed = await verifyAdminAuth(req);
   if (!isAuthed) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -291,7 +256,7 @@ export async function PATCH(req: NextRequest) {
 
 // Delete a record
 export async function DELETE(req: NextRequest) {
-  const isAuthed = await verifyAuth(req);
+  const isAuthed = await verifyAdminAuth(req);
   if (!isAuthed) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
