@@ -328,3 +328,28 @@ Stage Summary:
 - Production-ready Dockerfile with multi-stage build, non-root user, standalone output
 - .dockerignore excludes dev artifacts and sensitive files
 - All code TypeScript, lint-clean
+
+---
+Task ID: 6
+Agent: Main
+Task: Push to GitHub, implement remaining deployment notes, verify
+
+Work Log:
+- Pushed all prior changes to GitHub (commit 62f80d0)
+- Audited project for remaining deployment gaps beyond original 4 checklist items
+- Identified 6 additional concerns: missing CSP, no CORS, rate limit memory leak, no error pages, no Dockerfile, no .dockerignore
+- Delegated CSP + rate limit + CORS fixes to subagent (Task ID 2)
+- Delegated error pages + Dockerfile to subagent (Task ID 3)
+- Verified all new files: error.tsx, not-found.tsx, global-error.tsx, Dockerfile, .dockerignore, updated next.config.ts, middleware.ts, auth.ts
+- Ran lint: passes clean
+- Browser verified: home page loads, custom 404 renders, health endpoint returns valid JSON, no console errors
+- Committed as 3637d6e and pushed to GitHub
+
+Stage Summary:
+- Content Security Policy header added (XSS protection)
+- CORS headers + OPTIONS preflight handling in middleware
+- Rate limit memory leak fixed in both middleware.ts and auth.ts (periodic cleanup)
+- Custom error/404/global-error pages prevent stack trace leaks
+- Dockerfile ready for containerized deployment (multi-stage, non-root, standalone)
+- .dockerignore excludes dev artifacts and sensitive files
+- All pushed to https://github.com/Questy708/celero1
