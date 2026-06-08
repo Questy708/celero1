@@ -142,10 +142,10 @@ function RoutesBridge() {
             className="lg:col-span-6"
           >
             <p className="text-[22px] sm:text-[28px] md:text-[34px] leading-[1.25] font-display font-medium tracking-[-0.02em] text-[#111111] mb-6 md:mb-8">
-              The world doesn&apos;t operate in countries. It operates in <span className="text-[#FF4D00]">Routes</span>.
+              The world doesn&apos;t operate in borders. It operates in <span className="text-[#FF4D00]">flow</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              The Hanseatic League connected 190 cities through shared protocols for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe, not through conquest, but through flow. xCelero rebuilds that model for the 21st century: 190 hubs, 39 countries, one circulatory system for goods, capital, data, and people. <span className="text-[#111111] font-semibold">Where the Route connects, prosperity follows.</span>
+              The Hanseatic League connected 190 cities through shared protocols for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe, not through conquest, but through flow. The Ba-Hanse is not a copy of that League. It is a new union, inspired by it, for a different continent, a different philosophy, a different century. 190 hubs, 39 countries, one circulatory system where prosperity is designed to flow. <span className="text-[#111111] font-semibold">Where flow connects, mutual flourishing follows.</span>
             </p>
           </motion.div>
 
@@ -195,6 +195,105 @@ function RoutesBridge() {
             </div>
           </motion.div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BA-HANSE FORMAT SECTION: The four modalities of the Ba-Hanse experience
+   ══════════════════════════════════════════════════════════════════════════ */
+function BaHanseFormatSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const formatCards = [
+    {
+      icon: Route,
+      title: "Flow Immersions",
+      description:
+        "Deep-dive cohort experiences in each hub city. Not observation, participation. You enter the flow of goods, capital, data, and people, and you shape it from inside.",
+    },
+    {
+      icon: Database,
+      title: "Protocol Sprints",
+      description:
+        "Intensive builds where cohorts prototype the infrastructure the Route needs. Cross-border FX protocols, logistics APIs, identity systems, built with the people who will use them.",
+    },
+    {
+      icon: Users,
+      title: "Commons Feasts",
+      description:
+        "Every leg culminates in a shared meal that is also a shared deliberation. Jollof cook-offs in Lagos, tea ceremonies in Agadez, dhow dinners in Mombasa. Food as treaty. Table as parliament.",
+    },
+    {
+      icon: Compass,
+      title: "Heritage Walks",
+      description:
+        "Guided walks through sites of memory and consequence. Not tourism, witnessing. From slave castles to manuscript libraries, each walk places the Route in the long arc of human exchange.",
+    },
+  ];
+
+  return (
+    <section
+      ref={ref}
+      className="py-20 md:py-28 px-6 md:px-12 lg:px-20 border-b border-[#111111]/10 bg-white"
+    >
+      <div className="w-full max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Label */}
+          <span className="text-[10px] font-mono font-bold tracking-[0.25em] uppercase text-[#FF4D00] mb-4 block">
+            The Format
+          </span>
+
+          {/* Title */}
+          <h2 className="text-[24px] sm:text-[30px] md:text-[36px] lg:text-[42px] leading-[1.15] font-display font-medium tracking-[-0.02em] text-[#111111] mb-12 md:mb-16 max-w-3xl">
+            Not a tour. Not a conference. A mobile university for civilizational prototyping.
+          </h2>
+
+          {/* Format cards grid */}
+          <div className="grid sm:grid-cols-2 gap-6 md:gap-8">
+            {formatCards.map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 + i * 0.1, ease: "easeOut" }}
+                className="border border-[#111111]/10 p-6 md:p-8 hover:border-[#111111]/20 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#FF4D00]/[0.08] border border-[#FF4D00]/20">
+                    <card.icon className="w-5 h-5 text-[#FF4D00]" />
+                  </div>
+                  <div>
+                    <h3 className="text-[15px] md:text-[17px] font-display font-medium tracking-[-0.01em] text-[#111111] mb-2">
+                      {card.title}
+                    </h3>
+                    <p className="text-[14px] md:text-[15px] leading-[1.7] text-[#111111]/55 font-medium">
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Closing statement */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
+            className="mt-12 md:mt-16 text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/50 font-medium max-w-2xl"
+          >
+            Each cohort is 10-100 XCitizens. Rolling departures. One year, six legs, four pillars: Ventures, Infrastructure, Capital, Community.
+          </motion.p>
+        </motion.div>
       </div>
     </section>
   );
@@ -260,6 +359,7 @@ export function RoutesPage() {
       <HeroSection />
       <PreambleSection />
       <RoutesBridge />
+      <BaHanseFormatSection />
       <MapSection
         activeLeg={activeLeg}
         setActiveLeg={manualSetActiveLeg}
@@ -299,18 +399,18 @@ function HeroSection() {
         >
           {/* Small label */}
           <span className="text-[10px] font-mono font-bold tracking-[0.25em] uppercase text-[#FF4D00] mb-8 md:mb-12">
-            The Routes
+            The Ba-Hanse
           </span>
 
           <h1 className="text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] leading-[1.05] font-display font-medium tracking-[-0.02em] mb-8 md:mb-10">
-            The map of the world is a{" "}
-            <span className="italic font-serif text-[#FF4D00]">lie</span>.
+            Borders are not the real geography.{" "}
+            <span className="italic font-serif text-[#FF4D00]">Flow</span> is.
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl lg:text-[22px] leading-[1.6] text-[#111111]/50 font-medium max-w-2xl mb-10 sm:mb-14 md:mb-20">
-            The real world doesn&apos;t operate in countries. It operates in Routes.
-            Six legs. 190+ hubs. 35+ countries. One circulatory system for the
-            movement of goods, capital, data, and people.
+            A union of flow. Six legs. 190+ hubs. 35+ countries. One circulatory
+            system where goods, capital, data, and people move not across borders,
+            but through them.
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-5 sm:gap-x-10 md:gap-x-16">
@@ -318,7 +418,7 @@ function HeroSection() {
               { value: "6", label: "Legs" },
               { value: "190+", label: "Hub Cities" },
               { value: "35+", label: "Countries" },
-              { value: "100", label: "Xcitizens/yr" },
+              { value: "100", label: "XCitizens/cohort" },
             ].map((m, i) => (
               <motion.div
                 key={m.label}
@@ -373,21 +473,30 @@ function PreambleSection() {
               through conquest, but through <span className="text-[#111111] font-semibold">flow</span>.
             </p>
             <p>
-              The Routes are the Hanseatic League, rebuilt for the 21st century.
-              Six legs. 190+ hubs. {routeMetrics.countries} countries. One circulatory system for the
-              movement of goods, capital, data, and people across the geographies
-              that will define the next century.
+              We are not rebuilding the League. We are birthing something inspired by it
+              for a different continent, a different philosophy, a different century.
+              The Ba-Hanse: a union of micro-cities, borderless, interdependent,
+              prosperous by design. Where deals are not transactions but acts of
+              <span className="text-[#111111] font-semibold"> mutual flourishing</span>.
+              Where a prototype in one city becomes infrastructure for ten.
+              Where talent, capital, and knowledge circulate like water.
+            </p>
+            <p>
+              Six legs. 190+ hubs. {routeMetrics.countries} countries. Four pillars: Ventures,
+              Infrastructure, Capital, Community. Cohorts of 10-100 XCitizens
+              moving through the geographies that will define the next century.
+              One circulatory system for the movement of goods, capital, data, and people.
             </p>
           </div>
 
           <div className="mt-14 pt-14 border-t border-[#111111]/10">
             <p className="text-[20px] sm:text-[24px] md:text-[30px] font-display font-medium tracking-[-0.02em] leading-[1.25] text-[#111111]">
-              You can&apos;t change the world if you haven&apos;t seen it.{" "}
+              You can&apos;t prototype civilization from a desk.{" "}
               <span className="text-[#FF4D00]">
                 {routeMetrics.countries} countries.
               </span>{" "}
               <span className="text-[#FF4D00]">{routeMetrics.hubs} hubs.</span>{" "}
-              One journey.
+              One cohort. Civilizational prototyping, at micro-scale.
             </p>
           </div>
         </motion.div>

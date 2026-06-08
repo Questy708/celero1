@@ -353,3 +353,120 @@ Stage Summary:
 - Dockerfile ready for containerized deployment (multi-stage, non-root, standalone)
 - .dockerignore excludes dev artifacts and sensitive files
 - All pushed to https://github.com/Questy708/celero1
+
+---
+Task ID: 2
+Agent: Main
+Task: Redraft Routes page hero/preamble/bridge sections with Ba-Hanse conceptual framework
+
+Work Log:
+- Read full RoutesPage.tsx (2148 lines) and worklog.md for prior context
+- HeroSection text changes:
+  - Label: "The Routes" → "The Ba-Hanse"
+  - h1: "The map of the world is a lie." → "Borders are not the real geography. Flow is."
+  - Subtitle: Reframed from "operates in Routes" to "A union of flow" language, keeping stats but framing as flow through borders not across them
+  - Stats: "Xcitizens/yr" → "XCitizens/cohort" to reflect cohort format
+- PreambleSection text changes:
+  - Kept first paragraph about political cages unchanged
+  - Kept second paragraph about Hanseatic League history unchanged
+  - Replaced third paragraph: instead of "The Routes are the Hanseatic League, rebuilt", now "We are not rebuilding the League. We are birthing something inspired by it, for a different continent, a different philosophy, a different century."
+  - Added Ba-Hanse definition: "a union of micro-cities, borderless, interdependent, prosperous by design. Where deals are not transactions but acts of mutual flourishing. Where a prototype in one city becomes infrastructure for ten. Where talent, capital, and knowledge circulate like water."
+  - Added four pillars mention and cohort format
+  - Closing statement: "You can't change the world if you haven't seen it" → "You can't prototype civilization from a desk. [countries] countries. [hubs] hubs. One cohort. Civilizational prototyping, at micro-scale."
+- RoutesBridge text changes:
+  - Heading: "The world doesn't operate in countries. It operates in Routes." → "The world doesn't operate in borders. It operates in flow."
+  - Long paragraph: Reframed from "xCelero rebuilds that model" to "The Ba-Hanse is not a copy of that League. It is a new union, inspired by it, for a different continent, a different philosophy, a different century."
+  - Closing: "Where the Route connects, prosperity follows" → "Where flow connects, mutual flourishing follows"
+- Created new BaHanseFormatSection component:
+  - Label: "The Format"
+  - Title: "Not a tour. Not a conference. A mobile university for civilizational prototyping."
+  - 4 format cards in 2-column grid: Flow Immersions (Route icon), Protocol Sprints (Database icon), Commons Feasts (Users icon), Heritage Walks (Compass icon)
+  - Each card has icon in #FF4D00 accent box, title, description
+  - Closing statement: "Each cohort is 10-100 XCitizens. Rolling departures. One year, six legs, four pillars: Ventures, Infrastructure, Capital, Community."
+- Inserted <BaHanseFormatSection /> in RoutesPage component between RoutesBridge and MapSection
+- No layout/CSS/component structure changes to any existing components
+- All icons (Route, Database, Users, Compass) already imported in the file
+- Lint passes clean
+- Dev server runs clean with no errors
+
+Stage Summary:
+- Routes page hero/preamble/bridge sections redrafted with Ba-Hanse conceptual framework
+- New BaHanseFormatSection added with 4 format cards explaining the Ba-Hanse experience modalities
+- All text uses prophetic/future tense consistent with prior content reframe
+- No changes to MapSection, BlueprintMap, ArcAccordion, LegAccordionPanel, JourneySection, PricingSection, InvitationSection
+- All existing styling and layout preserved
+
+---
+Task ID: 1
+Agent: Main
+Task: Redraft Routes page data (routes.ts) with Ba-Hanse conceptual framework
+
+Work Log:
+- Read full routes.ts (741 lines) and worklog.md for prior context
+- Rewrote all 6 route legs in the routeLegs array with Ba-Hanse conceptual framework
+- KEPT UNCHANGED: all interfaces, annualSchedule, routeMetrics, arcPricing, fullRoutePricing, MAP_LOCATIONS, arcImages, and structural fields (id, name, legNumber, hubCount, countries, coreGeography, historicalAnchor, primaryFlow, coreFlows, friction, sampleSchedule, color)
+- REWRITTEN FIELDS for each of the 6 legs:
+
+  Leg 1 - Gulf of Guinea Arc:
+  - subtitle: "The Liquidity Coast" → "Where Flow Remembers Its Name"
+  - routeDealThesis.title: "The Liquidity Build" → "The Circulation Accord"
+  - routeDealThesis.description: Rewritten as Proto-Hanse experiment, "union of flow", "prototype in one city becomes infrastructure for ten", integrates Ventures + Infrastructure + Capital pillars
+  - signatureDeals: Renamed to Ba-Hanse format ("Flow Immersion: Port to Market", "Protocol Sprint: Mobile Money Interop", "Commons Lab: Creative IP Distribution", "Flow Immersion: Informal Trade Commons"), each with [Pillar + Pillar] tags
+  - culturalWeaving: Enriched with cohort language ("The cohort judges only by appetite", "The cohort walks not as tourists but as witnesses", "Each cohort member pours for what they came to build")
+  - keyCities: Slightly enriched with Ba-Hanse potential hints
+
+  Leg 2 - Sahel Band:
+  - subtitle: "The Resilience Frontier" → "The Covenant of the Threshold"
+  - routeDealThesis.title: "The Resilience Pact" → "The Threshold Covenant"
+  - routeDealThesis.description: Rewritten as "covenanted with the terrain", "community networks can advance where states have retreated", integrates Ventures + Infrastructure + Capital + Community pillars
+  - signatureDeals: "Flow Immersion: Pastoral Corridors", "Protocol Sprint: Mesh Networks", "Commons Lab: Climate Data Independence", "Protocol Sprint: Displaced Identity"
+  - culturalWeaving: Enriched with cohort language ("The cohort receives each round together", "The cohort walks the inseparability of knowledge and commerce")
+  - keyCities: Slightly enriched
+
+  Leg 3 - East African Corridor:
+  - subtitle: "The Corridor API" → "Where the Monsoon Writes Its Code"
+  - routeDealThesis.title: "The Corridor API" → "The Monsoon Protocol"
+  - routeDealThesis.description: Rewritten as "coordination without uniformity", "shared protocol for reading the wind", integrates Ventures + Infrastructure + Capital + Community pillars
+  - signatureDeals: "Protocol Sprint: Corridor Data Stack", "Commons Lab: Mobile Money Interop", "Flow Immersion: Agri-Market Price Commons", "Flow Immersion: Tourism as Shared Infrastructure"
+  - culturalWeaving: Enriched ("The cohort shares this meal as a Commons Feast, tasting the union of civilizations that precedes them", "what does sovereignty look like when it is shared, not seized?")
+  - keyCities: Slightly enriched
+
+  Leg 4 - Central African Heartland:
+  - subtitle: "The River Stack" → "Where the River Remembers Its Own Logic"
+  - routeDealThesis.title: "The River Stack" → "The River Accord"
+  - routeDealThesis.description: Rewritten as "shared operating system", "making the 90% informal cobalt trade legible", integrates Ventures + Infrastructure + Capital + Community pillars
+  - signatureDeals: "Flow Immersion: River Logistics Revival", "Protocol Sprint: Artisanal Mining Traceability", "Commons Lab: Biodiversity Data Commons", "Protocol Sprint: Offline-First Tools"
+  - culturalWeaving: Enriched ("The cohort shares this meal as a Commons Feast, eating what the river provides", "what if this disorder is the operating system?")
+  - keyCities: Slightly enriched
+
+  Leg 5 - Southern Arc:
+  - subtitle: "The Industrial Flow" → "Where the Stone Remembers the Forge"
+  - routeDealThesis.title: "The Industrial Flow" → "The Forge Accord"
+  - routeDealThesis.description: Rewritten as "industrial lineage for a different century", "coordination without uniformity", "workforce transformation as mutual flourishing", integrates Ventures + Infrastructure + Capital + Community pillars
+  - signatureDeals: "Protocol Sprint: Rail Corridor Harmonization", "Commons Lab: Energy-Resilient Manufacturing", "Flow Immersion: Mining-to-Agri Skills Transfer", "Protocol Sprint: Multi-Currency Settlement"
+  - culturalWeaving: Enriched ("The cohort receives this Commons Feast as the region's original protocol for mutual sustenance", "This is how civilization is prototyped")
+  - keyCities: Slightly enriched
+
+  Leg 6 - North Africa & Global Gateways:
+  - subtitle: "The Gateway Protocol" → "Where the Gateway Remembers It Was a League"
+  - routeDealThesis.title: "The Gateway Protocol" → "The Gateway Accord"
+  - routeDealThesis.description: Rewritten as "gateway as a league, not a corridor", "technical interoperability that makes political difference manageable", integrates Ventures + Infrastructure + Capital + Community pillars
+  - signatureDeals: "Protocol Sprint: Independent Data Routing", "Commons Lab: Regulatory Harmonization", "Flow Immersion: Reverse Diaspora Investment", "Flow Immersion: Maritime Logistics Commons"
+  - culturalWeaving: Enriched ("The cohort shares this Commons Feast as the Mediterranean's original protocol for civilizational exchange", "The league does not end; it disperses with direction")
+  - keyCities: Slightly enriched
+
+- Lint passes clean
+- Dev server runs without errors
+- All structural data, map coordinates, pricing, and image paths preserved unchanged
+
+Stage Summary:
+- All 6 route legs redrafted with Ba-Hanse conceptual framework
+- Subtitles evoke civilizational prototyping, not tech metaphors
+- Thesis titles use league language (Accord, Covenant, Protocol) instead of startup language (Build, Stack, API)
+- Thesis descriptions frame each leg as a Proto-Hanse micro-civilization experiment
+- Signature deals use Ba-Hanse format: Flow Immersion, Protocol Sprint, Commons Lab
+- Each signature deal tags which xCelero pillars it serves [Ventures/Infrastructure/Capital/Community]
+- Cultural weaving enriched with cohort nature and Commons Feast/ritual language
+- Key city descriptions enriched with Ba-Hanse potential hints
+- All content uses prophetic/future tense ("will be", "can become", "is designed to")
+- No inflated claims: speaks of possibility, not achievement
