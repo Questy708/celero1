@@ -76,7 +76,7 @@ function getCorsHeaders(): Record<string, string> {
   };
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // ─── HTTPS redirect in production ───

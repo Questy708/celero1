@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const securityHeaders = [
   {
     key: "X-Frame-Options",
-    value: "DENY",
+    value: "SAMEORIGIN",
   },
   {
     key: "X-Content-Type-Options",
@@ -32,12 +32,11 @@ const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://i.pravatar.cc; connect-src 'self' ws: wss:; frame-ancestors 'self' https://*.space-z.ai; base-uri 'self'; form-action 'self'",
   },
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: true,
@@ -53,6 +52,8 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: [
     "preview-chat-e151c751-c539-4bf7-bacc-ea07c099259b.space-z.ai",
+    "0.0.0.0",
+    "localhost",
   ],
 };
 
