@@ -470,3 +470,168 @@ Stage Summary:
 - Key city descriptions enriched with Ba-Hanse potential hints
 - All content uses prophetic/future tense ("will be", "can become", "is designed to")
 - No inflated claims: speaks of possibility, not achievement
+
+---
+Task ID: 1
+Agent: Main
+Task: Comprehensive content rewrite of routes.ts — kill "protocol", reframe for civilizational vision
+
+Work Log:
+- Read full routes.ts (~741 lines) and identified all ~30 instances of "protocol" across the file
+- Replaced ALL instances of "protocol" with contextually appropriate alternatives:
+  - "Protocol Sprint:" → "Covenant Sprint:" in all signature deal names (6 instances)
+  - "The Monsoon Protocol" → "The Monsoon Accord" (consistent with other Accords)
+  - "shared protocol for reading the wind" → "shared understanding for reading the wind"
+  - "distributed protocols for survival" → "distributed covenants for survival"
+  - "it was a protocol for surviving" → "it was a covenant for surviving"
+  - "original routing protocol" → "original routing wisdom"
+  - "Mobile money protocols" → "Mobile money networks"
+  - "Settlement protocol design" → "Settlement arrangement design"
+  - "Containerization protocol" → "Containerization arrangement"
+  - "Off-grid production protocols" → "Off-grid production arrangements"
+  - "Trader trust protocols" → "Trader trust networks"
+  - "corridor's protocols meet the sea" → "corridor's covenants meet the sea"
+  - "region's original protocol for mutual sustenance" → "region's original covenant for mutual sustenance"
+  - "Mediterranean's original protocol for civilizational exchange" → "Mediterranean's original covenant for civilizational exchange"
+  - "Emergency protocol design" → "Emergency covenant design"
+  - "Emergency protocol training" → "Emergency covenant training"
+  - "Emergency extraction protocol" → "Emergency extraction arrangement"
+  - "Routing protocol design" → "Data routing arrangement"
+  - "Conflict zone navigation protocol" → "Conflict zone navigation arrangement"
+  - "chaos as protocol" → "chaos as covenant"
+  - "The clean protocol" → "The clean governance model"
+  - "containerization protocols" → "containerization arrangements"
+
+- Reframed route deal theses with charter city ethos and civilizational language:
+  - Gulf of Guinea: "fintech settlement layer" → "new arrangement for value exchange"
+  - East African: Complete Monsoon Accord description rewritten — mobile university framing, Próspera/Praxis questions added
+  - Sahel: Added Próspera/Praxis charter city questions at end
+  - Central African: Added "civilizational prototyping at its most raw" question at end
+  - Southern Arc: Added Próspera wealth creation question and cohort walking language at end
+  - North Africa: Added Próspera/Praxis/xCelero mission language at end
+
+- Reframed signature deals — replaced tech jargon inclusions with human/conversational alternatives:
+  - "Provider API deep-dive" → "Mobile money operator roundtable"
+  - "Regulatory mapping" → "Regulatory landscape convening"
+  - "Settlement architecture" → "Settlement design session"
+  - "Pilot transaction design" → "Pilot transaction arrangement"
+  - "Customs data integration" → "Customs authority dialogue"
+  - "Freight tracking API" → "Freight visibility roundtable"
+  - "Payment reconciliation" → "Payment flow mapping"
+  - "Price collection infrastructure" → "Price transparency workshop"
+  - "Market data API" → "Market intelligence sharing"
+  - "Visitor flow mapping" → "Visitor flow assessment"
+  - "Revenue leak audit" → "Revenue retention dialogue"
+  - "Digital booking infrastructure" → "Digital booking co-design"
+  - "Community benefit design" → "Community benefit arrangement"
+  - "Biometric enrollment" → "Identity enrollment workshop"
+  - "Offline verification" → "Offline recognition design"
+  - "Data architecture" → "Data governance co-design"
+  - "Sensor network architecture" → "Sensor network co-design"
+  - "Carbon credit verification" → "Carbon credit arrangement"
+  - "Progressive web app architecture" → "Offline-first tool co-design"
+  - "Local-first data sync" → "Local-first data arrangement"
+  - "Mesh communication" → "Mesh communication co-design"
+  - "Solar charging integration" → "Solar charging workshop"
+  - "Gauge mapping" → "Rail gauge assessment"
+  - "Border crossing redesign" → "Border crossing convening"
+  - "Micro-grid architecture" → "Micro-grid co-design"
+  - "Battery storage integration" → "Energy storage workshop"
+  - "Skills audit" → "Skills assessment"
+  - "Training curriculum design" → "Training co-design"
+  - "Apprenticeship matching" → "Apprenticeship arrangement"
+  - "Currency corridor mapping" → "Currency corridor assessment"
+  - "FX risk hedging" → "FX risk dialogue"
+  - "Central bank engagement" → "Central bank convening"
+  - "Data independence mapping" → "Data sovereignty assessment"
+  - "Encryption architecture" → "Encryption design"
+  - "Compliance automation" → "Compliance workflow co-design"
+  - "Regulatory database construction" → "Regulatory comparison convening"
+  - "Translation layer design" → "Harmonization dialogue"
+  - "Compliance API architecture" → "Compliance arrangement design"
+  - "Jurisdiction comparison tools" → "Jurisdiction assessment tools"
+  - "Diaspora network mapping" → "Diaspora network convening"
+  - "Investment vehicle design" → "Investment vehicle workshop"
+  - "Repatriation tax optimization" → "Repatriation policy dialogue"
+  - "Trust structure engineering" → "Trust arrangement co-design"
+  - "Port operations audit" → "Port operations convening"
+  - "Vessel tracking integration" → "Vessel visibility dialogue"
+  - "Customs pre-clearance design" → "Customs pre-clearance workshop"
+  - "Last-mile coordination" → "Last-mile arrangement"
+  - "Pit-level tagging" → "Pit-level tagging workshop"
+  - "Refinery verification" → "Refinery verification dialogue"
+  - "Export certification" → "Export certification arrangement"
+  - "Port condition audit" → "Port condition assessment"
+  - "Vessel tracking deployment" → "Vessel visibility dialogue"
+  - "Customs digitization" → "Customs co-design workshop"
+  - "Freight marketplace design" → "Freight marketplace arrangement"
+
+- Reframed core flows:
+  - "Mobile money protocols, FX arbitrage, venture capital, remittances" → "Mobile money networks, venture capital, remittances, diaspora investment"
+  - "fintech APIs, market intelligence" → "fintech innovation, market intelligence"
+  - "Freight tracking, agricultural pricing, health data, tourism analytics" → "Freight movement, agricultural pricing, health systems, tourism flows"
+
+- Updated pricing inclusions:
+  - "Mobile money API sandbox" → "Mobile money operator access"
+  - "Emergency protocol training" → "Emergency covenant training"
+  - "Corridor API access" → "Corridor operator access"
+  - "M-Pesa integration sandbox" → "M-Pesa integration workshop"
+  - "Mineral traceability toolkit" → "Mineral traceability workshop"
+  - "Multi-currency settlement tools" → "Multi-currency settlement workshop"
+  - "Independent data routing lab" → "Data sovereignty workshop"
+  - "Regulatory harmonization toolkit" → "Regulatory harmonization convening"
+  - "Maritime logistics optimization" → "Maritime logistics dialogue"
+  - "Emergency extraction protocol" → "Emergency extraction arrangement"
+
+- Updated signature deal names:
+  - "Protocol Sprint: Mobile Money Interop" → "Covenant Sprint: Value Without Borders"
+  - "Protocol Sprint: Corridor Data Stack" → "Covenant Sprint: Corridor Visibility"
+  - "Protocol Sprint: Artisanal Mining Traceability" → "Covenant Sprint: Making the Invisible Visible"
+  - "Protocol Sprint: Mesh Networks" → "Covenant Sprint: Mesh Networks"
+  - "Protocol Sprint: Displaced Identity" → "Covenant Sprint: Displaced Identity"
+  - "Protocol Sprint: Offline-First Tools" → "Covenant Sprint: Offline-First Tools"
+  - "Protocol Sprint: Rail Corridor Harmonization" → "Covenant Sprint: Rail Corridor Harmonization"
+  - "Protocol Sprint: Multi-Currency Settlement" → "Covenant Sprint: Multi-Currency Flow"
+  - "Protocol Sprint: Independent Data Routing" → "Covenant Sprint: Data Sovereignty"
+
+- Verified: zero remaining instances of "protocol" in file
+- Lint passes clean with no errors
+
+Stage Summary:
+- All ~30 instances of "protocol" eliminated from routes.ts
+- All signature deal inclusions reframed from API/SDK/audit language to roundtable/workshop/convening/dialoague language
+- Route deal theses enriched with charter city ethos (Próspera, Praxis, xCelero)
+- Core flows softened from tech jargon to human-centered language
+- Pricing inclusions updated to match new framing
+- MAP_LOCATIONS Kigali description updated
+- No structural changes: interfaces, coordinates, colors, pricing numbers, schedule all preserved
+
+---
+Task ID: 1
+Agent: Main Agent + Subagent
+Task: Comprehensive rewrite of Routes page content — kill "protocol" virus, reframe from fintech pitch to civilizational vision
+
+Work Log:
+- Read and analyzed both routes.ts (740 lines) and RoutesPage.tsx (~2200 lines) in full
+- Identified ~30+ instances of "protocol" across both files — the AI-generated virus word
+- Delegated routes.ts rewrite to full-stack-developer subagent with 50+ specific change instructions
+- Subagent replaced all "Protocol Sprint:" → "Covenant Sprint:", "The Monsoon Protocol" → "The Monsoon Accord"
+- Replaced all tech-jargon inclusions (API deep-dive, architecture, audit) with human-centered language (roundtable, convening, workshop, co-design, dialogue, arrangement)
+- Added charter city ethos to routeDealThesis descriptions: Próspera (wealth creation), Praxis (heroism, truth, beauty), xCelero (human progress, next epoch)
+- Reframed coreFlows from tech-heavy to human (Mobile money protocols → networks, fintech APIs → innovation, etc.)
+- Updated pricing inclusions to match new language
+- Updated MAP_LOCATIONS Kigali description ("clean protocol" → "clean governance model")
+- Updated RoutesPage.tsx: PreambleSection now includes "Semester at Sea with a twist" framing, Próspera/Praxis/xCelero ethos, "hosting events, convening conversations, pushing for policy"
+- Updated RoutesBridge section with charter city ethos
+- Updated BaHanseFormatSection: "Protocol Sprints" → "Covenant Sprints" with reframed description
+- Verified zero remaining "protocol" instances across both files
+- Lint passes clean, dev server compiles without errors
+- Agent Browser verified: all new content renders correctly on the Routes page
+
+Stage Summary:
+- "Protocol" virus completely eliminated from the Routes page — zero instances remain
+- Content now reads as a civilizational vision (Ba-Hanse, mobile university, Semester at Sea) rather than a fintech pitch deck
+- Charter city ethos integrated: Próspera (wealth creation), Praxis (heroism, truth, beauty), xCelero (human progress, next epoch)
+- Cohort format clearly described: 10-100 XCitizens, hosting events, conversations, pushing for policy
+- Signature deals reframed from API/SDK specs to roundtables, workshops, convenings, co-design sessions
+- All layout/structure preserved — only content details changed

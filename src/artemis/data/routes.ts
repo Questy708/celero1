@@ -130,8 +130,8 @@ export const routeLegs: RouteLeg[] = [
     primaryFlow: "FMCG, mobile money, creative IP, venture capital",
     coreFlows: {
       goods: "FMCG distribution, port-to-last-mile logistics, consumer goods",
-      capital: "Mobile money protocols, FX arbitrage, venture capital, remittances",
-      data: "Creative IP (Nollywood, Afrobeats), fintech APIs, market intelligence",
+      capital: "Mobile money networks, venture capital, remittances, diaspora investment",
+      data: "Creative IP (Nollywood, Afrobeats), fintech innovation, market intelligence",
       people: "Diaspora returnees, creative talent, fintech operators, traders",
     },
     friction: [
@@ -142,7 +142,7 @@ export const routeLegs: RouteLeg[] = [
     ],
     routeDealThesis: {
       title: "The Circulation Accord",
-      description: "This coast has always moved value: first unwillingly, then in palm oil and cocoa, now in digital flows. The Circulation Accord is designed to make these five hubs operate not as competing ports but as a union of flow, where value moves between them like water between connected vessels. When Lagos prototypes a fintech settlement layer, Accra can deploy it. When Abidjan maps cocoa logistics, Dakar can adapt the infrastructure. When Douala builds a bilingual trade corridor, the entire arc benefits. The Proto-Hanse principle is simple: a prototype in one city is designed to become infrastructure for ten. Ventures will surface at each port. Infrastructure will be mapped and shared, not hoarded. Capital will circulate instead of pooling in a single hub. Community will be woven through shared ritual and cohort experience, not through transactions.",
+      description: "This coast has always moved value: first unwillingly, then in palm oil and cocoa, now in digital flows. The Circulation Accord is designed to make these five hubs operate not as competing ports but as a union of flow, where value moves between them like water between connected vessels. When Lagos prototypes a new arrangement for value exchange, Accra can adopt it. When Abidjan maps cocoa logistics, Dakar can adapt the infrastructure. When Douala builds a bilingual trade corridor, the entire arc benefits. The Proto-Hanse principle is simple: a prototype in one city is designed to become infrastructure for ten. Ventures will surface at each port. Infrastructure will be mapped and shared, not hoarded. Capital will circulate instead of pooling in a single hub. Community will be woven through shared ritual and cohort experience, not through transactions.",
     },
     signatureDeals: [
       {
@@ -152,10 +152,10 @@ export const routeLegs: RouteLeg[] = [
         inclusions: ["Port authority access", "Customs broker shadowing", "Warehouse operations audit", "Last-mile delivery tracking", "FX settlement documentation"],
       },
       {
-        name: "Protocol Sprint: Mobile Money Interop",
+        name: "Covenant Sprint: Value Without Borders",
         duration: "4 days",
-        focus: "Cohort designs cross-border settlement protocols that make value circulate across 15+ currencies [Capital + Infrastructure]",
-        inclusions: ["Provider API deep-dive", "Regulatory mapping", "Settlement architecture", "Pilot transaction design"],
+        focus: "Cohort convenes operators and regulators to design cross-border settlement arrangements that make value circulate across 15+ currencies — not through technical integration alone, but through shared governance and mutual trust [Capital + Infrastructure]",
+        inclusions: ["Mobile money operator roundtable", "Regulatory landscape convening", "Settlement design session", "Pilot transaction arrangement"],
       },
       {
         name: "Commons Lab: Creative IP Distribution",
@@ -167,7 +167,7 @@ export const routeLegs: RouteLeg[] = [
         name: "Flow Immersion: Informal Trade Commons",
         duration: "6 days",
         focus: "Cohort enters the 80% informal economy, designing documentation and banking pathways that formalize without displacing [Capital + Community]",
-        inclusions: ["Market immersion", "Trader trust protocols", "Digital documentation systems", "Banking integration design"],
+        inclusions: ["Market immersion", "Trader trust networks", "Digital documentation systems", "Banking integration design"],
       },
     ],
     culturalWeaving: {
@@ -197,7 +197,7 @@ export const routeLegs: RouteLeg[] = [
     hubCount: 22,
     countries: ["Mali", "Burkina Faso", "Niger", "Chad", "Sudan"],
     coreGeography: "The Sahelian belt: 5,400km of semi-arid transition from Atlantic to Red Sea",
-    historicalAnchor: "Trans-Saharan salt-gold-knowledge routes. For a thousand years, caravans of 10,000 camels crossed the Sahel carrying salt from Taghaza, gold from Wangara, and manuscripts from Timbuktu. The route was not a road: it was a protocol for surviving hostile terrain through distributed knowledge.",
+    historicalAnchor: "Trans-Saharan salt-gold-knowledge routes. For a thousand years, caravans of 10,000 camels crossed the Sahel carrying salt from Taghaza, gold from Wangara, and manuscripts from Timbuktu. The route was not a road: it was a covenant for surviving hostile terrain through distributed knowledge.",
     primaryFlow: "Gold, livestock, climate data, humanitarian capital",
     coreFlows: {
       goods: "Artisanal gold, livestock, salt, agricultural commodities",
@@ -213,32 +213,32 @@ export const routeLegs: RouteLeg[] = [
     ],
     routeDealThesis: {
       title: "The Threshold Covenant",
-      description: "The Sahel has always been a threshold: between desert and savanna, between scarcity and abundance, between the known and the unmapped. The caravans that crossed this belt for a thousand years did not conquer the terrain; they covenanted with it, building distributed protocols for survival through shared knowledge. The Threshold Covenant is designed to inherit that logic for a different century. Where states have retreated, community networks can advance. Where connectivity has failed, mesh infrastructure can be built from the ground up. Where people have been stripped of documentation by conflict, self-sovereign identity can restore recognition. This leg will prototype ventures that serve pastoral economies rather than extract from them. Infrastructure will be built to move with people, not around them. Capital will be channeled through climate adaptation funds and diaspora remittances, not despite fragility but because of it. Community will be woven through the tea ceremony, the heritage walk, the sand-writing ritual: practices that have held the Sahel together for longer than any state.",
+      description: "The Sahel has always been a threshold: between desert and savanna, between scarcity and abundance, between the known and the unmapped. The caravans that crossed this belt for a thousand years did not conquer the terrain; they covenanted with it, building distributed covenants for survival through shared knowledge. The Threshold Covenant is designed to inherit that logic for a different century. Where states have retreated, community networks can advance. Where connectivity has failed, mesh infrastructure can be built from the ground up. Where people have been stripped of documentation by conflict, self-sovereign identity can restore recognition. This leg will prototype ventures that serve pastoral economies rather than extract from them. Infrastructure will be built to move with people, not around them. Capital will be channeled through climate adaptation funds and diaspora remittances, not despite fragility but because of it. Community will be woven through the tea ceremony, the heritage walk, the sand-writing ritual: practices that have held the Sahel together for longer than any state. Like Próspera, this leg asks: what if wealth creation were possible even where states have retreated? Like Praxis, it asks: what truth, what beauty, survives in the threshold?",
     },
     signatureDeals: [
       {
         name: "Flow Immersion: Pastoral Corridors",
         duration: "7 days",
         focus: "Cohort walks transhumance routes alongside pastoral communities, mapping the infrastructure that already exists in motion [Infrastructure + Community]",
-        inclusions: ["Transhumance route documentation", "Market day mapping", "Veterinary checkpoint audit", "Conflict zone navigation protocol"],
+        inclusions: ["Transhumance route documentation", "Market day mapping", "Veterinary checkpoint audit", "Conflict zone navigation arrangement"],
       },
       {
-        name: "Protocol Sprint: Mesh Networks",
+        name: "Covenant Sprint: Mesh Networks",
         duration: "4 days",
         focus: "Cohort deploys offline-first communication infrastructure where state connectivity has retreated [Infrastructure + Ventures]",
-        inclusions: ["LoRa node deployment", "Solar power integration", "Community training", "Emergency protocol design"],
+        inclusions: ["LoRa node deployment", "Solar power integration", "Community training", "Emergency covenant design"],
       },
       {
         name: "Commons Lab: Climate Data Independence",
         duration: "5 days",
         focus: "Cohort builds locally owned climate monitoring, so the Sahel governs its own data instead of being governed by it [Ventures + Capital]",
-        inclusions: ["Sensor deployment", "Data architecture", "Community governance", "Early warning systems"],
+        inclusions: ["Sensor deployment", "Data governance co-design", "Community governance", "Early warning systems"],
       },
       {
-        name: "Protocol Sprint: Displaced Identity",
+        name: "Covenant Sprint: Displaced Identity",
         duration: "6 days",
         focus: "Cohort designs self-sovereign identity for those stripped of documentation by conflict, building recognition without state dependency [Infrastructure + Community]",
-        inclusions: ["Biometric enrollment", "Offline verification", "Cross-border recognition", "Humanitarian integration"],
+        inclusions: ["Identity enrollment workshop", "Offline recognition design", "Cross-border recognition", "Humanitarian integration"],
       },
     ],
     culturalWeaving: {
@@ -273,7 +273,7 @@ export const routeLegs: RouteLeg[] = [
     coreFlows: {
       goods: "Agricultural commodities, cross-border freight, horticulture",
       capital: "Mobile money (M-Pesa ecosystem), development finance, tourism receipts",
-      data: "Freight tracking, agricultural pricing, health data, tourism analytics",
+      data: "Freight movement, agricultural pricing, health systems, tourism flows",
       people: "Tech talent, cross-border traders, agricultural workers, tourists",
     },
     friction: [
@@ -283,46 +283,46 @@ export const routeLegs: RouteLeg[] = [
       "Regulatory divergence across EAC partner states",
     ],
     routeDealThesis: {
-      title: "The Monsoon Protocol",
-      description: "For two millennia, the monsoon winds were the Indian Ocean's operating system: seasonal, reliable, indifferent to borders. The Swahili city-states did not need to harmonize their governance to trade; they needed a shared protocol for reading the wind. The Monsoon Protocol is designed to succeed that logic for a different century. When Nairobi, Kigali, Dar es Salaam, Kampala, and Mombasa operate as a Proto-Hanse corridor, the same principle applies: coordination without uniformity. A unified data layer for customs, freight, and payments can make the Northern Corridor as legible as a monsoon route. Ventures will surface at each node: agritech in Kampala, governance innovation in Kigali, fintech in Nairobi. Infrastructure will be shared: what Nairobi prototypes, Mombasa deploys. Capital will flow through mobile money interoperability, not despite regulatory divergence but around it. Community will be woven through shared Swahili heritage and the cohort's collective transit from highland to coast.",
+      title: "The Monsoon Accord",
+      description: "For two millennia, the monsoon winds were the Indian Ocean's operating system: seasonal, reliable, indifferent to borders. The Swahili city-states did not need to harmonize their governance to trade; they needed a shared understanding for reading the wind. The Monsoon Accord is designed to succeed that logic for a different century. When Nairobi, Kigali, Dar es Salaam, Kampala, and Mombasa operate as a Proto-Hanse corridor, the same principle applies: coordination without uniformity. The cohort will walk this corridor as a mobile university — convening conversations with customs authorities, freight operators, and mobile money pioneers, designing arrangements that make the Northern Corridor as legible as a monsoon route. Ventures will surface at each node: agritech in Kampala, governance innovation in Kigali, fintech in Nairobi. Infrastructure will be shared: what Nairobi prototypes, Mombasa deploys. Capital will flow through mobile money interoperability, not despite regulatory divergence but around it. Community will be woven through shared Swahili heritage and the cohort's collective transit from highland to coast. Like Próspera, this leg asks: what if wealth creation were designed into the architecture of a region? Like Praxis, it asks: what heroism, what truth, what beauty is waiting to be built here?",
     },
     signatureDeals: [
       {
-        name: "Protocol Sprint: Corridor Data Stack",
+        name: "Covenant Sprint: Corridor Visibility",
         duration: "5 days",
-        focus: "Cohort builds the unified data layer that makes the corridor legible, from customs to freight to payments [Infrastructure + Ventures]",
-        inclusions: ["Customs data integration", "Freight tracking API", "Border dwell analytics", "Payment reconciliation"],
+        focus: "Cohort convenes customs authorities, freight operators, and payment providers to design the shared visibility that makes the corridor legible — not through a single platform but through mutual arrangement [Infrastructure + Ventures]",
+        inclusions: ["Customs authority dialogue", "Freight visibility roundtable", "Border dwell assessment", "Payment flow mapping"],
       },
       {
         name: "Commons Lab: Mobile Money Interop",
         duration: "4 days",
         focus: "Cohort designs cross-border settlement architecture that routes around regulatory divergence [Capital + Infrastructure]",
-        inclusions: ["M-Pesa ecosystem deep-dive", "Regulatory mapping", "Settlement protocol design", "Pilot transaction framework"],
+        inclusions: ["M-Pesa ecosystem deep-dive", "Regulatory landscape convening", "Settlement arrangement design", "Pilot transaction arrangement"],
       },
       {
         name: "Flow Immersion: Agri-Market Price Commons",
         duration: "6 days",
         focus: "Cohort enters agricultural markets to build real-time pricing infrastructure that serves cross-border traders [Ventures + Capital]",
-        inclusions: ["Price collection infrastructure", "Market data API", "Trader network activation", "Arbitrage detection"],
+        inclusions: ["Price transparency workshop", "Market intelligence sharing", "Trader network convening", "Cross-border flow mapping"],
       },
       {
         name: "Flow Immersion: Tourism as Shared Infrastructure",
         duration: "3 days",
         focus: "Cohort maps visitor flows and revenue leaks, designing tourism that enriches communities, not just operators [Community + Ventures]",
-        inclusions: ["Visitor flow mapping", "Revenue leak audit", "Digital booking infrastructure", "Community benefit design"],
+        inclusions: ["Visitor flow assessment", "Revenue retention dialogue", "Digital booking co-design", "Community benefit arrangement"],
       },
     ],
     culturalWeaving: {
       commonsFeast: "Swahili coastal cuisine: coconut-infused stews, grilled seafood, pilau rice. The food of a coast that has absorbed Persian, Arab, Indian, and Portuguese influences over a thousand years of monsoon trade. Every plate is a treaty. The cohort shares this meal as a Commons Feast, tasting the union of civilizations that precedes them.",
       heritageWalk: "Fort Jesus (Mombasa) → Stone Town (Zanzibar). From the Portuguese fortress that changed hands nine times, to the Omani palace city where slave and spice markets operated side by side. The cohort walks architecture as evidence of contested self-determination, asking: what does sovereignty look like when it is shared, not seized?",
-      ritualClosing: "Dhow sailing ceremony: the cohort boards a traditional lateen-rigged vessel at sunset, letting the monsoon wind determine direction. An act of surrender to the original routing protocol. The wind does not negotiate with borders.",
+      ritualClosing: "Dhow sailing ceremony: the cohort boards a traditional lateen-rigged vessel at sunset, letting the monsoon wind determine direction. An act of surrender to the original routing wisdom. The wind does not negotiate with borders.",
     },
     keyCities: [
       { name: "Nairobi", lat: -1.3, lng: 36.8, description: "The corridor's prototyping engine: where M-Pesa proved a venture can become shared infrastructure" },
       { name: "Kigali", lat: -1.9, lng: 30.1, description: "The governance node: proof that coordination without uniformity is possible at national scale" },
       { name: "Dar es Salaam", lat: -6.8, lng: 39.3, description: "The corridor's maritime gateway: where Indian Ocean flow meets inland freight" },
       { name: "Kampala", lat: 0.3, lng: 32.6, description: "Lake Victoria hub: mobile money and agricultural trade, where inland flow seeks the coast" },
-      { name: "Mombasa", lat: -4.0, lng: 39.7, description: "Ancient port city: the monsoon's terminus, where the corridor's protocols meet the sea" },
+      { name: "Mombasa", lat: -4.0, lng: 39.7, description: "Ancient port city: the monsoon's terminus, where the corridor's covenants meet the sea" },
     ],
     sampleSchedule: {
       period: "April – May",
@@ -355,37 +355,37 @@ export const routeLegs: RouteLeg[] = [
     ],
     routeDealThesis: {
       title: "The River Accord",
-      description: "The Congo River connected 75 million people before any state tried to. It was infrastructure before the word existed. The River Accord is designed to honor that logic: not to replace the river with something new, but to make its existing capacity visible, legible, and equitable. When Kinshasa, Brazzaville, Douala, Yaoundé, and Lubumbashi operate as a Proto-Hanse riverine union, the river becomes what it has always been: a shared operating system. Ventures will surface from traceability: making the 90% informal cobalt trade legible from pit to port. Infrastructure will be mapped along the river's own corridors, reviving what colonial neglect has let decay. Capital will be structured through mining royalties and conservation finance that flow to communities, not through them. Community will be woven through riverine ritual and forest knowledge, practices that have held the basin together longer than any permit or concession.",
+      description: "The Congo River connected 75 million people before any state tried to. It was infrastructure before the word existed. The River Accord is designed to honor that logic: not to replace the river with something new, but to make its existing capacity visible, legible, and equitable. When Kinshasa, Brazzaville, Douala, Yaoundé, and Lubumbashi operate as a Proto-Hanse riverine union, the river becomes what it has always been: a shared operating system. Ventures will surface from traceability: making the 90% informal cobalt trade legible from pit to port. Infrastructure will be mapped along the river's own corridors, reviving what colonial neglect has let decay. Capital will be structured through mining royalties and conservation finance that flow to communities, not through them. Community will be woven through riverine ritual and forest knowledge, practices that have held the basin together longer than any permit or concession. This leg is civilizational prototyping at its most raw: the question is not what technology to build but what kind of civilization becomes possible when 75 million people already share an operating system.",
     },
     signatureDeals: [
       {
         name: "Flow Immersion: River Logistics Revival",
         duration: "6 days",
         focus: "Cohort travels the Congo River freight corridors, mapping what exists and designing digital coordination for what remains [Infrastructure + Capital]",
-        inclusions: ["Port condition audit", "Vessel tracking deployment", "Customs digitization", "Freight marketplace design"],
+        inclusions: ["Port condition assessment", "Vessel visibility dialogue", "Customs co-design workshop", "Freight marketplace arrangement"],
       },
       {
-        name: "Protocol Sprint: Artisanal Mining Traceability",
+        name: "Covenant Sprint: Making the Invisible Visible",
         duration: "5 days",
         focus: "Cohort designs end-to-end mineral traceability from pit to port, making the invisible legible [Ventures + Infrastructure]",
-        inclusions: ["Pit-level tagging", "Transport chain documentation", "Refinery verification", "Export certification"],
+        inclusions: ["Pit-level tagging workshop", "Transport chain documentation", "Refinery verification dialogue", "Export certification arrangement"],
       },
       {
         name: "Commons Lab: Biodiversity Data Commons",
         duration: "4 days",
         focus: "Cohort builds open data infrastructure for Congo Basin biodiversity, so the forest's value is measured on its own terms [Ventures + Community]",
-        inclusions: ["Sensor network architecture", "Community data collection", "Scientific partnership", "Carbon credit verification"],
+        inclusions: ["Sensor network co-design", "Community data collection", "Scientific partnership dialogue", "Carbon credit arrangement"],
       },
       {
-        name: "Protocol Sprint: Offline-First Tools",
+        name: "Covenant Sprint: Offline-First Tools",
         duration: "7 days",
         focus: "Cohort builds digital tools that work in 10% connectivity, proving infrastructure can reach where the internet cannot [Infrastructure + Community]",
-        inclusions: ["Progressive web app architecture", "Local-first data sync", "Mesh communication", "Solar charging integration"],
+        inclusions: ["Offline-first tool co-design", "Local-first data arrangement", "Mesh communication co-design", "Solar charging workshop"],
       },
     ],
     culturalWeaving: {
       commonsFeast: "Congo Basin staples: fufu, pondu (cassava leaves), smoked fish, palm wine. Food born from river and forest, prepared with patience over charcoal. No shortcuts, no imports, only what the basin provides. The cohort shares this meal as a Commons Feast, eating what the river provides, on the river's terms.",
-      heritageWalk: "Kinshasa markets → Congo River ports. From the sprawling markets where everything from satellite dishes to traditional medicine is traded, to the river ports where barges depart for Kisangani with 1,000 passengers and no manifest. The cohort walks commerce as chaos, chaos as protocol, asking: what if this disorder is the operating system?",
+      heritageWalk: "Kinshasa markets → Congo River ports. From the sprawling markets where everything from satellite dishes to traditional medicine is traded, to the river ports where barges depart for Kisangani with 1,000 passengers and no manifest. The cohort walks commerce as chaos, chaos as covenant, asking: what if this disorder is the operating system?",
       ritualClosing: "River libation ritual: an offering to Mami Wata, the water spirit who governs the Congo's flow. Not superstition but acknowledgment that the river is alive, and its permission matters. Each cohort member pours into the river what they came to offer and receives what the river returns.",
     },
     keyCities: [
@@ -426,36 +426,36 @@ export const routeLegs: RouteLeg[] = [
     ],
     routeDealThesis: {
       title: "The Forge Accord",
-      description: "Great Zimbabwe moved gold and copper across the Indian Ocean 800 years before Cecil Rhodes arrived. The Copperbelt powered two world wars and built cities that now must reinvent themselves. The Forge Accord is designed to inherit that industrial lineage for a different century, one where mineral wealth builds the civilization that extracts it. When Harare, Lusaka, Livingstone, Bulawayo, and Luanda operate as a Proto-Hanse industrial union, what was fragmented can become coordinated: three incompatible rail gauges unified through containerization protocols, not through political merger. Ventures will surface from the transition itself: mining workforces retrained not by charity but by economic necessity. Infrastructure will be built to survive load-shedding, not wait for it to end. Capital will be structured across six volatile currencies, finding stability not in any single denomination but in the flow between them. Community will be woven through the shared experience of miners, farmers, and railway workers who have already built more than any charter could mandate.",
+      description: "Great Zimbabwe moved gold and copper across the Indian Ocean 800 years before Cecil Rhodes arrived. The Copperbelt powered two world wars and built cities that now must reinvent themselves. The Forge Accord is designed to inherit that industrial lineage for a different century, one where mineral wealth builds the civilization that extracts it. When Harare, Lusaka, Livingstone, Bulawayo, and Luanda operate as a Proto-Hanse industrial union, what was fragmented can become coordinated: three incompatible rail gauges unified through containerization arrangements, not through political merger. Ventures will surface from the transition itself: mining workforces retrained not by charity but by economic necessity. Infrastructure will be built to survive load-shedding, not wait for it to end. Capital will be structured across six volatile currencies, finding stability not in any single denomination but in the flow between them. Community will be woven through the shared experience of miners, farmers, and railway workers who have already built more than any charter could mandate. Próspera asks whether wealth creation can be designed into governance. This leg asks the same question for a region where mineral wealth has too often flowed outward. The answer will not come from a desk. It will come from the cohort walking this terrain alongside the people who have already built more than they are credited for.",
     },
     signatureDeals: [
       {
-        name: "Protocol Sprint: Rail Corridor Harmonization",
+        name: "Covenant Sprint: Rail Corridor Harmonization",
         duration: "5 days",
         focus: "Cohort designs interoperable freight across three incompatible rail systems, proving coordination without uniformity [Infrastructure + Capital]",
-        inclusions: ["Gauge mapping", "Containerization protocol", "Scheduling optimization", "Border crossing redesign"],
+        inclusions: ["Rail gauge assessment", "Containerization arrangement", "Scheduling dialogue", "Border crossing convening"],
       },
       {
         name: "Commons Lab: Energy-Resilient Manufacturing",
         duration: "6 days",
         focus: "Cohort builds manufacturing systems that survive load-shedding, turning power instability into infrastructure innovation [Infrastructure + Ventures]",
-        inclusions: ["Micro-grid architecture", "Battery storage integration", "Demand response design", "Off-grid production protocols"],
+        inclusions: ["Micro-grid co-design", "Energy storage workshop", "Demand response co-design", "Off-grid production arrangements"],
       },
       {
         name: "Flow Immersion: Mining-to-Agri Skills Transfer",
         duration: "4 days",
         focus: "Cohort enters mining communities to design transition pathways, proving workforce transformation is an act of mutual flourishing [Community + Ventures]",
-        inclusions: ["Skills audit", "Training curriculum design", "Apprenticeship matching", "Cooperative formation"],
+        inclusions: ["Skills assessment", "Training co-design", "Apprenticeship arrangement", "Cooperative formation"],
       },
       {
-        name: "Protocol Sprint: Multi-Currency Settlement",
+        name: "Covenant Sprint: Multi-Currency Flow",
         duration: "3 days",
         focus: "Cohort designs cross-border settlement for six-currency trade, finding stability in flow rather than denomination [Capital + Infrastructure]",
-        inclusions: ["Currency corridor mapping", "Settlement architecture", "FX risk hedging", "Central bank engagement"],
+        inclusions: ["Currency corridor assessment", "Settlement arrangement", "FX risk dialogue", "Central bank convening"],
       },
     ],
     culturalWeaving: {
-      commonsFeast: "Southern African staples: sadza (maize porridge), biltong, morogo (wild greens), chibuku (sorghum beer). The food of miners and farmers, high-energy, no-waste, communal. Eaten with hands, shared without counting. The cohort receives this Commons Feast as the region's original protocol for mutual sustenance.",
+      commonsFeast: "Southern African staples: sadza (maize porridge), biltong, morogo (wild greens), chibuku (sorghum beer). The food of miners and farmers, high-energy, no-waste, communal. Eaten with hands, shared without counting. The cohort receives this Commons Feast as the region's original covenant for mutual sustenance.",
       heritageWalk: "Great Zimbabwe → Copperbelt. From the stone walls that moved gold without a single colonial charter, to the copper mines that powered empires they never owned. The cohort walks two monuments to African industry, separated by 800 years, connected by the same subterranean wealth, asking: who forges next?",
       ritualClosing: "Stone stacking ceremony: each cohort member places a stone from their journey on a growing cairn. The cairn is both landmark and covenant: we were here, we built, we return. Great Zimbabwe was also stones, stacked by hands, still standing. This is how civilization is prototyped.",
     },
@@ -497,36 +497,36 @@ export const routeLegs: RouteLeg[] = [
     ],
     routeDealThesis: {
       title: "The Gateway Accord",
-      description: "Carthage controlled the western Mediterranean before Rome existed. Alexandria's library drew scholars from three continents. The Barbary corsairs made Algiers a maritime power. North Africa has always been a gateway, not a periphery. The Gateway Accord is designed to make that gateway operate as a league, not a corridor. When Cairo, Casablanca, Tunis, Dubai, and London function as a Proto-Hanse network spanning 20+ jurisdictions, the question is not political integration but technical interoperability that makes political difference manageable. Ventures will surface from regulatory translation: building compliance infrastructure that routes around divergence. Infrastructure will be designed for data sovereignty, routing information through jurisdictions that respect it. Capital will be channeled through diaspora networks that have already built the trust infrastructure that formal markets lack. Community will be woven across the Mediterranean and its diasporas, through Commons Feasts that taste of Phoenician, Roman, Arab, Ottoman, and French influence, and through the compass ceremony that sends each cohort member forward with a bearing, not a goodbye.",
+      description: "Carthage controlled the western Mediterranean before Rome existed. Alexandria's library drew scholars from three continents. The Barbary corsairs made Algiers a maritime power. North Africa has always been a gateway, not a periphery. The Gateway Accord is designed to make that gateway operate as a league, not a corridor. When Cairo, Casablanca, Tunis, Dubai, and London function as a Proto-Hanse network spanning 20+ jurisdictions, the question is not political integration but technical interoperability that makes political difference manageable. Ventures will surface from regulatory translation: building compliance infrastructure that routes around divergence. Infrastructure will be designed for data sovereignty, routing information through jurisdictions that respect it. Capital will be channeled through diaspora networks that have already built the trust infrastructure that formal markets lack. Community will be woven across the Mediterranean and its diasporas, through Commons Feasts that taste of Phoenician, Roman, Arab, Ottoman, and French influence, and through the compass ceremony that sends each cohort member forward with a bearing, not a goodbye. Like Próspera, this leg designs for wealth creation across jurisdictions. Like Praxis, it pursues the truth that the Mediterranean's oldest cities are not ruins but laboratories for the next epoch. xCelero's mission — human progress, the next epoch of civilization — finds its gateway here.",
     },
     signatureDeals: [
       {
-        name: "Protocol Sprint: Independent Data Routing",
+        name: "Covenant Sprint: Data Sovereignty",
         duration: "5 days",
-        focus: "Cohort designs data flow architecture that respects jurisdictional boundaries while enabling cross-border flow [Infrastructure + Ventures]",
-        inclusions: ["Data independence mapping", "Routing protocol design", "Encryption architecture", "Compliance automation"],
+        focus: "Cohort convenes data sovereignty advocates and jurisdictional experts to design cross-border data arrangements that respect boundaries while enabling flow [Infrastructure + Ventures]",
+        inclusions: ["Data sovereignty assessment", "Data routing arrangement", "Encryption design", "Compliance workflow co-design"],
       },
       {
         name: "Commons Lab: Regulatory Harmonization",
         duration: "6 days",
-        focus: "Cohort builds technical interoperability across 20+ regulatory frameworks, proving coordination without political merger [Infrastructure + Capital]",
-        inclusions: ["Regulatory database construction", "Translation layer design", "Compliance API architecture", "Jurisdiction comparison tools"],
+        focus: "Cohort convenes regulators and operators across 20+ jurisdictions to design interoperability arrangements that prove coordination without political merger [Infrastructure + Capital]",
+        inclusions: ["Regulatory comparison convening", "Harmonization dialogue", "Compliance arrangement design", "Jurisdiction assessment tools"],
       },
       {
         name: "Flow Immersion: Reverse Diaspora Investment",
         duration: "4 days",
         focus: "Cohort enters diaspora networks to channel capital into structured investment vehicles, building on trust that already exists [Capital + Community]",
-        inclusions: ["Diaspora network mapping", "Investment vehicle design", "Repatriation tax optimization", "Trust structure engineering"],
+        inclusions: ["Diaspora network convening", "Investment vehicle workshop", "Repatriation policy dialogue", "Trust arrangement co-design"],
       },
       {
         name: "Flow Immersion: Maritime Logistics Commons",
         duration: "7 days",
         focus: "Cohort traces end-to-end maritime logistics from Mediterranean to global ports, designing shared infrastructure for the league's gateway [Infrastructure + Ventures]",
-        inclusions: ["Port operations audit", "Vessel tracking integration", "Customs pre-clearance design", "Last-mile coordination"],
+        inclusions: ["Port operations convening", "Vessel visibility dialogue", "Customs pre-clearance workshop", "Last-mile arrangement"],
       },
     ],
     culturalWeaving: {
-      commonsFeast: "Mediterranean-North African fusion: couscous, tagine, b'stilla, mint tea, pastilla. The food of a coast that has absorbed Phoenician, Roman, Arab, Ottoman, and French influences over 3,000 years. Every dish is a treaty. Every spice route is a trade agreement. The cohort shares this Commons Feast as the Mediterranean's original protocol for civilizational exchange.",
+      commonsFeast: "Mediterranean-North African fusion: couscous, tagine, b'stilla, mint tea, pastilla. The food of a coast that has absorbed Phoenician, Roman, Arab, Ottoman, and French influences over 3,000 years. Every dish is a treaty. Every spice route is a trade agreement. The cohort shares this Commons Feast as the Mediterranean's original covenant for civilizational exchange.",
       heritageWalk: "Pyramids (Cairo) → Carthage (Tunis). From the last surviving wonder of the ancient world to the city that rivaled Rome. The cohort walks two monuments to civilization's ambition and its capacity for destruction, asking: what is the Carthage of this century, and who will build it?",
       ritualClosing: "Compass ceremony: each cohort member orients toward their next destination and declares their intention. Not a goodbye but a bearing. The compass is both tool and metaphor: we know where we are going because we know where we have been. The league does not end; it disperses with direction.",
     },
@@ -572,7 +572,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 2800,
     durationWeeks: 8,
     scholarshipsPerDeparture: 3,
-    inclusions: ["Port access credentials", "Market immersion program", "Mobile money API sandbox", "Local operator network access", "Shared workspace in 5 hubs", "Cultural weaving program", "Route deal sprint materials"],
+    inclusions: ["Port access credentials", "Market immersion program", "Mobile money operator access", "Local operator network access", "Shared workspace in 5 hubs", "Cultural weaving program", "Route deal sprint materials"],
   },
   {
     legId: "sahel-band",
@@ -580,7 +580,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 3100,
     durationWeeks: 7,
     scholarshipsPerDeparture: 4,
-    inclusions: ["Desert transit logistics", "Mesh-network deployment kit", "Climate data independence tools", "Humanitarian corridor access", "Pastoral community immersion", "Heritage walk program", "Emergency protocol training"],
+    inclusions: ["Desert transit logistics", "Mesh-network deployment kit", "Climate data independence tools", "Humanitarian corridor access", "Pastoral community immersion", "Heritage walk program", "Emergency covenant training"],
   },
   {
     legId: "east-african",
@@ -588,7 +588,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 3300,
     durationWeeks: 8,
     scholarshipsPerDeparture: 3,
-    inclusions: ["Corridor API access", "M-Pesa integration sandbox", "Cross-border freight tracking", "Agricultural pricing data feed", "Indian Ocean port access", "Swahili cultural immersion", "Tech hub coworking in 5 cities"],
+    inclusions: ["Corridor operator access", "M-Pesa integration workshop", "Cross-border freight tracking", "Agricultural pricing data feed", "Indian Ocean port access", "Swahili cultural immersion", "Tech hub coworking in 5 cities"],
   },
   {
     legId: "central-african",
@@ -596,7 +596,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 3800,
     durationWeeks: 7,
     scholarshipsPerDeparture: 4,
-    inclusions: ["River logistics coordination", "Mineral traceability toolkit", "Biodiversity data commons access", "Offline-first digital tools", "Rainforest immersion program", "Community research partnerships", "Emergency medical kit"],
+    inclusions: ["River logistics coordination", "Mineral traceability workshop", "Biodiversity data commons access", "Offline-first digital tools", "Rainforest immersion program", "Community research partnerships", "Emergency medical kit"],
   },
   {
     legId: "southern-arc",
@@ -604,7 +604,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 4200,
     durationWeeks: 8,
     scholarshipsPerDeparture: 2,
-    inclusions: ["Rail corridor access pass", "Energy-resilient manufacturing lab", "Mining-to-agri transition program", "Multi-currency settlement tools", "Victoria Falls heritage experience", "Copperbelt industrial tour", "Skills transfer workshops"],
+    inclusions: ["Rail corridor access pass", "Energy-resilient manufacturing lab", "Mining-to-agri transition program", "Multi-currency settlement workshop", "Victoria Falls heritage experience", "Copperbelt industrial tour", "Skills transfer workshops"],
   },
   {
     legId: "north-africa-global",
@@ -612,7 +612,7 @@ export const arcPricing: ArcPricing[] = [
     solidarityRate: 5500,
     durationWeeks: 10,
     scholarshipsPerDeparture: 2,
-    inclusions: ["Independent data routing lab", "Regulatory harmonization toolkit", "Diaspora investment network access", "Maritime logistics optimization", "Mediterranean port authority access", "Global gateway connections", "Compass ceremony program", "Year-end deal flow acceleration"],
+    inclusions: ["Data sovereignty workshop", "Regulatory harmonization convening", "Diaspora investment network access", "Maritime logistics dialogue", "Mediterranean port authority access", "Global gateway connections", "Compass ceremony program", "Year-end deal flow acceleration"],
   },
 ];
 
@@ -631,7 +631,7 @@ export const fullRoutePricing = {
     "Global operator network membership",
     "Hanseatic Commons IP access",
     "Alumni economic carry participation",
-    "Emergency extraction protocol",
+    "Emergency extraction arrangement",
     "Post-route venture support (6 months)",
   ],
 };
@@ -668,7 +668,7 @@ export const MAP_LOCATIONS: MapLocation[] = [
   { id: "timbuktu", name: "TIMBUKTU", x: 46.6, y: 49.2, labelPos: "left", legId: "sahel-band", legNumber: 2, legColor: "#E85D26", description: "The legendary city of knowledge: manuscripts and memory", countries: ["Mali", "Burkina Faso", "Niger", "Chad", "Sudan"] },
   // Leg 3 – East African Corridor
   { id: "nairobi", name: "NAIROBI", x: 57.3, y: 60.7, labelPos: "right", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "East Africa's tech capital: M-Pesa, iHub, Silicon Savannah", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },
-  { id: "kigali", name: "KIGALI", x: 55.5, y: 61.0, labelPos: "left", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "The clean protocol: governance innovation and ease-of-doing-business", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },
+  { id: "kigali", name: "KIGALI", x: 55.5, y: 61.0, labelPos: "left", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "The clean governance model: governance innovation and ease-of-doing-business", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },
   { id: "dar-es-salaam", name: "DAR ES SALAAM", x: 58.0, y: 64.2, labelPos: "right", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "Indian Ocean port: freight gateway to the interior", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },
   { id: "kampala", name: "KAMPALA", x: 56.2, y: 59.6, labelPos: "left", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "Lake Victoria hub: mobile money and agricultural trade", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },
   { id: "mombasa", name: "MOMBASA", x: 58.1, y: 62.4, labelPos: "right", legId: "east-african", legNumber: 3, legColor: "#CC6B33", description: "Ancient port city: the Northern Corridor's maritime terminus", countries: ["Kenya", "Tanzania", "Uganda", "Rwanda", "Burundi", "Eastern DRC"] },

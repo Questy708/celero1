@@ -145,7 +145,7 @@ function RoutesBridge() {
               The world doesn&apos;t operate in borders. It operates in <span className="text-[#FF4D00]">flow</span>.
             </p>
             <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/60 font-medium max-w-xl">
-              The Hanseatic League connected 190 cities through shared protocols for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe, not through conquest, but through flow. The Ba-Hanse is not a copy of that League. It is a new union, inspired by it, for a different continent, a different philosophy, a different century. 190 hubs, 39 countries, one circulatory system where prosperity is designed to flow. <span className="text-[#111111] font-semibold">Where flow connects, mutual flourishing follows.</span>
+              The Hanseatic League connected 190 cities through shared covenants for trade, law, and mutual defense. It lasted 300 years and made its member cities the wealthiest in Europe, not through conquest, but through flow. The Ba-Hanse is not a copy of that League. It is a new union, inspired by it, for a different continent, a different philosophy, a different century. Where Próspera designs for wealth creation, where Praxis pursues heroism, truth, and beauty, xCelero advances human progress toward the next epoch of civilization. 190 hubs, 39 countries, one circulatory system where prosperity is designed to flow. <span className="text-[#111111] font-semibold">Where flow connects, mutual flourishing follows.</span>
             </p>
           </motion.div>
 
@@ -218,9 +218,9 @@ function BaHanseFormatSection() {
     },
     {
       icon: Database,
-      title: "Protocol Sprints",
+      title: "Covenant Sprints",
       description:
-        "Intensive builds where cohorts prototype the infrastructure the Route needs. Cross-border FX protocols, logistics APIs, identity systems, built with the people who will use them.",
+        "Intensive cohort sessions where the group convenes conversations with operators, regulators, and builders to design the arrangements the Route needs. Cross-border value flows, shared infrastructure, identity systems — co-designed with the people who will live inside them.",
     },
     {
       icon: Users,
@@ -291,7 +291,7 @@ function BaHanseFormatSection() {
             transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
             className="mt-12 md:mt-16 text-[15px] md:text-[17px] leading-[1.7] text-[#111111]/50 font-medium max-w-2xl"
           >
-            Each cohort is 10-100 XCitizens. Rolling departures. One year, six legs, four pillars: Ventures, Infrastructure, Capital, Community.
+            Each cohort is 10-100 XCitizens. Rolling departures. One year, six legs, four pillars: Ventures, Infrastructure, Capital, Community. A mobile university for civilizational prototyping — hosting events, convening conversations, pushing for policy, building ventures at every port.
           </motion.p>
         </motion.div>
       </div>
@@ -468,7 +468,7 @@ function PreambleSection() {
             <p>
               The Hanseatic League understood this in 1356. They didn&apos;t build a
               nation, they built a network of 190 cities connected by shared
-              protocols for trade, law, and mutual defense. The League lasted 300
+              covenants for trade, law, and mutual defense. The League lasted 300
               years and made its member cities the wealthiest in Europe. Not
               through conquest, but through <span className="text-[#111111] font-semibold">flow</span>.
             </p>
@@ -480,12 +480,18 @@ function PreambleSection() {
               <span className="text-[#111111] font-semibold"> mutual flourishing</span>.
               Where a prototype in one city becomes infrastructure for ten.
               Where talent, capital, and knowledge circulate like water.
+              Where Próspera&apos;s ethos of wealth creation for everyone meets
+              Praxis&apos;s pursuit of heroism, truth, and beauty — and xCelero
+              carries it all toward the next epoch of human civilization.
             </p>
             <p>
-              Six legs. 190+ hubs. {routeMetrics.countries} countries. Four pillars: Ventures,
-              Infrastructure, Capital, Community. Cohorts of 10-100 XCitizens
-              moving through the geographies that will define the next century.
-              One circulatory system for the movement of goods, capital, data, and people.
+              Think of it as Semester at Sea with a twist: cohorts of 10-100 XCitizens
+              moving through the regions, countries, and historical innovation periods
+              that will define the next century. Not tourists. Not consultants.
+              A mobile university for civilizational prototyping — hosting events,
+              convening conversations, pushing for policy, and building ventures
+              at every port. Six legs. 190+ hubs. {routeMetrics.countries} countries.
+              Four pillars: Ventures, Infrastructure, Capital, Community.
             </p>
           </div>
 
